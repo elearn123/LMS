@@ -625,7 +625,7 @@ public class launchcourse {
 					System.out
 							.println("-------->>>>>>>-----inside processManifest() ... ");
 				}
-				boolean bool2 = localLMSManifestHandler.processManifest();
+//				boolean bool2 = localLMSManifestHandler.processManifest();
 				if (localDebugSwitch.ON) {
 					System.out
 							.println("-------->>>>>>>-----processManifest() successful ");
