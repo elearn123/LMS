@@ -1637,4 +1637,39 @@ public class DataBaseLayer
         DataBaseLayer.ds1 = CoreAdminInitHostInfo.ds1;
         DataBaseLayer._Debug = DebugIndicator.ON;
     }
-}
+    
+    public static boolean insertManifestItemInfo(final String unitId, 
+    		final ArrayList<String> identifierList, 
+    		final ArrayList<String> titleList, 
+    		final ArrayList<Integer> sequenceList){
+
+    	int noOfRecordsInserted = 0;
+        String sqlDeleteItemSQL = "DELETE FROM iteminfo WHERE unit_id = ?";
+		String sqlInsertItemSQL
+		= "INSERT INTO iteminfo (unit_id, identifier, title, sequence) " +
+		"VALUES(?, ?, ?, ?)";        
+
+		try ( Connection oConn = DataBaseLayer.ds1.getConnection();
+		      PreparedStatement stmtDeleteItem = oConn.prepareStatement(sqlDeleteItemSQL); 
+			  PreparedStatement stmtInsertItem = oConn.prepareStatement(sqlInsertItemSQL);
+		         )
+		{
+            stmtDeleteItem.setString( 1, unitId );
+            noOfRecordsInserted = stmtDeleteItem.executeUpdate();            
+            if (noOfRecordsInserted <=0) return false;
+            for (int i = 0; i < identifierList.size(); i++){
+				stmtInsertItem.setString( 1, unitId );
+				stmtInsertItem.setString( 2, identifierList.get(i) );
+				stmtInsertItem.setString( 3, titleList.get(i) );
+				stmtInsertItem.setInt( 4, sequenceList.get(i) );
+				noOfRecordsInserted = stmtInsertItem.executeUpdate();
+				if (noOfRecordsInserted <=0) return false;
+            }
+			
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+		return true;
+  }
+}    

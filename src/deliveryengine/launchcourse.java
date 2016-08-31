@@ -32,6 +32,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import learnityInit.Host;
 import learnityInit.index.IndexFiles;
+import oracle.xml.parser.v2.DOMParser;
+import oracle.xml.parser.v2.XMLDocument;
 
 import org.adl.samplerte.server.LMSManifestHandler;
 import org.adl.samplerte.server.LMSPackageHandler;
@@ -608,16 +610,16 @@ public class launchcourse {
 				}
 				LMSPackageHandler.extract(str11, "imsmanifest.xml",
 						(String) localObject2);
-				String localObject3 = (String) localObject2 + File.separatorChar
+				String manifestFilePath = (String) localObject2 + File.separatorChar
 						+ "imsmanifest.xml";
 				DataBaseLayer.insertCourse("csformat", paramString1,
-						(String) localObject3, str3, str1);
+						manifestFilePath, str3, str1);
 				if (localDebugSwitch.ON) {
 					System.out
 							.println("-------->>>>>>>-----insertCourse() successful ");
 				}
 				LMSManifestHandler localLMSManifestHandler = new LMSManifestHandler();
-				InputSource localInputSource = setUpInputSource((String) localObject3);
+				InputSource localInputSource = setUpInputSource(manifestFilePath);
 				localLMSManifestHandler.setCourseID(paramString1);
 				localLMSManifestHandler.setCourseName(paramString2);
 				localLMSManifestHandler.setFileToParse(localInputSource);
@@ -626,6 +628,29 @@ public class launchcourse {
 							.println("-------->>>>>>>-----inside processManifest() ... ");
 				}
 //				boolean bool2 = localLMSManifestHandler.processManifest();
+				
+				FileInputStream fileInputStream = new FileInputStream(manifestFilePath);
+				DOMParser parser = new DOMParser();
+				parser.parse(fileInputStream);
+				XMLDocument doc = parser.getDocument();
+				NodeList nl = doc.getElementsByTagName("item");
+		    	int sequenceNo = 0;
+		    	ArrayList<String> identifierList = new ArrayList<String>();
+		    	ArrayList<String> titleList = new ArrayList<String>();
+		    	ArrayList<Integer> sequenceList = new ArrayList<Integer>();
+				for (int loop = 0; loop < nl.getLength(); ++loop) {
+		        	Element item = (Element)nl.item(loop);
+		        	String identifier = item.getAttribute("identifier");
+		        	identifierList.add(identifier);
+		        	Node titleNode = item.getFirstChild();
+		        	Node titleTextNode = titleNode.getFirstChild();
+		        	String title = titleTextNode.getNodeValue();
+		        	titleList.add(title);
+		        	sequenceList.add(sequenceNo);	        	
+		        	sequenceNo++;
+				}
+	        	DataBaseLayer.insertManifestItemInfo(paramString1, identifierList, titleList, sequenceList);
+				
 				if (localDebugSwitch.ON) {
 					System.out
 							.println("-------->>>>>>>-----processManifest() successful ");
@@ -1870,4 +1895,6 @@ public class launchcourse {
 		localHttpSession.setAttribute("SESSION_COURSE_ITEM", localHashtable);
 		return str4;
 	}
+	
+	
 }
