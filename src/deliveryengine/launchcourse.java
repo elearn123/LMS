@@ -3,6 +3,7 @@ package deliveryengine;
 import interfaceenginev2.FileDownloaderPojo;
 import interfaceenginev2.FileUploaderPojo;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,11 +11,13 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
@@ -32,6 +35,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import learnityInit.Host;
 import learnityInit.index.IndexFiles;
+
 import oracle.xml.parser.v2.DOMParser;
 import oracle.xml.parser.v2.XMLDocument;
 
@@ -1896,5 +1900,91 @@ public class launchcourse {
 		return str4;
 	}
 	
+	public String uploadManifest(String unit_id,FileTransfer file) throws IOException {
+		String html = "";	
+		
+		WebContext wctx1 = WebContextFactory.get();
+		javax.servlet.http.HttpSession mysession = wctx1.getSession();
+		String user_id = (String) mysession.getAttribute("user_id");
+		System.out.println("user_id===adminuser==="+user_id);		
+		String dirName="";
+		String strLocation = learnityInit.Host.getServerDocumentPath();
+		dirName = strLocation + unit_id;
+		File ufile=null;
+		System.out.println("dir name is==:"+dirName);
+		
+		if(dirName == null)
+			html="Please supply uploadDir parameter";
+
+		ufile = new File(dirName);
+		if(!ufile.exists())
+			ufile.mkdir(); 
+					
+		FileOutputStream out; 
+		PrintStream p;
+				
+		FileUploaderPojo fu = new FileUploaderPojo(file);
+		String MimeType = fu.getMimeType();
+		System.out.println("MimeType======:"+MimeType);
+		InputStream is = fu.getInputStream();
+		String filename = fu.getFilename();
+		String fullPath = dirName+File.separator+filename;
+		String content = "";
+		String thisLine = "";		
+		try{
+						
+			File f;
+			f=new File(fullPath);
+			if(!f.exists()){
+				f.createNewFile();
+			}
+			BufferedReader myInput = new BufferedReader
+					(new InputStreamReader(is));
+			while ((thisLine = myInput.readLine()) != null) 
+			{  
+// 				System.out.println("thisLine==="+thisLine);
+				if(content.equals(""))
+				{
+					content = thisLine;
+				}
+				else {
+					content = content +"\n"+ thisLine;
+				}
+			}
+			out = new FileOutputStream(fullPath);
+
+			System.out.println("bbbbbbbbbbbbbbbb");
+			p = new PrintStream( out );
+		
+			p.println(content);
+
+			p.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		String strSize="";
+		File manifestFile=new File(fullPath);
+		Long size2=manifestFile.length();
+		
+		strSize=size2.toString();
+		System.out.println("strSize======:"+strSize);
+
+		boolean status = DataBaseLayer.insertManifest(unit_id,fullPath,strSize,user_id);
+		if (status==true)
+			html="Successfully uploaded";
+		else
+			html="Upload failed";			
+		return html;
+	}
+
+	public FileTransfer downloadManifest(String unit_id)
+	{
+		InputStream xmlInputStream = null;
+		xmlInputStream = DataBaseLayer.getManifest(unit_id);
+
+ 		FileDownloaderPojo fd = new FileDownloaderPojo(xmlInputStream, "", "imsmanifest.xml");
+		return fd.returnFileFormat();
 	
+	}
 }

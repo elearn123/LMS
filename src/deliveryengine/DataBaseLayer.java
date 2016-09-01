@@ -1672,4 +1672,66 @@ public class DataBaseLayer
         }
 		return true;
   }
+
+    public static boolean insertManifest(final String unitId, 
+    		final String fullPath, 
+    		final String fileSize, 
+    		final String uploadedBy){
+
+    	int noOfRecordsInserted = 0;
+		String sqlInsertSQL
+		= "INSERT INTO csformat (unit_id, csf, date_last_upload, upload_by, file_name, file_size) " +
+		"VALUES(?, ?, DATE_FORMAT(NOW(),'%b %d %Y %h:%i %p'), ?, ?, ?) ON DUPLICATE KEY UPDATE csf=?," +
+		"date_last_upload=DATE_FORMAT(NOW(),'%b %d %Y %h:%i %p'), upload_by=?, file_name=?, file_size=?";        
+
+		try ( FileInputStream fis = new FileInputStream(new File(fullPath));
+			  Connection oConn = DataBaseLayer.ds1.getConnection();
+			  PreparedStatement stmtInsertStmt = oConn.prepareStatement(sqlInsertSQL);
+		         )
+		{
+				int size = Integer.parseInt(fileSize);
+            	stmtInsertStmt.setString( 1, unitId );
+            	stmtInsertStmt.setAsciiStream( 2, fis, size );
+//            	stmtInsertStmt.setString( 3, uploadDate );
+            	stmtInsertStmt.setString( 3, uploadedBy );
+            	stmtInsertStmt.setString( 4, "imsmanifest.xml" );
+            	stmtInsertStmt.setString( 5, fileSize );
+            	stmtInsertStmt.setAsciiStream( 6, fis, size );
+//            	stmtInsertStmt.setString( 8, uploadDate );
+            	stmtInsertStmt.setString( 7, uploadedBy );
+            	stmtInsertStmt.setString( 8, "imsmanifest.xml" );
+            	stmtInsertStmt.setString( 9, fileSize );
+				noOfRecordsInserted = stmtInsertStmt.executeUpdate();
+				if (noOfRecordsInserted <=0) return false;
+			
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+		return true;
+  }
+    
+    public static InputStream getManifest(final String unitId)
+    {
+    	InputStream xmlInputStream = null;
+    	String sqlInsertSQL = "select csf from csformat where unit_id=?";
+       	int noOfRecordsSelected = 0;
+
+    	try ( Connection oConn = DataBaseLayer.ds1.getConnection();
+			  PreparedStatement stmtSelectStmt = oConn.prepareStatement(sqlInsertSQL);
+			         )
+			{
+    			stmtSelectStmt.setString( 1, unitId );
+    			ResultSet rs=stmtSelectStmt.executeQuery();  
+    			while(rs.next()){
+    				xmlInputStream = rs.getAsciiStream(1);
+    			}
+
+			}
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    	return xmlInputStream;
+    }
 }    
