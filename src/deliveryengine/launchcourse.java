@@ -1038,16 +1038,15 @@ public class launchcourse {
 						str10 = localObject1[3];
 					}
 				}
-				int j = 0;
-				Object localObject1 = DataBaseLayer.getUserscoInfo(str1, str2);
+				int Total = 0;
+				Vector localObject1 = DataBaseLayer.getUserscoInfo(str1, str2);
 				if (localObject1 != null) {
-					for (int k = 0; k < ((Vector) localObject1).size(); k += 3) {
-						int m = ((Integer) ((Vector) localObject1)
-								.elementAt(k + 1)).intValue();
-						j += m;
+					for (int k = 0; k < (localObject1).size(); k += 3) {
+						int time = (Integer) localObject1.elementAt(k + 1);
+						Total += time;
 					}
 				}
-				String str11 = "" + j + " Sec";
+				String str11 = "" + Total + " Sec";
 				String str12 = DataBaseLayer.getNoOfTimeUsed(str1, str2);
 
 				Document localDocument1 = null;

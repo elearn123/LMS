@@ -1278,16 +1278,16 @@ public class DataBaseLayer
         return vector;
     }
     
-    public static Vector<Integer> getUserscoInfo(final String s, final String s2) {
+    public static Vector getUserscoInfo(final String s, final String s2) {
         Connection connection = null;
-        final Vector<Integer> vector = new Vector<Integer>(4, 4);
+        final Vector vector = new Vector(4, 4);
         try {
             connection = DataBaseLayer.ds1.getConnection();
             final ResultSet executeQuery = connection.createStatement().executeQuery("select sco_title,sum((TO_DAYS(end_time)-To_DAYS(start_time))*24*3600+(time_to_sec(end_time)-time_to_sec(start_time))), count(*) from sco_user_info where student_id='" + s2 + "'and unit_id='" + s + "' group by sco_id");
             while (executeQuery.next()) {
-                vector.addElement(Integer.parseInt(executeQuery.getString(1)));
+                vector.addElement(executeQuery.getString(1));
                 vector.addElement(executeQuery.getInt(2));
-                vector.addElement(Integer.parseInt(executeQuery.getString(3)));
+                vector.addElement(executeQuery.getString(3));
             }
         }
         catch (SQLException ex) {
