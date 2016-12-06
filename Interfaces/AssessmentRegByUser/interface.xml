@@ -1,0 +1,151 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="AssessmentRegByUser" title="LMS Assessment Registration By User" type="Interface">
+
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="SelectorContainer" class="label"></part>
+		<part id="SelectorLabel" class="label"></part>
+		<part id="AssessmentRegByUserGrid" class="Conditionalgrid" 
+		      caption="Currently Registered Users for the above Assessment" gridnavbar="true">
+			
+			<selector id="assessment_id" class="combo" contentid="AssessmentRegByUserContent" 
+			          behaviourid="AssessmentRegByUserBehaviour" domaintype="query" 
+					  value="select assessment_id,title from assessment_management" gridrefresh="true"></selector>
+
+			<column head="Student Id"  name="student_id"  index="1"  width="150" editable="true" hidden="true" 
+			        key="true" required="false">
+				<edit type="text" size="20"></edit> 	
+			</column>
+			<column head="Student Name"  name="student_name"  index="2"  width="150" editable="true" hidden="false" 
+			        key="false" required="true">
+				<edit type="select" size="20" multiple="true" editdomaintype="query" 
+				      value="select student_id, concat(first_name,\' \',if(middle_name is NULL,\' \',middle_name),
+					          \' \',sname) from  student_details  order by first_name"></edit> 	
+			</column>
+			<column head="Available Time (HH:MM:SS)"  name="available_time"  index="3"  width="150" editable="true" 
+			        hidden="false" key="false" required="true">
+				<edit type="time" size="20"></edit> 	
+			</column>
+			<column head="Availablity Date"  name="date_availability"  index="4"  width="150" editable="true" 
+			        hidden="false" key="false" required="true">
+				<edit type="date" size="20"></edit> 	
+			</column>
+			<column head="Registration Valid Till"  name="registration_valid_till"  index="5"  width="150" 
+			        editable="true" hidden="false" key="false" required="true">
+				<edit type="date" size="20"></edit> 	
+			</column>
+			<column head="Total Access Time"  name="total_access_time"  index="6"  width="150" editable="false" 
+			        hidden="true" key="false" required="false">
+				<edit type="text" size="20"></edit> 	
+			</column>
+			<column head="Created By"  name="registered_by"  index="7"  width="150" editable="false" hidden="false" 
+			        key="false" required="false">
+			</column>
+			<column head="Created On"  name="date_registration"  index="8"  width="150" editable="false" 
+			        hidden="false" key="false" required="false">
+			</column>
+
+			<loadquery value="select a.student_id,concat(first_name,\' \',if(middle_name is NULL,\' \',middle_name)
+			                    ,\' \',sname), a.available_time, a.date_availability,a.registration_valid_till, 
+							    a.total_access_time, a.registered_by, a.date_registration 
+							 from assessment_user_registration a,student_details s 
+							 where a.student_id=s.student_id and a.assessment_id=%assessment_id%"></loadquery>
+			
+			<delete>
+				<queries>
+					<query id="1" sql="[CDATA[delete from assessment_user_registration 
+					                          where assessment_id=%assessment_id% and student_id=%student_id%]]" 
+	                        parameter="assessment_id,student_id"></query>
+				</queries>
+			</delete>
+			
+			<add>
+				<validations>
+					<validation type="query">
+						<validationquery id="1" sql="[CDATA[select a.assessment_id from student_group_association s,
+						                                     assessment_group_registration a 
+															where a.group_id=s.group_id and s.student_id=%student_name% 
+															      and a.assessment_id=%assessment_id%]]" 
+										  parameter="student_name,assessment_id" 
+										  message="Selected assessment is already registered to a group and selected user is a 
+										   member of that group, first unregister user from  that group"></validationquery>
+						
+					</validation>	
+				</validations>
+				<queries>
+					<query id="1" sql="[CDATA[insert into assessment_user_registration(assessment_id,student_id,
+					                              available_time,date_availability,registration_valid_till,
+												  total_access_time,registered_by,date_registration) 
+											values(%assessment_id%,%student_name%,%available_time%,%date_availability%,
+											       %registration_valid_till%,1000,%current_login_user_id%,sysdate())]]" 
+							parameter="assessment_id,available_time,date_availability,registration_valid_till,current_login_user_id,student_name"></query>
+				</queries>
+			</add>	
+			
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[update assessment_user_registration set 
+					                         available_time=%available_time%,date_availability=%date_availability%,
+											 registration_valid_till=%registration_valid_till% 
+											 where assessment_id=%assessment_id% and student_id=%student_id%]]" 
+							parameter="available_time,date_availability,registration_valid_till,assessment_id,student_id"></query>
+				</queries>				
+			</modify>   
+			    
+		</part>
+		<part id="ButtonContainer" class="label"></part>
+		<part id="unregisteredAllUsers" class="button"></part>
+		<part id="BrowseFile" class="inputfile"></part>
+		<part id="UploadButton" class="button"></part>
+		<part id="message" class="label"></part>
+		<part id="assessmentregbyuserajaxcomp" class="ajaxcomponent"></part>
+	</structure>
+	
+	<layout id="AssessmentRegByUserLayout">
+		<part id="BodyDiv"></part>
+		<part id="SelectorContainer" parent_id="BodyDiv"></part>
+		<part id="SelectorLabel" parent_id="SelectorContainer"></part>
+		<part id="assessment_id" parent_id="SelectorContainer"></part>
+		<part id="AssessmentRegByUserGrid" width="700" parent_id="BodyDiv"></part>
+		<part id="ButtonContainer" parent_id="BodyDiv"></part>
+		<part id="unregisteredAllUsers" parent_id="ButtonContainer"></part>
+		<part id="UploadButton" parent_id="ButtonContainer"></part>
+		<part id="BrowseFile" parent_id="ButtonContainer"></part>
+		<part id="message" parent_id="BodyDiv"></part>
+		<part id="assessmentregbyuserajaxcomp" parent_id="BodyDiv"></part>
+	</layout>
+
+	<content id="AssessmentRegByUserContent">
+		<part id="SelectorLabel"  valuetype="inline" value="Select Assessment Title"></part>
+		<part id="unregisteredAllUsers" value="Unregister All Users" valuetype="inline"></part>
+		<part id="UploadButton" value="Bulk User Registration" valuetype="inline"></part>
+	</content>
+
+	<style id="AssessmentRegByUserStyle">
+		<part id="SelectorContainer"  valuetype="reference" value="FlexRowContainer"></part>
+		<part id="SelectorContainer"  valuetype="inline" value="[CDATA[width:70%;margin:auto;]]"></part>
+		<part id="ButtonContainer"  valuetype="reference" value="FlexRowContainer"></part>
+		<part id="message"  valuetype="inline" value="[CDATA[background-color:red;display:hiddden;width:30%;margin:auto;]]"></part>
+	</style>
+
+	<behaviour id="AssessmentRegByUserBehaviour">
+		<part id="unregisteredAllUsers">
+			<event name="onclick" type="simple" function="unregisteredAllUsers_onclick" valuetype="jsevent" 
+			         resourceid="asmtregbyuserjs"></event>
+		</part>
+		<part id="UploadButton">
+			<event name="onclick" type="simple" function="upload_onclick" valuetype="jsevent" 
+			         resourceid="asmtregbyuserjs"></event>
+		</part>
+		<part id="assessmentregbyuserajaxcomp">
+			<event name="ajax" javaclass="StAsmtAdmin"></event>
+       	 	</part>
+	</behaviour>
+
+	<resource>	
+		<resourceitem id="asmtregbyuserjs" href="asmtregbyuser.js" valuetype="js"></resourceitem>  
+	</resource>
+
+</interface>

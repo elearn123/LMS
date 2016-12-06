@@ -1,0 +1,106 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="AsmtResultNotificationMgmt" title="LMS Assessment Result Notification Management" type="Interface">
+	
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="SelectorContainer" class="label"></part>
+		<part id="SelectorLabel" class="label"></part>
+		<part id="AsmtResultNotificationMgmtGrid" class="Conditionalgrid" 
+		      caption="Currently Registered Students for the above Assessment" gridnavbar="false">
+			
+			<selector id="assessment_id" class="combo" contentid="AsmtResultNotificationMgmtContent" 
+			          behaviourid="AsmtResultNotificationMgmtBehaviour" domaintype="query" 
+					  value="select assessment_id,title from assessment_management" gridrefresh="true"></selector>
+			
+			<column head="Student Id"  name="student_id"  index="1"  width="150" editable="false" hidden="false" 
+			        key="true" required="false">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			<column head="Student Name"  name="student_name"  index="2"  width="150" editable="false" hidden="false" 
+			        key="true" required="false">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			<column head="Marks Otained"  name="marks_obtained"  index="3"  width="150" editable="false" hidden="false" 
+			        key="true" required="false">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			<column head="Submition Status"  name="submition_status"  index="4"  width="150" editable="false" hidden="false" 
+			        key="true" required="false">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			<column head="Mail Status"  name="mail_status"  index="5"  width="150" editable="false" hidden="false" key="true" 
+			        required="false">
+				<edit type="text" size="60"></edit> 	
+			</column>
+
+			<loadquery value="select distinct a.student_id, concat(a.first_name,\' \',a.middle_name,\' \',a.sname), 
+			                  e.marks_obtained, e.submition_status,e.mail_status from student_details a left join 
+							  stassessment_test_details e on(a.student_id=e.student_id),assessment_user_registration 
+							  b where (b.student_id=a.student_id and b.assessment_id=%assessment_id%) 
+							  union select distinct a.student_id, 
+							   concat(a.first_name,\' \',a.middle_name,\' \',a.sname), e.marks_obtained, 
+							          e.submition_status,e.mail_status from student_details a left join 
+									  stassessment_test_details e on(a.student_id=e.student_id),student_group_association c, 
+									  assessment_group_registration d where (c.group_id=d.group_id and 
+									                  c.student_id=a.student_id and d.assessment_id=%assessment_id%)"></loadquery>
+			    
+		</part>
+		<part id="ButtonContainer" class="label"></part>
+		<part id="sendividuals" class="button"></part>
+		<part id="sendall" class="button"></part>
+		<part id="MessageContainer" class="label"></part>
+		<part id="MessageLabel" class="label"></part>
+		<part id="message" class="textarea" rows="6" cols="35"></part>
+		<part id="ee" class="ajaxcomponent" ></part>
+	</structure>
+	
+	<layout id="AsmtResultNotificationMgmtLayout">
+		<part id="BodyDiv"></part>
+		<part id="SelectorContainer" parent_id="BodyDiv"></part>
+		<part id="SelectorLabel" parent_id="SelectorContainer"></part>
+		<part id="assessment_id" parent_id="SelectorContainer"></part>
+		<part id="AsmtResultNotificationMgmtGrid" parent_id="BodyDiv"></part>
+		<part id="MessageContainer" parent_id="BodyDiv"></part>
+		<part id="MessageLabel" parent_id="MessageContainer"></part>
+		<part id="message" parent_id="MessageContainer"></part>
+		<part id="ButtonContainer" parent_id="BodyDiv"></part>
+		<part id="sendividuals" parent_id="ButtonContainer"></part>
+		<part id="sendall" parent_id="ButtonContainer"></part>
+		<part id="ee" parent_id="BodyDiv"></part>
+	</layout>
+
+	<content id="AsmtResultNotificationMgmtContent">
+		<part id="SelectorLabel"  valuetype="inline" value="Select Assessment Title"></part>
+		<part id="MessageLabel"  valuetype="inline" value="Message (if any)"></part>	
+		<part id="sendividuals" value="Send Result to Individual" valuetype="inline"></part>
+		<part id="sendall" value="Send Result to All" valuetype="inline"></part>
+	</content>
+
+	<style id="AsmtResultNotificationMgmtStyle">
+<!-- 		<part id="BodyDiv" valuetype="reference" value="FlexColumnContainer"></part>
+ -->		<part id="SelectorContainer" valuetype="reference" value="FlexRowContainer"></part>
+		<part id="MessageContainer" valuetype="reference" value="FlexRowContainer"></part>
+		<part id="ButtonContainer" valuetype="reference" value="FlexRowContainer"></part>
+	</style>
+
+	<behaviour id="AsmtResultNotificationMgmtBehaviour">
+		<part id="sendividuals">
+			<event name="onclick" type="simple" function="sendindividual_onclick" valuetype="jsevent" 
+			      resourceid="asmtnotificationjs"></event>
+		</part>
+		<part id="sendall">
+			<event name="onclick" type="simple" function="sendall_onclick" valuetype="jsevent" 
+			       resourceid="asmtnotificationjs"></event>
+		</part>
+		<part id="ee">
+			<event name="ajax" javaclass="StAsmtAdmin"></event>
+       	 	</part>
+	</behaviour>
+
+	<resource>	
+		<resourceitem id="asmtnotificationjs" href="asmtnotification.js" valuetype="js"></resourceitem>  
+		
+	</resource>
+</interface>

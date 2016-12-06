@@ -1,0 +1,107 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="AssessmentManagement" title="LMS Assessment Management" type="Interface">
+
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="AssessmentManagementGrid" class="DBgrid" caption="Currently Defined Assessments" sortname="title" 
+		           sortorder="desc" gridnavbar="true" rownum="15">
+			
+			<column head="Assessment Id"  name="assessment_id"  index="1"  width="0" editable="true" hidden="true" key="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Assessment Code"  name="assessment_code"  index="2"  width="150" editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Assessment Title"  name="title"  index="3"  width="125" editable="true" hidden="false" key="false">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Type"  name="assessment_type"  index="4"  width="150" editable="true" hidden="false" key="false" required="true">
+				<edit type="select" size="30" editdomaintype="fixed" value="signature:Signature;qtiassessment:QTI Assessment"></edit> 	
+			</column>
+			<column head="Description"  name="description"  index="5"  width="120" editable="true" hidden="false" key="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Test Completion Time(min)"  name="duration"  index="6"  width="170" editable="true" hidden="false" key="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			
+			<column head="Pass Marks"  name="pass_marks"  index="7"  width="100" editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			
+			<column head="No.of Question PerPage"  name="question_perpage"  index="8"  width="100" editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Maximum of Times Test may Taken"  name="max_no_test_taken"  index="9"  width="100" editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Created By"  name="created_by"  index="10"  width="100" editable="false" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Creation Date"  name="created_on"  index="11"  width="100" editable="false" hidden="false" key="false">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<loadquery value="select assessment_id,assessment_code,title,assessment_type,description,
+			                         duration,pass_marks,question_perpage,max_no_test_taken,created_by,
+									 created_on from assessment_management"></loadquery>
+			
+			<delete>
+				<validations>
+					<validation type="query">
+						<validationquery id="1" sql="[CDATA[select assessment_id from assessment_user_registration 
+						                                    where assessment_id=%assessment_id%]]" 
+										parameter="assessment_id" 
+										message="First Unregister Users from Selected Assessment"></validationquery>
+						
+						<validationquery id="2" sql="[CDATA[select assessment_id from assessment_group_registration 
+						                                    where assessment_id=%assessment_id%]]" 
+										parameter="assessment_id" 
+										message="First Unregister Groups from Selected Assessment"></validationquery>
+						
+						<validationquery id="3" sql="[CDATA[select assessment_id from assessment_defination 
+						                                    where assessment_id=%assessment_id%]]" 
+										parameter="assessment_id" 
+										message="First Delete topic from  Selected Assessment in Assessment Definition"></validationquery>
+					</validation>	
+				</validations>
+				<queries>
+					<query id="1" sql="[CDATA[delete from assessment_management 
+					                          where assessment_id=%assessment_id%]]" parameter="assessment_id"></query>
+				</queries>					
+			</delete>
+			
+			<add>
+				<queries>
+					<query id="1" sql="[CDATA[insert into assessment_management(assessment_code,title,
+					                                  assessment_type,description,duration,pass_marks,
+													  question_perpage,max_no_test_taken,created_by,created_on) 
+											 values(%assessment_code%,%title%,%assessment_type%,%description%,
+											         %duration%,%pass_marks%,%question_perpage%,%max_no_test_taken%,
+													 %current_login_user_id%,sysdate())]]" 
+			               parameter="assessment_code,title,assessment_type,description,duration,pass_marks,question_perpage,max_no_test_taken,current_login_user_id"></query>
+				</queries>			
+			</add>	
+			
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[update assessment_management 
+					                          set assessment_code=%assessment_code%,title=%title%,
+											    assessment_type=%assessment_type%,description=%description%,
+												duration=%duration%,pass_marks=%pass_marks%,
+												question_perpage=%question_perpage%,
+												max_no_test_taken=%max_no_test_taken% 
+											where assessment_id=%assessment_id%]]" 
+								parameter="assessment_code,title,assessment_type,description,duration,pass_marks,question_perpage,max_no_test_taken,assessment_id"></query>
+				</queries>				
+			</modify>              
+		</part>		
+	</structure>
+	
+	<layout id="AssessmentManagementLayout">
+		<part id="BodyDiv"></part>
+		<part id="AssessmentManagementGrid" height="400" width="700" parent_id="BodyDiv"></part>
+	</layout>
+	
+</interface>

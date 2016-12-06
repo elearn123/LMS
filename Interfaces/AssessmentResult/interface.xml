@@ -1,0 +1,73 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="AssessmentResult" title="LMS Assessment Results" type="Interface">
+
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="SelectorContainer" class="label"></part>
+		<part id="SelectorLabel" class="label"></part>
+		<part id="AssessmentResultGrid" class="Conditionalgrid" 
+		      caption="Performance Results for the above Assessment" gridnavbar="false">
+			
+			<selector id="assessment_id" class="combo" contentid="AssessmentResultContent" 
+			          behaviourid="AssessmentResultBehaviour" domaintype="query" gridrefresh="true" 
+					  value="select assessment_id,title from assessment_management">						
+			</selector>
+		
+			<column head="User Id"  name="student_id"  index="1"  width="120" key="true" hidden="false" editable="false">
+			</column>
+			<column head="User Name"  name="student_name"  index="2"  width="120" key="false" hidden="false" editable="false">
+			</column>
+			<column head="Date appeared"  name="date"  index="3"  width="120" key="false" hidden="false" editable="false">
+			</column>
+			<column head="Time taken (sec)"  name="time"  index="4"  width="120" key="false" hidden="false" editable="false">
+			</column>
+			<column head="No. of Questions"  name="number_of_ques"  index="5" width="120" key="false" hidden="false" editable="false">
+			</column>
+			<column head="Questions Attempted"  name="ques_attempted"  index="6"  width="120" key="false" hidden="false" editable="false">
+			</column>
+			<column head="No. Of Correct Anwsers"  name="number_of_correctans"  index="7"  width="120" key="false" hidden="false" editable="false">
+			</column>
+			<column head="Total Marks"  name="total_marks"  index="8"  width="120" key="false" hidden="false" editable="false">
+			</column>
+			<column head="Marks Obtained"  name="marks_obtained"  index="9"  width="120" key="false" hidden="false" editable="false">
+			</column>
+			<column head="Pass/Fail"  name="Pass/Fail"  index="10"  width="120" key="false" hidden="false" editable="false">
+			</column>
+			<column head="Status"  name="submition_status"  index="11"  width="120" key="false" hidden="false" editable="false">
+			</column>
+			
+			<loadquery value="select a.student_id,concat(a.first_name,\' \',a.middle_name,\' \',a.sname),
+			                  b.date,b.time_completed - b.time_started,b.total_no_of_ques,b.no_of_ques_attempted,
+							  b.no_of_coans,b.full_marks,b.marks_obtained,status,submition_status 
+							  from student_details a, stassessment_test_details b 
+							  where a.student_id=b.student_id and b.assessment_id=%assessment_id%"></loadquery>
+			
+			
+		</part>
+		<part id="print" class="button"></part>
+	</structure>
+	
+	<layout id="AssessmentResultLayout">
+		<part id="BodyDiv"></part>
+		<part id="SelectorContainer" parent_id="BodyDiv"></part>
+		<part id="SelectorLabel" parent_id="SelectorContainer"></part>
+		<part id="assessment_id" parent_id="SelectorContainer"></part>
+		<part id="AssessmentResultGrid" width="700" parent_id="BodyDiv"></part>
+	</layout>
+
+	<content id="AssessmentResultContent">
+		<part id="SelectorLabel"  valuetype="inline" value="Select Assessment Title"></part>
+	</content>
+
+	<style id="AssessmentResultStyle">
+<!-- 		<part id="BodyDiv" valuetype="reference" value="FlexColumnContainer"></part>
+ -->		<part id="SelectorContainer" valuetype="reference" value="FlexRowContainer"></part>
+		<part id="SelectorContainer"  valuetype="inline" value="[CDATA[width:70%;margin:auto;]]"></part>
+	</style>
+
+	<behaviour id="AssessmentResultBehaviour">
+	</behaviour>
+
+</interface>

@@ -1,0 +1,35 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="AssessmentDelivery" title="LMS Assessment Delivery" type="Interface">
+
+<structure>
+	<part id="MainScreen" class="label"></part>
+	<part id="assessmentportalajax" class="ajaxcomponent"></part>
+</structure>
+
+<layout id="AssessmentPortallayout">
+	<part id="MainScreen" height="580px" width="1000px" left="1px" top="1px" position="absolute"></part>
+	<part id="assessmentportalajax" parent_id="MainScreen"></part>
+</layout>
+
+<style id="AssessmentPortalstyle">
+	<part id="MainScreen" value="[CDATA[background-color:white]]" valuetype="inline"></part>
+</style>
+
+
+
+<behaviour id="AssessmentPortalbehaviour">
+	<part id="root">
+		<event name="onload" type="simple" function="onload_click" valuetype="jsevent" resourceid="assessmentjs"></event>
+	</part>
+	<part id="assessmentportalajax">
+		<event name="ajax" javaclass="StandAloneAsmt"></event>
+	</part>
+</behaviour>
+
+<resource>
+	<resourceitem id="assessmentjs" href="assessmentjs.js" valuetype="js"></resourceitem>
+</resource>
+
+</interface>

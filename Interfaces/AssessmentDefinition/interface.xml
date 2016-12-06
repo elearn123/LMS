@@ -1,0 +1,167 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="AssessmentDefinition" title="LMS Assessment Definition" type="Interface">
+
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="SelectorContainer" class="label"></part>
+		<part id="SelectorLabel" class="label"></part>
+		<part id="AssessmentDefinitionGrid" class="Conditionalgrid" caption="Currently Defined Assessment Details">
+			
+			<selector id="assessment_id" class="combo" contentid="AssessmentDefinitionContent" 
+			   behaviourid="AssessmentDefinitionBehaviour" domaintype="query" 
+			   value="select assessment_id,title from assessment_management" gridrefresh="true"></selector>
+
+			<column head="Topic Id"  name="topic_id"  index="1"  width="150" editable="true" hidden="false" 
+			   key="true" required="true">
+				<edit type="select" size="60" editdomaintype="query" 
+				   value="select topic_id,subtopic_name from topic_management"></edit> 	
+			</column>
+			<column head="Topic Name"  name="topic_name"  index="2"  width="150" editable="false" 
+			 hidden="false" key="false" required="false">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			<column head="Question Type"  name="question_type"  index="3"  width="150" editable="true" 
+			  hidden="false" key="true" required="true">
+				<edit type="select" size="60" editdomaintype="fixed" 
+				    value="Any:Any;Multiple Choice:Multiple Choice;Multiple Response:Multiple Response;
+					     True False:True False;Fill in Blank:Fill in Blank;Matching Question:Matching Question"></edit> 	
+			</column>
+			<column head="Diffculty Level" name="degree_of_difficulty"  index="4"  width="150" editable="true" 
+			  hidden="false" key="true" required="true">
+				<edit type="select" size="60" editdomaintype="fixed" value="Any:Any;easy:Easy;medium:Medium;hard:
+				                                                               Hard"></edit> 	
+			</column>
+			<column head="No. of Questions"  name="no_of_questions"  index="5"  width="150" editable="true" 
+			   hidden="false" key="false" required="true">
+				<edit type="text" size="20"></edit> 	
+			</column>
+			<column head="Created By"  name="created_by"  index="6"  width="150" editable="false" hidden="false" 
+			   key="false" required="true">
+				<edit type="text" size="20"></edit> 	
+			</column>
+			<column head="Created On"  name="date"  index="7"  width="150" editable="false" hidden="false" 
+			  key="false">
+				<edit type="text" size="20"></edit> 	
+			</column>
+
+			<loadquery value="select a.topic_id,b.subtopic_name,a.question_type, a.degree_of_difficulty, 
+			                    a.no_of_questions,  a.created_by,a.date 
+							  from assessment_defination a, topic_management b 
+							  where a.topic_id=b.topic_id and a.assessment_id=%assessment_id%"></loadquery>
+			
+			<delete>
+				<validations>
+					<validation type="query">
+						<validationquery id="1" sql="[CDATA[select assessment_id from assessment_user_registration 
+						                                    where assessment_id=%assessment_id%]]" 
+										parameter="assessment_id" 
+										message="First Unregister Users from Selected Assessment"></validationquery>
+					
+						<validationquery id="2" sql="[CDATA[select assessment_id from assessment_group_registration 
+						                                    where assessment_id=%assessment_id%]]" 
+										parameter="assessment_id" 
+										message="First Unregister Groups from Selected Assessment"></validationquery>
+					</validation>	
+				</validations>
+				<queries>
+					<query id="1" sql="[CDATA[delete from assessment_defination where assessment_id=%assessment_id% 
+					                            and topic_id=%topic_id% and question_type=%question_type% 
+												and degree_of_difficulty=%degree_of_difficulty% ]]" 
+							parameter="assessment_id,topic_id,question_type,degree_of_difficulty"></query>
+				</queries>
+				
+			</delete>
+			
+			<add>
+				<validations>
+					<validation type="custom">
+						<validationquery id="1" 
+						classname="learnityasmtserver.assessmentadmin.standaloneasmt.AsmtDefiAddVadation" 
+						message="given no. of question is not available in selected topic"></validationquery>
+					</validation>	
+				</validations>
+				<queries>
+				
+					<query id="1" sql="[CDATA[insert into assessment_defination(assessment_id,topic_id,
+					                              no_of_questions,question_type,degree_of_difficulty,created_by,date) 
+												  values(%assessment_id%,%topic_id%,%no_of_questions%,
+												           %question_type%,%degree_of_difficulty%,
+														   %current_login_user_id%,sysdate())]]" 
+		                    parameter="assessment_id,topic_id,no_of_questions,question_type,degree_of_difficulty,current_login_user_id"></query>
+				</queries>
+				
+			</add>	
+			
+			<modify>
+				<validations>
+					<validation type="custom">
+						<validationquery id="1" 
+						      classname="learnityasmtserver.assessmentadmin.standaloneasmt.AsmtDefiAddVadation" 
+							  message="given no. of question is not available in selected topic"></validationquery>
+					</validation>	
+				</validations>
+				<queries>
+					<query id="1" sql="[CDATA[update assessment_defination 
+					                    set no_of_questions=%no_of_questions%,question_type=%question_type%,
+										    degree_of_difficulty=%degree_of_difficulty% 
+										where assessment_id=%assessment_id% and topic_id=%topic_id%]]" 
+							parameter="no_of_questions,question_type,degree_of_difficulty,topic_id,assessment_id"></query>
+				</queries>				
+			</modify>   
+			    
+		</part>
+		
+		<part id="ButtonContainer" class="label"></part>
+		<part id="assessmentpreview" class="button"></part>
+		<part id="clearpreviewresult" class="button"></part>
+		<part id="generateassessment" class="button"></part>
+		<part id="ee1" class="ajaxcomponent" ></part>
+	</structure>
+	
+	<layout id="AssessmentDefinitionLayout">
+		<part id="BodyDiv"></part>
+		<part id="SelectorContainer" parent_id="BodyDiv"></part>
+		<part id="SelectorLabel" parent_id="SelectorContainer"></part>
+		<part id="assessment_id" parent_id="SelectorContainer"></part>
+		<part id="AssessmentDefinitionGrid" width="700" parent_id="BodyDiv"></part>
+		<part id="ButtonContainer" parent_id="BodyDiv"></part>
+		<part id="assessmentpreview" parent_id="ButtonContainer"></part>
+		<part id="clearpreviewresult" parent_id="ButtonContainer"></part>
+		<part id="ee1" parent_id="BodyDiv"></part>
+	</layout>
+	
+
+	<content id="AssessmentDefinitionContent">
+		<part id="SelectorLabel"  valuetype="inline" value="Select Assessment Title"></part>
+		<part id="assessmentpreview" value="Show Assessment Preview" valuetype="inline"></part>
+		<part id="clearpreviewresult" value="Clear all Preview Result" valuetype="inline"></part>
+	</content>
+
+	<style id="AssessmentDefinitionStyle">
+<!-- 		<part id="BodyDiv" valuetype="reference" value="FlexColumnContainer"></part>
+ -->		<part id="SelectorContainer" valuetype="reference" value="FlexRowContainer"></part>
+		<part id="SelectorContainer" valuetype="inline" value="[CDATA[width:70%;]]"></part>
+		<part id="ButtonContainer" valuetype="reference" value="FlexRowContainer"></part>
+		<part id="ButtonContainer" valuetype="inline" value="[CDATA[width:70%;]]"></part>
+	</style>
+
+	<behaviour id="AssessmentDefinitionBehaviour">
+		<part id="ee1">
+			<event name="ajax" javaclass="StAsmtAdmin"></event>
+		</part>
+		<part id="assessmentpreview">
+			<event name="onclick" type="simple" function="show_preview_onclick" valuetype="jsevent" 
+			     resourceid="asmtdefinitionjs"></event>
+		</part>
+		<part id="clearpreviewresult">
+			<event name="onclick" type="simple" function="clear_all_previewresult" valuetype="jsevent" 
+			   resourceid="asmtdefinitionjs"></event>
+		</part>
+	</behaviour>
+		
+	<resource>	
+		<resourceitem id="asmtdefinitionjs" href="asmtdefinition.js" valuetype="js"></resourceitem>  
+	</resource>
+</interface>

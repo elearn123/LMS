@@ -1,0 +1,156 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="AssessmentRegByGroup" title="LMS Assessment Registration by Group" type="Interface">
+
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="SelectorContainer" class="label"></part>
+		<part id="SelectorLabel" class="label"></part>
+		<part id="AssessmentRegByGroupGrid" class="Conditionalgrid" 
+		      caption="Currently Registered Groups for the above Assessment" gridnavbar="true">
+			
+			<selector id="assessment_id" class="combo" contentid="AssessmentRegByGroupContent" 
+			          behaviourid="AssessmentRegByGroupBehaviour" domaintype="query" 
+					  value="select assessment_id,title from assessment_management" gridrefresh="true"></selector>
+			
+			<column head="Group Id"  name="group_id"  index="1"  width="150" editable="true" hidden="true" key="true" 
+			        required="false">
+				<edit type="text" size="20"></edit> 	
+			</column>
+			<column head="Group Name"  name="group_name"  index="2"  width="150" editable="true" hidden="false" 
+			        key="false" required="true">
+				<edit type="select" size="20" multiple="true" editdomaintype="query" 
+				      value="select s.group_id,s.group_name from  student_group s order by s.group_name"></edit> 	
+			</column>
+			<column head="Availability Time (HH:MM:SS)"  name="available_time"  index="3"  width="150" editable="true" 
+			        hidden="false" key="false" required="true">
+				<edit type="time" size="20"></edit> 	
+			</column>
+			<column head="Availablity Date"  name="date_availability"  index="4"  width="150" editable="true" 
+			        hidden="false" key="false" required="true">
+				<edit type="date" size="20"></edit> 	
+			</column>
+			<column head="Registration Valid Till"  name="registration_valid_till"  index="5"  width="150" 
+			        editable="true" hidden="false" key="false" required="true">
+				<edit type="date" size="20"></edit> 	
+			</column>
+			<column head="Total Access Time(Hours)"  name="total_access_time"  index="6"  width="150" editable="true" number="true"
+			        hidden="false" key="false" required="true">
+				<edit type="text" size="20"></edit> 	
+			</column>
+			<column head="Created By"  name="registered_by"  index="7"  width="150" editable="false" hidden="false" 
+			        key="false" required="false">
+			</column>
+			<column head="Created On"  name="date_registration"  index="8"  width="150" editable="false" 
+			        hidden="false" key="false">
+			</column>
+
+			<loadquery value="select a.group_id,s.group_name,a.available_time, a.date_availability,
+			                         a.registration_valid_till, a.total_access_time, a.registered_by, 
+									 a.date_registration 
+							  from assessment_group_registration a,student_group s 
+							  where a.group_id=s.group_id and a.assessment_id=%assessment_id%"></loadquery>
+			
+			<delete>
+				<queries>
+					<query id="1" sql="[CDATA[delete from assessment_group_registration 
+					                          where assessment_id=%assessment_id% and group_id=%group_id%]]" 
+							parameter="assessment_id,group_id"></query>
+				</queries>
+			</delete>
+			
+			<add>
+				<validations>
+					<validation type="query">
+						<validationquery id="1" sql="[CDATA[select a.assessment_id 
+						                                    from student_group_association s,
+						                                         assessment_user_registration a 
+														    where a.student_id=s.student_id 
+															      and s.group_id=%group_id% 
+																  and a.assessment_id=%assessment_id%]]" 
+										 parameter="group_id,assessment_id" 
+						                 message="Selected Assessment already registered to a member of the selected group, first unregister assessment from  that member"></validationquery>
+						
+					</validation>	
+				</validations>
+				<queries>
+				
+					<query id="1" sql="[CDATA[insert into assessment_group_registration
+					                                (assessment_id,group_id,available_time,date_availability,
+													 registration_valid_till,total_access_time,registered_by,
+													 date_registration) 
+											  values(%assessment_id%,%group_name%,%available_time%,
+											         %date_availability%,%registration_valid_till%,
+													 %total_access_time%,%current_login_user_id%,sysdate())]]" 
+					       parameter="assessment_id,group_name,available_time,date_availability,registration_valid_till,total_access_time,current_login_user_id"></query>
+				</queries>
+			</add>	
+			
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[update assessment_group_registration 
+					                          set available_time=%available_time%,date_availability=%date_availability%,
+											      registration_valid_till=%registration_valid_till%,
+												  total_access_time=%total_access_time% 
+											  where assessment_id=%assessment_id% and group_id=%group_id%]]" 
+					       parameter="available_time,date_availability,registration_valid_till,total_access_time,assessment_id,group_id"></query>
+				</queries>				
+			</modify>   
+			    
+		</part>
+		<part id="ee" class="ajaxcomponent" ></part>
+		<part id="message" class="label"></part>
+		<part id="ButtonContainer" class="label"></part>
+		<part id="unregisteredAllGroups" class="button"></part>
+		<part id="BrowseFile" class="inputfile"></part>
+		<part id="UploadButton" class="button"></part>
+	</structure>
+	
+	<layout id="AssessmentRegByGroupLayout">
+		<part id="BodyDiv"></part>
+		<part id="SelectorContainer" parent_id="BodyDiv"></part>
+		<part id="SelectorLabel" parent_id="SelectorContainer"></part>
+		<part id="assessment_id" parent_id="SelectorContainer"></part>
+		<part id="AssessmentRegByGroupGrid" width="700" parent_id="BodyDiv"></part>
+		<part id="ButtonContainer" parent_id="BodyDiv"></part>
+		<part id="unregisteredAllGroups" parent_id="ButtonContainer"></part>
+		<part id="BrowseFile" parent_id="ButtonContainer"></part>
+		<part id="UploadButton" parent_id="ButtonContainer"></part>
+		<part id="message" parent_id="BodyDiv"></part>
+		<part id="ee" parent_id="BodyDiv"></part>
+	</layout>
+
+	<content id="AssessmentRegByGroupContent">
+		<part id="SelectorLabel"  valuetype="inline" value="Select Assessment Title"></part>
+		<part id="unregisteredAllGroups" value="Unregister All Groups" valuetype="inline"></part>
+		<part id="manageuserprofile" value="Manage Group Profile" valuetype="inline"></part>
+		<part id="UploadButton" value="Bulk Group Registration" valuetype="inline"></part>
+	</content>
+
+	<style id="AssessmentRegByGroupStyle">
+		<part id="SelectorContainer"  valuetype="reference" value="FlexRowContainer"></part>
+		<part id="SelectorContainer"  valuetype="inline" value="[CDATA[width:70%;margin:auto;]]"></part>
+		<part id="ButtonContainer"  valuetype="reference" value="FlexRowContainer"></part>
+		<part id="message"  valuetype="inline" value="[CDATA[background-color:red;display:hiddden;width:30%;margin:auto;]]"></part>
+	</style>
+
+	<behaviour id="AssessmentRegByGroupBehaviour">
+		<part id="unregisteredAllGroups">
+			<event name="onclick" type="simple" function="unregisteredAllGroups_onclick" valuetype="jsevent" 
+			       resourceid="asmtregbygroupjs"></event>
+		</part>
+		<part id="UploadButton">
+			<event name="onclick" type="simple" function="upload_onclick" valuetype="jsevent" 
+			       resourceid="asmtregbygroupjs"></event>
+		</part>
+		<part id="ee">
+			<event name="ajax" javaclass="StAsmtAdmin"></event>
+       	</part>
+	</behaviour>
+
+	<resource>	
+		<resourceitem id="asmtregbygroupjs" href="asmtregbygroup.js" valuetype="js"></resourceitem>  
+		
+	</resource>
+</interface>
