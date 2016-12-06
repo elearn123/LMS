@@ -1,0 +1,83 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="ManageUnitInformation" title="Manage LMS Unit Information" type="Interface">
+
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="Unitnamelabel" class="label"></part>
+		<part id="Ajaxdummypart" class="ajaxcomponent" ></part>
+		<part id="ManageUnitInformationGrid" class="Conditionalgrid" caption="Currently Defined Manifest File of Selected Unit" gridnavbar="true">
+			<selector id="unit_id" class="combo" contentid="ManageUnitInformationContent" behaviourid="ManageUnitInformationBehaviour" domaintype="query" value="select a.unit_id, a.unit_name from unit_details a, unit_creation_details b where a.unit_id=b.unit_id" gridrefresh="true">
+			</selector>
+			<column head="File Name"  name="file_name"  index="1"  width="150" editable="false" hidden="false" key="true" required="true">
+				<edit type="text" size="60" ></edit> 	
+			</column>
+			<column head="Uploaded By"  name="upload_by"  index="2"  width="150" editable="false" hidden="false" key="false" required="true">
+				<edit type="text" size="60" ></edit> 	
+			</column>
+			<column head="File Last Uploaded"  name="date_last_upload"  index="3"  width="200" editable="false" hidden="false" key="false" required="true">
+				<edit type="date" size="60"></edit> 	
+			</column>
+			<column head="Size of File"  name="file_size"  index="4"  width="150" editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			
+			
+			<loadquery value="select file_name,upload_by,date_last_upload,file_size from csformat where unit_id=%unit_id%"></loadquery>
+			
+			<delete>
+				<queries>
+					<query id="1" sql="[CDATA[delete from csformat where unit_id = %unit_id%]]" parameter="unit_id"></query>
+				</queries>
+				<queries>
+					<query id="2" sql="[CDATA[delete from content_management_object where unit_id = %unit_id%]]" parameter="unit_id"></query>
+				</queries>
+				
+			</delete>
+			
+		</part>
+		<part id="BrowseFile" class="inputfile"></part>
+		<part id="upload" class="button"></part>
+		<part id="download" class="button"></part>
+		<part id="fileInfo" class="label"></part>		
+	</structure>
+	
+	<layout id="ManageUnitInformationLayout">
+		<part id="BodyDiv"></part>
+		<part id="Unitnamelabel" left="80px" top="20px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="unit_id" left="200px" top="20px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="ManageUnitInformationGrid" top="80px" position="absolute" parent_id="BodyDiv"></part> 
+		<part id="BrowseFile" left="25px" top="450px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="upload" height="20px" width="30px" left="300px" top="450px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="download" height="20px" width="30px" left="462px" top="450px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="fileInfo" height="20px" width="400px" left="100px" top="480px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="Ajaxdummypart" parent_id="BodyDiv"></part>
+	</layout>
+
+	<content id="ManageUnitInformationContent">
+		<part id="Unitnamelabel"  valuetype="inline" value="Unit Name"></part>
+		<part id="upload" value="Upload To Repository" valuetype="inline"></part>
+		<part id="download" value="Download From Repository" valuetype="inline"></part>
+	</content>
+
+	<behaviour id="ManageUnitInformationBehaviour">
+		<part id="Ajaxdummypart">
+			<event name="ajax" function="dummy" javaclass="launchcourse"></event>
+		</part>
+		<part id="upload">
+			<event name="onclick" type="simple" function="upload_onclick" valuetype="jsevent" resourceid="ManageUnitInformationjs"></event>
+		</part>
+		<part id="download">
+			<event name="onclick" type="simple" function="download_onclick" valuetype="jsevent" resourceid="ManageUnitInformationjs"></event>
+		</part>
+		<part id="BrowseFile">
+			<event name="onchange" type="simple" function="showFileInfo" valuetype="jsevent" resourceid="ManageUnitInformationjs"></event>
+		</part>
+	</behaviour>
+
+	<resource>	
+		<resourceitem id="ManageUnitInformationjs" href="ManageUnitInformation.js" valuetype="js"></resourceitem>  	
+	</resource>
+
+	</interface>

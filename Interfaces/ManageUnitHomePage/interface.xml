@@ -1,0 +1,89 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="ManageUnitHomePage" title="Manage LMS Unit Home Page" type="Interface">
+
+	<structure>
+
+		<part id="rowdiv" class="label"></part>
+		<part id="column1" class="label"></part>
+		<part id="row11" class="label"></part>
+		<part id="unitLabel" class="label"></part>
+		<part id="unitSelectionCombo" class="combo"></part>
+		<part id="unitHomePageText" class="textarea" rows="15" cols="50"></part>
+		<part id="submit" class="button"></part>
+		<part id="column2" class="label"></part>
+		<part id="unitHomePageTextPreview" class="label"></part>
+		<part id="Passajaxcomp" class="ajaxcomponent"></part>
+
+	</structure>
+
+	<layout id="defaultLayout">
+
+		<part id="rowdiv" ></part>
+		<part id="column1" parent_id="rowdiv" ></part>
+		<part id="row11" parent_id="column1" ></part>
+		<part id="unitLabel" parent_id="row11"></part>
+		<part id="unitSelectionCombo" parent_id="row11"></part>
+		<part id="unitHomePageText" parent_id="column1"></part>
+		<part id="submit"  parent_id="column1"></part>
+		<part id="column2" parent_id="rowdiv" ></part>
+		<part id="unitHomePageTextPreview" parent_id="column2"></part>
+		<part id="Passajaxcomp" parent_id="rowdiv"></part>
+
+	</layout>
+
+	<content id="defaultContent">
+		<part id="unitLabel" valuetype="inline" value="Select Unit"></part>
+		<part id="unitSelectionCombo" valuetype="query"
+			value="select a.unit_id,a.unit_name  
+			       from unit_details a, unit_creation_details b,home_page_type h 
+				   where a.unit_id=b.unit_id and a.unit_id=h.unit_id and UPPER(h.type)=\'CUSTOM\'"></part>
+		<part id="submit" value="Save" valuetype="inline"></part>
+
+
+	</content>
+
+	<style id="defaultStyle">
+		
+		<part id="rowdiv" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="column1" value="FlexColumnContainer" valuetype="reference"></part>
+		<part id="column1" value="[CDATA[background-color: yellow;]]"
+			valuetype="inline"></part>
+		<part id="row11" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="column2" value="FlexColumnContainer" valuetype="reference"></part>
+		<part id="column2" value="[CDATA[background-color: pink;]]"
+			valuetype="inline"></part>
+		
+	</style>
+
+	<behaviour id="defaultBehaviour">
+
+		<part id="unitSelectionCombo">
+			<event name="onchange" type="simple" function="unit_onchange"
+				valuetype="inline" resourceid="ManageUnitHomePageJS"></event>
+		</part>
+		
+		<part id="unitHomePageText">
+			<event name="onkeyup" type="simple" function="homepagePreview"
+				valuetype="inline" resourceid="ManageUnitHomePageJS"></event>
+		</part>
+
+		<part id="submit">
+			<event name="onclick" type="simple" function="save_homepage_onclick"
+				valuetype="inline" resourceid="ManageUnitHomePageJS"></event>
+		</part>
+
+		<part id="Passajaxcomp">
+			<event name="ajax" valuetype="inline" function="dummy" javaclass="ladminTree"></event>
+		</part>
+
+		</behaviour>
+	<resource>
+
+		<resourceitem id="ManageUnitHomePageJS" href="ManageUnitHomePage.js"
+			valuetype="js"></resourceitem>
+
+	</resource>
+
+</interface>

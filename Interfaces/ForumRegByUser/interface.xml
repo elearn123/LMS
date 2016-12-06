@@ -1,0 +1,98 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="ForumRegByUser" title="LMS Forum User Registration" type="Interface">
+
+	<structure>
+		<part id="BodyDiv" class="label"/>
+		<part id="GridSelectorContainer" class="label"></part>
+		<part id="ForumRegByUserAjaxComp" class="ajaxcomponent" />
+		<part id="forum_name_label" class="label"/>
+		
+		<part id="ForumRegByUserAdminGrid" class="Conditionalgrid" caption="Currently Registered Users for the above Forum">
+			<selector id="forum_id" class="combo" contentid="ForumRegByUserAdminContent" 
+			    behaviourid="ForumRegByUserAdminBehaviour" domaintype="query" 
+				value="select forum_id,forum_name from forum" gridrefresh="true"/>
+			
+			<column head="User ID" name="student_id" index="1" width="305" editable="true" hidden="true" key="true" required="false">
+				<edit type="text" size="40"></edit>
+			</column>
+			<column head="User Name" name="student_name" index="2" width="305" editable="true" hidden="false" key="false" required="true">
+				<edit type="select" size="10" multiple="true" editdomaintype="query" 
+				value="select student_id, concat(first_name,\' \',middle_name,\' \',sname) 
+				       from student_details"></edit>
+			</column>
+			<column head="Registered By" name="registered_by" index="3" width="305" editable="false" hidden="false" key="false">
+				<edit type="text" size="30"></edit>
+			</column>
+			
+						
+			<loadquery value="select a.student_id,concat(b.first_name,\' \',b.middle_name,\' \',b.sname),
+			                   concat(c.first_name,\' \',c.middle_name,\' \',c.sname) 
+							   from user_forum_association a, student_details b,student_details c 
+							   where forum_id=%forum_id% and a.student_id=b.student_id 
+							         and a.registered_by=c.student_id"/>
+			<delete>
+				<queries>
+					<query id="1" sql="[CDATA[delete from user_forum_association 
+					                          where student_id=%student_id% and forum_id =%forum_id%]]" 
+								parameter="student_id,forum_id"/>
+				</queries>					
+			</delete>
+			<add>
+				<queries>
+					<query id="1" sql="[CDATA[insert into user_forum_association(student_id, forum_id, registered_by)
+                       					       values (%student_name%,%forum_id%,%current_login_user_id%)]" 
+								  parameter="forum_id,current_login_user_id,student_name"/>
+				</queries>			
+			</add>
+		</part>
+		<part id="clrbtn" class="button"/>
+
+	</structure>
+	
+	
+	
+	
+	<layout id="ForumRegByUserAdminLayout">
+		<part id="BodyDiv"></part>
+		<part id="GridSelectorContainer" parent_id="BodyDiv"></part>
+		<part id="forum_name_label" parent_id="GridSelectorContainer"></part>
+		<part id="forum_id" parent_id="GridSelectorContainer"></part>
+		<part id="ForumRegByUserAdminGrid" parent_id="BodyDiv"></part>
+		<part id="clrbtn" position="absolute" parent_id="BodyDiv"></part>
+		<part id="ForumRegByUserAjaxComp" parent_id="BodyDiv"></part>
+	</layout>
+	
+	<content id="ForumRegByUserAdminContent">
+		<part id="forum_name_label" value="Select Forum :" valuetype="inline"/>
+		<part id="clrbtn" value="Unregister All Users" valuetype="inline"/>
+	</content>
+
+	<style id="forumreguserstyle">
+		<part id="BodyDiv" value="FlexColumnContainer" valuetype="reference"></part>
+		
+		<part id="GridSelectorContainer" value="FlexRowContainer" valuetype="reference"></part>
+		
+		<part id="forum_name_label" value="FlexRowContainerItem" valuetype="reference"></part>
+
+		<part id="forum_id" value="FlexRowContainerItem" valuetype="reference"></part>
+
+		<part id="ForumRegByUserAdminGrid" value="FlexColumnContainerItem" valuetype="reference"></part>
+		
+		<part id="clrbtn" value="FlexColumnContainerItem" valuetype="reference"></part>
+	</style>
+
+	<behaviour id="ForumRegByUserAdminBehaviour">
+		<part id="ForumRegByUserAjaxComp">
+			<event name="ajax" javaclass="ForumUtil"></event>
+		</part>
+		<part id="clrbtn">
+			<event name="onclick" type="simple" function="unregisterAll" valuetype="jsevent" resourceid="forumreguser"></event>
+		</part>
+	</behaviour>
+	<resource>
+		<resourceitem id="forumreguser" href="forumreguser.js" valuetype="js"></resourceitem>
+	</resource>
+	
+</interface>

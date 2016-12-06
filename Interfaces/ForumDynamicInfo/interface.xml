@@ -1,0 +1,82 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="ForumDynamicInfo" title="Info on current LMS forum users" type="Interface">
+
+	<structure>
+		<part id="famain" class="label"></part>
+		<part id="userinfo" class="label"></part>
+		<part id="sgrid" class="DBgrid" caption=" The following Forums are being accessed" sortname="student_id" sortorder="desc">
+			<column head="Student ID"  name="student_id"  index="1"  width="105" editable="true" hidden="false" key="true" required="false">
+			
+			</column>
+			<column head="User Name"  name="user"  index="2"  width="155" editable="false" hidden="false" key="false" required="false">
+				
+			</column>
+			<column head="Logged in at"  name="login"  index="3"  width="175" editable="false" hidden="false" key="false" required="false">
+				
+			</column>
+			<column head="Forum Name"  name="forum_name"  index="4"  width="155" editable="false" hidden="false" key="false" required="false">
+				
+			</column>
+			<column head="Connected for"  name="connected"  index="5"  width="105" editable="false" hidden="false" key="false" required="false">
+				
+			</column>
+			
+			<loadquery value="select c.student_id ,concat(b.first_name,\' \', b.middle_name,\' \', b.sname),
+			                         date_format(c.logged_in_at,\'%M %e, %Y %h:%i %p\'), d.forum_name, 
+									 CONCAT(FLOOR(HOUR(TIMEDIFF(sysdate(), c.logged_in_at)) / 24), \' days, \', 
+									     MOD(HOUR(TIMEDIFF(sysdate(), c.logged_in_at)), 24), \' hours, \', 
+										 MINUTE(TIMEDIFF(sysdate(), c.logged_in_at)), \' minutes, \', 
+										 SECOND(TIMEDIFF(sysdate(), c.logged_in_at)), \' seconds\') 
+								AS TimeDiff 
+								from student_details b join forum_dynamic_information c on b.student_id = c.student_id 
+								                       join forum d on c.forum_id = d.forum_id"></loadquery>
+			
+			<delete>
+				<queries>
+					<query id="1" sql="[CDATA[delete from forum_dynamic_information where student_id=%student_id%]]" parameter="student_id"></query>
+				</queries>	
+			</delete>
+		</part>
+		
+		<part id="refresh" class="button"></part>
+		<part id="fdinfoajaxcomponent" class="ajaxcomponent"></part>
+	</structure>
+
+	<layout id="fdinfoalayout">
+		<part id="famain"></part>
+		<part id="sgrid" parent_id="famain"></part>
+		<part id="refresh" parent_id="famain"></part>
+		<part id="userinfo" parent_id="famain"></part>
+		<part id="fdinfoajaxcomponent" parent_id="famain"></part>
+	</layout>
+
+	<content id="fdinfocontent">
+		<part id="refresh" value="Refresh Information" valuetype="inline"></part>
+	</content>
+
+	<style id="fdinfostyle">
+		<part id="famain" value="FlexColumnContainer" valuetype="reference"></part>
+		
+		<part id="sgrid" value="FlexColumnContainerItem" valuetype="reference"></part>
+		
+		<part id="refresh" value="FlexColumnContainerItem" valuetype="reference"></part>
+
+		<part id="userinfo" value="[CDATA[background-color:#336699;color:white;text-align:center;]]" valuetype="inline"></part>
+	</style>
+
+	<behaviour id="fdinfoevent">
+		<part id="refresh">
+			<event name="onclick" type="simple" function="refreshinfo" valuetype="jsevent" resourceid="fdinfojs"></event>
+		</part>
+		<part id="fdinfoajaxcomponent">
+			<event name="ajax" javaclass="ForumUtil"></event>
+		</part>
+	</behaviour>
+
+	<resource>
+		<resourceitem id="fdinfojs" href="fdinfo.js" valuetype="js"></resourceitem>
+	</resource>
+	
+</interface>

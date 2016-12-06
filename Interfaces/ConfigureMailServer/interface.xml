@@ -1,0 +1,96 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="ConfigureMailServer" title="LMS Mail Server Configuration" type="Interface">
+
+	<structure>
+		<part id="ConfigureMailServerDiv" class="label"></part>
+		<part id="ConfigureMailServerGrid" class="DBgrid" caption="Currently Defined Mail Servers" sortname="title" 
+		      sortorder="desc" gridnavbar="true">
+			<column head="configuration_id"  name="configuration_id"  index="1"  width="150" editable="true" 
+			        hidden="true" key="true">
+				<edit type="text" size="30"></edit> 	
+			</column>    
+			<column head="Server Title"  name="title"  index="2"  width="170" editable="true" hidden="false" 
+			        key="false" required="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			
+			<column head="IP Address"  name="ipaddress"  index="3"  width="110" editable="true" hidden="false" 
+			        key="false">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Server Port"  name="server_port"  index="4"  width="110" editable="true" hidden="false" 
+			        key="false">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Status"  name="status"  index="5"  width="110" editable="false" hidden="false" key="false">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<loadquery value="select configuration_id,title,ipaddress,server_port,status 
+			                  from mail_server_configuration"></loadquery>
+			
+			<delete>			   
+			      <queries>
+				      <query id="1" sql="[CDATA[delete from mail_server_configuration where configuration_id=%configuration_id%]]" parameter="configuration_id"></query>
+			      </queries>									
+			</delete>
+			<add>
+				<queries>
+					<query id="1" sql="[CDATA[insert into mail_server_configuration (title,ipaddress,server_port) values(%title%,%ipaddress%,%server_port%)]]" parameter="title,ipaddress,server_port"></query>
+				</queries>
+			</add>	
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[update mail_server_configuration set title=%title%, ipaddress=%ipaddress%, server_port=%server_port% where configuration_id=%configuration_id%]]" parameter="title,ipaddress,server_port,configuration_id"></query>
+				</queries>
+			</modify>	
+		</part>	
+		
+		<part id="ButtonContainer" class="label"></part>
+		<part id="Activebttn" class="button"></part>
+		<part id="InActivebttn" class="button"></part>
+		<part id="message" class="label"></part>
+		<part id="ee" class="ajaxcomponent" ></part>
+	</structure>	
+
+	<layout id="ConfigureMailServerLayout">
+		<part id="ConfigureMailServerDiv"></part>
+		<part id="ConfigureMailServerGrid" parent_id="ConfigureMailServerDiv"></part>
+		<part id="ButtonContainer" parent_id="ConfigureMailServerDiv"></part>
+		<part id="Activebttn" parent_id="ButtonContainer"></part>
+		<part id="InActivebttn" parent_id="ButtonContainer"></part>
+		<part id="message" parent_id="ConfigureMailServerDiv"></part>
+		<part id="ee" parent_id="ConfigureMailServerDiv"></part>
+	</layout>
+
+	<content id="ConfigureMailServerContent">
+		<part id="Activebttn" value="Active" valuetype="inline"></part>
+		<part id="InActivebttn" value="Inactive" valuetype="inline"></part>
+	</content>
+
+	<style id="ConfigureMailServerStyle">
+		<part id="ButtonContainer" valuetype="reference" value="FlexRowContainer"></part>		
+		<part id="ButtonContainer" valuetype="inline" value="[CDATA[width:50%;]]"></part>		
+	</style>	
+
+	<behaviour id="ConfigureMailServerBehaviour">
+		<part id="ee">
+			<event name="ajax" javaclass="StAsmtAdmin"></event>
+		</part>
+		<part id="Activebttn">
+			<event name="onclick" type="simple" function="Activebttn_onclick" valuetype="jsevent" 
+			       resourceid="configuremailserverjs"></event>
+		</part>
+		<part id="InActivebttn">
+			<event name="onclick" type="simple" function="InActivebttn_onclick" valuetype="jsevent" 
+			       resourceid="configuremailserverjs"></event>
+		</part>
+	</behaviour>
+	
+	<resource>
+		<resourceitem id="configuremailserverjs" href="configuremailserver.js" valuetype="js"></resourceitem>
+	</resource>
+	
+	
+</interface>

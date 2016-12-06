@@ -1,0 +1,61 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="LMSAdmin" title="LMS Administration" type="Interface">
+
+	<configuration TemplateID="GridTree"/>
+
+	<structure>
+	<part id="ladminMain" class="label"/>
+	<part id="ladminLogo" class="image"/>
+	<part id="companyName" class="label"/>
+	<part id="ladminTitle" class="label"/>
+	<part id="ladminTreeView" class="label"/>
+	<part id="ladminTree" class="label"/>
+	<part id="ladminFrame" class="iframe"/>
+	<part id="ladminLogout" class="button"/>
+	<part id="adminAjax" class="ajaxcomponent"/>
+	</structure>
+	<layout id="adminPrime">
+		<part id="ladminMain" height="100%" width="100%" left="1px" top="1px" position="absolute"/>
+		<part id="ladminLogo" height="60px" width="70px" left="9px" top="0px" position="absolute" parent_id="ladminMain"/>
+		<part id="companyName" height="30px" width="925px" left="80px" top="0px" position="absolute" parent_id="ladminMain"/>
+		<part id="ladminTitle" height="30px" width="925px" left="80px" top="30px" position="absolute" parent_id="ladminMain"/>
+		<part id="ladminTreeView" height="500px" width="250px" left="9px" top="61px" position="absolute" parent_id="ladminMain"/>
+		<part id="ladminTree" height="400px" width="250px" left="0px" top="0px" position="absolute" parent_id="ladminTreeView"/>
+		<part id="ladminFrame" height="500px" width="750px" left="259px" top="61px" position="absolute" parent_id="ladminMain"/>
+		<part id="ladminLogout" left="900px" top="5px" position="absolute" parent_id="ladminMain"/>
+		<part id="adminAjax" parent_id="ladminMain"/>
+	</layout>
+	<content id="adminPrimeContent">
+		<part id="ladminMain"  value="nadmin" valuetype="reference"/>
+		<part id="ladminTitle"  value="LMS Administration" valuetype="inline"/>
+		<part id="ladminLogo" value="logo" valuetype="reference"/>
+		<part id="companyName" value="MSME ToolRoom Kolkata" valuetype="inline"/>
+		<part id="ladminLogout" value="Log Out" valuetype="inline"/>
+	</content>
+	<style id="adminPrimeStyle">
+		<part id="ladminLogo" value="[CDATA[border: 1px solid black;background-color:#FFFFFF;text-align:center;]]" valuetype="inline"/>
+		<part id="ladminTitle" value="[CDATA[border: 1px solid black;;background-color:#DDDDDD;text-align:center;]]" valuetype="inline"/>
+		<part id="ladminTreeView" value="[CDATA[overflow:auto;border: 1px solid black;font: 10px Arial;background-color:#FFFFFF;]]" valuetype="inline"/>
+		<part id="ladminTree" value="[CDATA[overflow:auto;font: 10px Arial;b]]" valuetype="inline"/>
+		<part id="companyName" value="[CDATA[border: 1px solid black;;background-color:#DDDDDD;font: 14px Arial;font-weight:bold;text-align:center;]]" valuetype="inline"/>
+	</style>
+	<behaviour id="adminPrimeBehaviour">
+		<part id="ladminLogout">
+			<event name="onclick" type="simple" function="logout_onclick" valuetype="jsevent" resourceid="nadmin"></event>
+		</part>
+		<part id="root">
+			<event name="onload" function="onload_click" type="simple" valuetype="jsevent" resourceid="nadmin"></event>
+		</part>
+		<part id="adminAjax">
+			<event name="ajax" function="dummy" javaclass="ladminTree"></event>
+		</part>
+	
+	</behaviour>
+
+	<resource>
+		<resourceitem id="logo" href="msmelogo.jpg" valuetype="image"></resourceitem>
+		<resourceitem id="nadmin" href="mainpage.js" valuetype="js"></resourceitem>
+	</resource>
+</interface>

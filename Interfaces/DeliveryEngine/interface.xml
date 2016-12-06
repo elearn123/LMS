@@ -1,0 +1,150 @@
+<interface  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="DeliveryEngine" title="LMS Content Delivery" type="InterfaceFragment">
+
+	<configuration TemplateID="GridTreeNew"></configuration>
+
+	<structure>
+		
+		<part id="deliverymain" class="label"></part>
+		<part id="deliverytopstrip" class="label"></part>
+		<part id="showhidetoc" class="imagelink"></part>
+		<part id="showhidetoclabel" class="textlink"></part>
+		<part id="previousitem" class="imagelink" ></part>
+		<part id="topitem" class="imagelink" ></part>
+		<part id="nextitem" class="imagelink" ></part>
+		<part id="firstitem" class="imagelink" ></part>
+		<part id="lastitem" class="imagelink" ></part>
+		<part id="contensearchform" class="form"></part>
+		<part id="deliverysearchlabel" class="label"></part>
+		<part id="query" class="inputtext" size="15"></part>
+		<part id="contentsearchlabel" class="label"></part>
+		<part id="maxresults" class="inputtext" size="1"></part>
+		<part id="deliverysearchgo" class="button"></part>
+		<part id="notebooklink" class="label"></part>
+		<part id="quitlink" class="label"></part>
+		<part id="deliveryBody" class="label"></part>
+		<part id="showtree" class="label"></part>
+		<part id="coursename" class="label"></part>
+		<part id="treediv" class="tree" treedataremotefunction="launchcourse.treeConstruct" 
+		      onselectremotefunction="f12"  autocollapse="true" initialiseonload="true" 
+			  onpostinitfunction="afterTreeLoad"></part>
+		<part id="iframediv" class="label"></part>
+		<part id="deliveryIframe" class="iframe"></part>
+		<part id="ee" class="ajaxcomponent" ></part>
+		<part id="nodeKey" class="hidden"></part>
+	</structure>
+
+	<layout id="DeliveryEnginelayout">
+		 
+		<part id="deliverymain"></part>
+		<part id="deliverytopstrip" parent_id="deliverymain"></part>
+		<part id="showhidetoc" parent_id="deliverytopstrip"></part>
+		<part id="showhidetoclabel" parent_id="deliverytopstrip"></part>
+		<part id="previousitem" parent_id="deliverytopstrip"></part>
+		<part id="firstitem" parent_id="deliverytopstrip"></part>
+		<part id="topitem" parent_id="deliverytopstrip"></part>
+		<part id="lastitem" parent_id="deliverytopstrip"></part>		
+		<part id="nextitem" parent_id="deliverytopstrip"></part>
+		<part id="contensearchform"  parent_id="deliverytopstrip"></part>
+		<part id="deliverysearchlabel"  parent_id="contensearchform"></part>
+		<part id="query"  parent_id="contensearchform"></part>
+		<part id="contentsearchlabel" parent_id="contensearchform"></part>
+		<part id="maxresults" parent_id="contensearchform"></part>
+		<part id="deliverysearchgo"  parent_id="contensearchform"></part>
+		<part id="notebooklink" parent_id="deliverytopstrip"></part>
+		<part id="quitlink" parent_id="deliverytopstrip"></part>
+		<part id="deliveryBody" parent_id="deliverymain"></part>
+		<part id="showtree" parent_id="deliveryBody"></part>
+		<part id="coursename" parent_id="showtree"></part>
+		<part id="treediv" parent_id="showtree"></part>
+		<part id="iframediv" parent_id="deliveryBody"></part>
+		<part id="deliveryIframe" parent_id="iframediv"></part>
+		<part id="ee" parent_id="deliverymain"></part>
+		<part id="nodeKey" parent_id="deliverymain"></part>
+
+	</layout>
+
+
+	<content id="DeliveryEnginecontent">
+
+		<part id="showhidetoc" value="hidetoc" valuetype="reference"></part>
+		<part id="showhidetoclabel" value="Hide toc" valuetype="inline"></part>
+		<part id="previousitem" value="previousitem" valuetype="reference"></part>
+		<part id="topitem" value="topitem" valuetype="reference"></part>
+		<part id="nextitem" value="nextitem" valuetype="reference"></part>
+		<part id="firstitem" value="firstitem" valuetype="reference"></part>
+		<part id="lastitem" value="lastitem" valuetype="reference"></part>
+		<part id="deliverysearchlabel" value="Search" valuetype="inline"></part>
+		<part id="deliverysearchgo" value="GO" valuetype="inline"></part>
+		<part id="contentsearchlabel" value="Results Per Page" valuetype="inline"></part>
+		<part id="notebooklink" value="dummy" valuetype="cdata"><![CDATA[<a href="javascript:launchNoteBook()" style="text-decoration:none"><font size="2">NoteBook</font></a>]]></part>
+		<part id="quitlink" value="dummy" valuetype="cdata"><![CDATA[<a href="javascript:doConfirm()" style="text-decoration:none"><font size="2">Home</font></a>]]></part>
+		<part id="coursename" value="Unit Name" valuetype="inline"></part>
+	</content>
+
+	<style id="DeliveryEnginestyle">
+
+		<part id="deliverymain" value="[CDATA[height: 100%;min-height:min-content;display: flex; flex-direction:column;background-color: #FFFFFF]]" valuetype="inline"></part>
+		<part id="deliverytopstrip" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="deliverytopstrip" value="[CDATA[visibility:hidden;background-color: #8EBCC8;]]" valuetype="inline"></part>
+		<part id="showhidetoclabel" value="[CDATA[color: #103704;font-weight:bold;text-decoration:none;font-size: 12px;]]" valuetype="inline"></part>
+		<part id="deliverysearchlabel" value="[CDATA[color: #103704;font-weight:bold;text-decoration:none;font-size: 12px;]]" valuetype="inline"></part>
+		<part id="contensearchform" value="[CDATA[display: flex;justify-content: space-around;width:350px;]]" valuetype="inline"></part>
+		<part id="contentsearchlabel" value="[CDATA[color: #103704;font-weight:bold;text-decoration:none;font-size: 12px;]]" valuetype="inline"></part>
+		<part id="deliveryBody" value="[CDATA[display: flex;flex-grow:1;]]" valuetype="inline"></part>
+		<part id="showtree" value="[CDATA[resize: horizontal; overflow:auto; display:flex; flex-direction:column; flex-grow:1; background-color:#D6D6C0;]]" valuetype="inline"></part>
+		<part id="coursename" value="[CDATA[background-color: #D6D6C0]]" valuetype="inline"></part>
+		<part id="iframediv" value="[CDATA[flex-grow:4;]]" valuetype="inline"></part>
+		<part id="deliveryIframe" value="[CDATA[height:100%;position:absolute;width:100%;background-color: #FFFFFF]]" valuetype="inline"></part>
+		<part id="quitlink" value="dummy" valuetype="reference" resourceid="pesticidecss"></part>
+
+	</style>	
+	
+	<behaviour id="DeliveryEnginebehaviour">
+		
+		<part id="ee">
+			<event name="ajax" function="dummy" javaclass="launchcourse" ></event>
+		</part>
+		<part id="deliveryIframe">
+			<event name="invokeurl" type="simple" function="./interfaceenginev2.PortalServlet?IID=DeliveryHomePage" valuetype="inline"></event>
+		</part>
+		<part id="previousitem">
+			<event name="onclick" type="simple" function="previousitem1" valuetype="jsevent" resourceid="deliveryjs"></event>
+		</part>
+		<part id="topitem">
+			<event name="onclick" type="simple" function="topitem_onclick" valuetype="jsevent" resourceid="deliveryjs"></event>
+		</part>
+		<part id="nextitem">
+			<event name="onclick" type="simple" function="nextitem1" valuetype="jsevent" resourceid="deliveryjs"></event>
+		</part>
+		<part id="firstitem">
+			<event name="onclick" type="simple" function="firstitem1" valuetype="jsevent" resourceid="deliveryjs"></event>
+		</part>
+		<part id="lastitem">
+			<event name="onclick" type="simple" function="lastitem1" valuetype="jsevent" resourceid="deliveryjs"></event>
+		</part>
+		<part id="showhidetoc">
+			<event name="onclick" type="simple" function="show_hide_toc" valuetype="jsevent" resourceid="deliveryjs"></event>
+		</part>
+		<part id="showhidetoclabel">
+			<event name="onclick" type="simple" function="show_hide_toc" valuetype="jsevent" resourceid="deliveryjs"></event>
+		</part>
+		<part id="deliverysearchgo">
+			<event name="onclick" type="simple" function="delivery_search_onclick" valuetype="jsevent" resourceid="deliveryjs"></event>
+		</part>
+	</behaviour>
+
+	
+	<resource>
+		<resourceitem id="deliveryjs" href="deliveryjs.js" valuetype="js"></resourceitem>
+		<resourceitem id="previousitem" href="prev.png" valuetype="image"></resourceitem>
+		<resourceitem id="topitem" href="home.png" valuetype="image"></resourceitem>
+		<resourceitem id="nextitem" href="next.png" valuetype="image"></resourceitem>
+		<resourceitem id="firstitem" href="first.png" valuetype="image"></resourceitem>
+		<resourceitem id="lastitem" href="last.png" valuetype="image"></resourceitem>
+		<resourceitem id="hidetoc" href="hidetoc.gif" valuetype="image"></resourceitem>
+		<resourceitem id="pesticidecss" href="pesticide.css" valuetype="css"></resourceitem>
+	</resource>
+</interface>

@@ -1,0 +1,269 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="ChangeProfile" title="LMS Change Admin Profile" type="InterfaceFragment">
+
+<configuration checkrole="true" TemplateID="GridTree"></configuration>
+
+	<structure>
+		<part id="mainpage" class="label"></part>
+		
+<!--		<part id="ProfileMainDiv" class="label"></part>   -->
+		
+		<part id="detail1" class="label"></part>
+		
+		
+		<part id="UserId" class="label"></part>
+		<part id="UserIddata" class="inputtext"></part>
+		
+		<part id="FName" class="label"></part>		
+		<part id="FNamedata" class="inputtext"  tabindex="1"></part>
+
+		<part id="MName" class="label"></part>
+		<part id="MNamedata" class="inputtext"  tabindex="2"></part>
+		
+		<part id="LName" class="label"></part>
+		<part id="LNamedata" class="inputtext" tabindex="3"></part>
+		
+		
+		<part id="detail2" class="label"></part>
+				
+		<part id="Age" class="label" ></part> 
+		<part id="Agedata" class="inputtext" tabindex="4"></part>
+										
+		<part id="Experience" class="label"></part>
+		<part id="Experiencedata" class="textarea" tabindex="5"></part>
+		
+		<part id="EduQuili" class="label"></part>
+		<part id="EduQuilidata" class="inputtext" tabindex="6"></part>
+
+
+		<part id="detail3" class="label"></part>
+		
+		<part id="Email" class="label"></part>
+		<part id="Emaildata" class="inputtext" tabindex="8"></part>
+				
+		<part id="Gender" class="label"></part>
+		<part id="Genderdate" class="combo" tabindex="7"></part>
+		
+<!--		<part id="QuestionPreferred" class="label"></part>
+		<part id="QuestionPreferreddate" class="combo" tabindex=""></part>
+		
+		<part id="MediaPreferred" class="label"></part>
+		<part id="MediaPreferreddata" class="combo" ></part>
+-->		
+		<part id="AccountStatus" class="label"></part>
+		<part id="AccountStatusdata" class="combo" tabindex="11"></part>
+		
+		<part id="PermitSelfRegistration" class="label"></part>
+		<part id="PermitSelfRegistrationdata" class="combo" tabindex="12"></part>
+
+		
+		<part id="detail4" class="label"></part>
+		
+		<part id="userimagelabel" class="image"></part>
+		<part id="userimageselectlabel" class="label"></part>
+		<part id="userimage" class="inputfile" ></part>
+		<part id="ImageUploadButton" class="button"></part>
+		
+		<part id="savecloseButtonContainer" class="label"></part>
+		<part id="subbutton" class="button" ></part>
+		<part id="closeButton" class="button"></part>
+		
+		<part id="Passajaxcomp" class="ajaxcomponent"></part>
+
+		<part id="fdate" class="formdate"></part>
+		<part id="dummyBody" class="image"></part>
+		
+	</structure>
+
+	
+	
+	
+	
+	<layout id="ChangeProfileLay">		
+		
+		<part id="mainpage" ></part>
+<!--		<part id="ProfileMainDiv"  parent_id="mainpage"></part>  -->
+		
+		<part id="detail1" parent_id="mainpage"></part>
+		
+		
+			<part id="UserId" parent_id="detail1"></part>
+			<part id="UserIddata" parent_id="detail1"></part>
+		
+			<part id="FName"  parent_id="detail1"></part>
+			<part id="FNamedata" parent_id="detail1"></part>
+		
+			<part id="MName"  parent_id="detail1"></part>
+			<part id="MNamedata"  parent_id="detail1"></part>
+		
+			<part id="LName"  parent_id="detail1"></part>
+			<part id="LNamedata"  parent_id="detail1"></part>
+		
+		
+		<part id="detail2" parent_id="mainpage"></part>
+		
+			<part id="Age"  parent_id="detail2"></part>
+			<part id="Agedata" parent_id="detail2"></part>
+		
+			<part id="Experience" parent_id="detail2"></part>
+			<part id="Experiencedata" parent_id="detail2"></part>
+		
+			<part id="EduQuili"  parent_id="detail2"></part>
+			<part id="EduQuilidata" parent_id="detail2"></part>
+		
+			<part id="Gender"  parent_id="detail2"></part>
+			<part id="Genderdate"  parent_id="detail2"></part>
+		
+		<part id="detail3" parent_id="mainpage"></part>	
+			<part id="Email" parent_id="detail3"></part>
+			<part id="Emaildata"  parent_id="detail3"></part>
+		
+			<part id="AccountStatus"  parent_id="detail3"></part>
+			<part id="AccountStatusdata" parent_id="detail3"></part>
+						
+			<part id="PermitSelfRegistration" parent_id="detail3"></part>
+			<part id="PermitSelfRegistrationdata"  parent_id="detail3"></part>
+		
+		
+		
+		<part id="detail4" parent_id="mainpage"></part>	
+			<part id="userimagelabel" height="100px" width="100px" left="500px" top="5px" parent_id="detail4"></part>	
+			<part id="userimageselectlabel" parent_id="detail4"></part>	
+			<part id="userimage"  parent_id="detail4"></part>	
+			<part id="ImageUploadButton" parent_id="detail4"></part>	
+	
+		
+		
+		
+		<part id="savecloseButtonContainer" parent_id="mainpage"></part>
+		<part id="subbutton"  parent_id="savecloseButtonContainer"></part>
+		<part id="closeButton"  parent_id="savecloseButtonContainer"></part>
+		
+		<part id="Passajaxcomp" parent_id="mainpage"></part>
+
+		
+		<part id="dummyBody" parent_id="mainpage"></part>
+
+	
+	</layout>
+	
+	
+	
+	<content id="ChangeProfileCont">
+		<part id="UserId" value="User Id" valuetype="inline"></part>
+		<part id="FName" value="First Name" valuetype="inline"></part>
+		<part id="MName" value="Middle Name" valuetype="inline"></part>
+		<part id="LName" value="Last Name" valuetype="inline"></part>
+		<part id="Age" value="Age" valuetype="inline"></part>
+		<part id="Experience" value="Experience" valuetype="inline"></part>
+		<part id="EduQuili" value="Educational Qualification" valuetype="inline"></part>
+		<part id="Gender" value="Gender" valuetype="inline"></part>
+		<part id="Genderdate" value="dummy" valuetype="fixed" >
+			<combooption name="M" value="Male"></combooption>
+			<combooption name="F" value="Female"></combooption>
+		</part>
+		
+		
+		<part id="Email" value="Email" valuetype="inline"></part>
+
+		<part id="AccountStatus" value="Account Status" valuetype="inline"></part>
+		<part id="AccountStatusdata" value="dummy" valuetype="fixed" >
+			<combooption name="Active" value="Active"></combooption>
+			<combooption name="Inactive" value="Inactive"></combooption>
+			
+		</part>
+		
+		<part id="PermitSelfRegistration" value="Permit Self Registration" valuetype="inline"></part>
+		<part id="PermitSelfRegistrationdata" value="dummy" valuetype="fixed" >
+			<combooption name="F" value="False"></combooption>
+			<combooption name="T" value="True"></combooption>
+			
+		</part>
+		    
+            <part id="userimageselectlabel" valuetype="inline" value="Change Photo :"></part>
+		    
+	        <part id="ImageUploadButton" valuetype="inline" value="Change"></part>  
+		    
+		    <part id="subbutton" value="SAVE" valuetype="inline"></part>
+			<part id="closeButton" value="CLOSE" valuetype="inline"></part>
+		    
+		    <part id="dummyBody" value="dummyimg" valuetype="reference"></part>
+		    
+		 
+		    
+	</content>
+	
+	
+	
+	<style id="ChangeProfilestyle">
+			<part id="root" value="FlexColumnContainer" valuetype="inline"></part>
+		    <part id="mainpage" value="FlexColumnContainer" valuetype="reference"></part> 
+<!--		    <part id="ProfileMainDiv" value="FlexColumnContainer" valuetype="reference"></part>	-->
+		  
+			<part id="detail1" value="FlexRowContainer" valuetype="reference"></part> 
+			
+			<!--
+		    <part id="UserId" value="FlexRowContainer" valuetype="reference"></part>
+		    <part id="FName" value="FlexRowContainer" valuetype="reference"></part>
+		    <part id="MName" value="FlexRowContainer" valuetype="reference"></part>
+		    <part id="LName" value="FlexRowContainer" valuetype="reference"></part>
+		    <part id="Age" value="FlexRowContainer" valuetype="reference"></part>
+			-->
+			<part id="detail2" value="FlexRowContainer" valuetype="reference"></part> 
+			<part id="detail3" value="FlexRowContainer" valuetype="reference"></part> 
+			<part id="detail4" value="FlexRowContainer" valuetype="reference"></part> 
+			<!--			
+		    <part id="Experience" value="FlexRowContainer" valuetype="reference"></part>
+		    <part id="EduQuili" value="FlexRowContainer" valuetype="reference"></part>
+		    
+		    <part id="Gender" value="FlexRowContainer" valuetype="reference"></part>
+		    <part id="QuestionPreferred" value="FlexRowContainer" valuetype="reference"></part>
+		    <part id="MediaPreferred" value="FlexRowContainer" valuetype="reference"></part>
+		    
+		    <part id="AccountStatus" value="FlexRowContainer" valuetype="reference"></part>
+		    <part id="PermitSelfRegistration" value="FlexRowContainer" valuetype="reference"></part>
+		    <part id="Email" value="FlexRowContainer" valuetype="reference"></part>
+		    -->
+		   
+			<part id="savecloseButtonContainer" value="FlexRowContainer" valuetype="reference"></part>
+			
+			<part id="dummyBody" value="[CDATA[visibility: hidden;]]" valuetype="inline"></part>
+		    		    
+	</style>
+	    
+	
+	<behaviour id="ChangeProfileBeha">
+		    <part id="ImageUploadButton">
+			    <event name="onclick" type="simple" function="imageupload_onclick" valuetype="jsevent" resourceid="ChangeProfilejs"></event>
+		    </part>
+		    
+		    <part id="Passajaxcomp">
+			    <event name="ajax" type="simple" function="dummy" javaclass="ladminTree"></event>
+		    </part>
+		    
+		    <part id="subbutton">
+			    <event name="onclick" type="simple" function="Update_user" valuetype="jsevent" resourceid="ChangeProfilejs"></event>
+		    </part>
+		    
+			<part id="closeButton">
+				<event name="onclick" type="simple" function="closeChangeProfile"
+				valuetype="jsevent" resourceid="ChangeProfilejs"></event>
+			</part>
+		
+			<part id="dummyBody">
+				<event name="onerror" type="simple" function="alert" valuetype="jsevent" resourceid="portalforumjs"></event>
+			</part>
+
+	</behaviour>
+
+	<resource>	    
+
+			<resourceitem id="ChangeProfilejs" href="ChangeProfile.js" valuetype="js"></resourceitem>
+			<resourceitem id="dummyimg" href="dummy.jpg" valuetype="image"></resourceitem>
+		    
+	</resource>
+</interface>
+
+    

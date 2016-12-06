@@ -1,0 +1,120 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="GroupUserReg" title="LMS Group User Registration" type="Interface">
+
+	<configuration checkrole="true" TemplateID="Bootstrap"></configuration>
+
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="GroupNameLabel" class="label"></part>
+		<part id="GroupUserRegGrid" class="Conditionalgrid"
+			caption="Currently Registered Users For the Above Group" sortname="student_id"
+			sortorder="desc" gridnavbar="true">
+
+			<selector id="group_id" class="combo" contentid="GroupUserRegContent"
+				behaviourid="GroupUserRegBehaviour" domaintype="query"
+				value="select a.group_id, a.group_name from student_group a"
+				gridrefresh="true"></selector>
+
+			<column head="Group Id" name="group" index="1" width="150"
+				editable="true" hidden="true" key="true" required="false">
+				<edit type="text" size="30"></edit>
+			</column>
+
+			<column head="Student Id" name="student_id" index="2" width="150"
+				editable="true" hidden="false" key="true" required="false">
+				<edit type="select" size="30" multiple="true" editdomaintype="query"
+					value="select sd.student_id,concat(sd.first_name,\' \',sd.middle_name,\' \',sd.sname) from student_details sd,user_role ur where ur.user_id=sd.student_id and ur.role_id!=2"></edit>
+
+			</column>
+
+			<column head="User Name" name="first_name" index="3" width="500"
+				editable="false" hidden="false" key="false" required="false">
+				<edit type="text" size="30"></edit>
+			</column>
+
+			<loadquery
+				value="select a.group_id,a.student_id,concat(b.first_name,\' \',b.middle_name,\' \',b.sname) from student_group_association a, student_details b where a.group_id=%group_id% and a.student_id=b.student_id"></loadquery>
+
+			<delete>
+				<queries>
+					<query id="1"
+						sql="[CDATA[delete from user_forum_association where forum_id In (select forum_id from group_forum_association where group_id=%group%) and student_id=%student_id%]]"
+						parameter="student,group"></query>
+				</queries>
+				<queries>
+					<query id="2"
+						sql="[CDATA[delete from usergroup_course_registration where student_id=%student_id% and course_id In (select course_id from group_course_registration where group_id=%group%)]]"
+						parameter="student,group"></query>
+				</queries>
+				<queries>
+					<query id="3"
+						sql="[CDATA[delete from course_learner_login_info where   course_id In (select course_id from group_course_registration where group_id=%group%) and student_id=%student_id%]]"
+						parameter="student,group"></query>
+				</queries>
+				<queries>
+					<query id="4"
+						sql="[CDATA[delete from calendar_authorization where calendar_id In (select calendar_id from calendar_group_association where group_id=%group%) and student_id=%student_id%]]"
+						parameter="student,group"></query>
+				</queries>
+				<queries>
+					<query id="5"
+						sql="[CDATA[delete from student_group_association where group_id=%group% and student_id=%student_id%]]"
+						parameter="group,student"></query>
+				</queries>
+				<queries>
+					<query id="6"
+						sql="[CDATA[delete from userscoinfo where unit_id in (select unit_id from unit_group_association where group_id=%group_id) and user_id=%student_id%]]"
+						parameter="group,student"></query>
+				</queries>
+			</delete>
+			<add>
+				<queries>
+					<query id="1"
+						sql="[CDATA[insert into student_group_association values(%group_id%,%student_id%)]]"
+						parameter="group_id,student_id"></query>
+				</queries>
+				<queries>
+					<query id="2"
+						sql="[CDATA[insert into  userscoinfo(user_id,unit_id,sco_id,launch,prerequisites,sequence,type,lessonstatus) values(%student_id%,(select a.CourseID from ItemInfo a,course_group_association b where a.CourseID=b.course_id and b.group_id=%group_id%),(select a.Identifier from ItemInfo a,course_group_association b where a.CourseID=b.course_id and b.group_id=%group_id%),(select a.Launch from ItemInfo a,course_group_association b where  a.CourseID=b.course_id and b.group_id=%group_id%),(select a.Prerequisites from ItemInfo a,course_group_association b where a.CourseID=b.course_id and b.group_id=%group_id%),(select a.Sequence from ItemInfo a,course_group_association b where a.CourseID=b.course_id and b.group_id=%group_id%),(select a.Type from ItemInfo a,course_group_association b where a.CourseID=b.course_id and b.group_id=%group_id%),\'Not Submitted\')]]"
+						parameter="group_id,student_id"></query>
+				</queries>
+				<queries>
+					<query id="3"
+						sql="[CDATA[Insert into usergroup_course_registration(course_id, student_id, registration_by,registration_date,access_allowed_till,total_access_time) values ((select course_id from group_course_registration where group_id=%group_id%),%student_id%,(select access_allowed_till from group_course_registration where group_id=%group_id%),(select total_access_time from group_course_registration where group_id=%group_id%))]]"
+						parameter="group_id,student_id"></query>
+				</queries>
+				<queries>
+					<query id="4"
+						sql="[CDATA[Insert into user_forum_association(forum_id, student_id, registered_by) values ((select forum_id from group_forum_association where group_id=%group_id%),%student_id%,(select registered_by from group_forum_association where group_id=%group_id%))]]"
+						parameter="group_id,student_id"></query>
+				</queries>
+				<queries>
+					<query id="5"
+						sql="[CDATA[Insert into calendar_authorization(calendar_id, student_id) values ((select calendar_id from calendar_group_association where group_id=%group_id%),%student_id%)]]"
+						parameter="group_id,student_id"></query>
+				</queries>
+			</add>
+		</part>
+	</structure>
+
+	<layout id="GroupUserRegLayout">
+		<part id="BodyDiv"></part>
+		<part id="GroupNameLabel" left="0px" top="10px" position="absolute"
+			parent_id="BodyDiv"></part>
+		<part id="group_id" left="115px" top="8px" position="absolute"
+			parent_id="BodyDiv"></part>
+		<part id="GroupUserRegGrid" left="0px" top="50px" position="absolute"
+			parent_id="BodyDiv"></part>
+	</layout>
+
+	<content id="GroupUserRegContent">
+		<part id="GroupNameLabel" value="Group Name:" valuetype="inline"></part>
+
+	</content>
+
+	<behaviour id="GroupUserRegBehaviour">
+	</behaviour>
+
+</interface>

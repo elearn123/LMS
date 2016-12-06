@@ -1,0 +1,30 @@
+<interface  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="DeliveryHomePage" title="LMS Content Delivery Home Page" type="Interface">
+
+	<structure>
+		<part id="homePageMain" class="label"/>
+		<part id="deliveryHomePageAjax" class="ajaxcomponent"/>
+	</structure>
+
+	<layout id="DeliveryHomePageLayout">
+		<part id="homePageMain" height="100%" width="100%" left="0px" top="0px" position="absolute"/>
+		<part id="deliveryHomePageAjax" parent_id="homePageMain"/>
+	</layout>
+
+	<behaviour id="DeliveryHomePageBehaviour">
+		
+		<part id="root">
+			<event name="onload" type="simple" function="onload_onclick" valuetype="inline" resourceid="deliveryhomejs"></event>
+		</part>
+		<part id="deliveryHomePageAjax">
+			<event name="ajax" function="dummy" javaclass="launchcourse"></event>
+		</part>
+	</behaviour>
+
+	<resource>
+		<resourceitem id="deliveryhomejs" href="deliveryhome.js" valuetype="js"></resourceitem>
+	</resource>
+
+</interface>

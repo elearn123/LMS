@@ -1,0 +1,108 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="ForumAdmin" title="LMS Forum Administration" type="Interface">
+
+	
+	<structure>
+		<part id="famain" class="label"></part>
+		<part id="fagrid" class="DBgrid" caption=" Currently Defined Forums" sortname="a.forum_id" sortorder="desc">
+			<column head="Forum ID"  name="forum_id"  index="1"  width="105" editable="true" hidden="true" key="true" required="false">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="Forum Name"  name="forum_name"  index="2"  width="105" editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="No. of Threads"  name="no_of_thread"  index="3"  width="105" editable="false" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="Start Date"  name="start_date"  index="4"  width="110" editable="false" hidden="false" key="false" required="false">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="No. of Messages"  name="no_of_message"  index="5"  width="105" editable="false" hidden="false" key="false" required="false">
+				<edit type="text" size="30" value="0"></edit>
+			</column>
+			<column head="Last Message Posted"  name="last_message_posted"  index="6"  width="105" editable="false" hidden="false" key="false" required="false">
+				<edit type="text" size="30" value="0"></edit>
+			</column>
+			<column head="Created By"  name="a.created_by"  index="7"  width="90" editable="false" hidden="false" key="false" required="false">
+				<edit type="text" size="30" editdomaintype="query" 
+				      value="select user_id, concat(user_first_name,\' \',user_middle_name,\' \',user_last_name) 
+					  from administrator_details"></edit>
+			</column>
+			<column head="Permit Self Registration"  name="strself"  index="8"  width="115" editable="true" hidden="false" key="false" required="false">
+				<edit type="select"  editdomaintype="fixed" value="T:True;F:False"></edit>
+			</column>
+			<column head="Confirmation Reqd."  name="confirmation_reqd"  index="9"  width="115" editable="true" hidden="false" key="false" required="false">
+				<edit type="select" editdomaintype="fixed" value="T:True;F:False"></edit>
+			</column>
+			<column head="Confirmed By"  name="confirm_by"  index="10"  width="115" editable="true" hidden="false" key="false" required="false">
+				<edit type="select" size="30" editdomaintype="query" 
+				      value="select sd.student_id,concat(sd.first_name,\' \',sd.middle_name,\' \',sd.sname) 
+					  from student_details sd,user_role ur,role r 
+					  where sd.student_id=ur.user_id and ur.role_id=r.role_id and r.title=\'ADMIN\'"></edit>
+			</column>
+			<loadquery value="select a.forum_id, a.forum_name,count(b.thread_id),
+			                         date_format(a.start_date,\'%M %e, %Y %H:%i\'),a.no_of_message,
+									 date_format(a.last_message_posted,\'%d-%m-%Y %H:%i\'),a.created_by,a.strself,
+									 a.confirmation_reqd,a.confirm_by 
+							  from forum a left join forum_thread b on a.forum_id=b.forum_id and b.parent_thread=\'0\' 
+							  group by a.forum_id"></loadquery>
+			<delete>
+				<queries>
+					<query id="1" sql="[CDATA[delete from forum where forum_id =%forum_id% ]]" 
+					       parameter="forum_id"></query>
+				</queries>					
+			</delete>
+			<add>
+				<queries>
+					<query id="1" sql="[CDATA[insert into forum(forum_name,no_of_thread,no_of_message,last_message_posted,created_by,start_date,strself,confirm_by,confirmation_reqd) 
+											 values(%forum_name%,\'0\',\'0\',\'0000-00-00\',%current_login_user_id%,sysdate(),%strself%,%confirm_by%,%confirmation_reqd%)]]" 
+					       parameter="forum_name,current_login_user_id,start_date,strself,confirm_by,confirmation_reqd"></query>
+				</queries>			
+			</add>	
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[update forum set forum_name=%forum_name%,strself=%strself%,confirm_by=%confirm_by%,confirmation_reqd=%confirmation_reqd% 
+												where forum_id=%forum_id%]]" 
+						   parameter="forum_name,strself,confirm_by,confirmation_reqd,forum_id"></query>
+				</queries>				
+			</modify>
+			
+		</part>
+		
+		<part id="clrbtn" class="button"></part>
+		<part id="faadminajaxcomponent" class="ajaxcomponent"></part>
+	</structure>
+
+	<layout id="falayout">
+		<part id="famain" ></part>
+		<part id="fagrid" parent_id="famain"></part>
+		<part id="clrbtn" parent_id="famain"></part>
+		<part id="faadminajaxcomponent" parent_id="famain"></part>
+	</layout>
+
+	<content id="facontent">
+		<part id="clrbtn" value="Clear Forum" valuetype="inline"></part>
+	</content>
+
+	<style id="fastyle">
+
+		<part id="famain" value="FlexColumnContainer" valuetype="reference"></part>
+
+	</style>
+
+	<behaviour id="faevents">
+		<part id="clrbtn">
+			<event name="onclick" type="simple" function="clear_forum" valuetype="jsevent" resourceid="fajs"></event>
+		</part>
+		<part id="faadminajaxcomponent">
+			<event name="ajax" javaclass="ForumUtil"></event>
+		</part>
+	</behaviour>
+
+	<resource>
+		<resourceitem id="fajs" href="fa.js" valuetype="js"></resourceitem>
+	</resource>
+
+</interface>

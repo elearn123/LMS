@@ -1,0 +1,134 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="ManageUnitAdmin" title="LMS Unit Administration" type="Interface">
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="ManageUnitAdminGrid" class="DBgrid" caption="Currently Defined Units" 
+		          sortname="unit_id" sortorder="desc">
+			
+			<column head="Unit Id"  name="unit_id"  index="1"  width="0" editable="true" hidden="true" key="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Unit Name"  name="unit_name"  index="2"  width="150" editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Date Created"  name="date_created"  index="3"  width="125" editable="false" hidden="false" key="false" required="false">
+				<edit type="text" size="3"></edit> 	
+			</column>
+			<column head="Created By"  name="created_By"  index="4"  width="120" editable="false" hidden="false" key="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Last Modified On"  name="date_modified"  index="5"  width="135" editable="false" hidden="false" key="true">
+				<edit size="30"></edit> 	
+			</column>
+			<column head="Modified By"  name="modified_by"  index="6"  width="135" editable="false" hidden="false" key="true">
+				<edit size="60"></edit> 	
+			</column>
+			<column head="Status"  name="status"  index="7"  width="100" editable="true" hidden="false" key="false" required="true">
+				<edit type="select" size="2" editdomaintype="fixed" value="Active:Active;Inactive:Inactive"></edit> 	
+			</column>
+			<column head="Mentor E-mail Id"  name="email_id"  index="8"  width="100" editable="true" hidden="false" key="false" required="false">
+				<edit type="text" size="20"></edit> 	
+			</column>
+			<column head="Control"  name="controll1"  index="9"  width="150" editable="false" hidden="false" key="false" required="true">
+				<edit type="select" size="3" editdomaintype="fixed" value="TF:Flow;FT:Choice;TT:Flow and Choice"></edit> 	
+			</column>
+			<column head="Control"  name="controll"  index="10"  width="150" editable="true" hidden="true" edithidden="true" key="false" required="true">
+				<edit type="select" size="3" editdomaintype="fixed" value="TF:Flow;FT:Choice;TT:Flow and Choice"></edit> 	
+			</column>		
+			<column head="No. Of Users"  name="users"  index="11"  width="150" editable="false" hidden="false" key="false">
+				<edit type="text" size="5"></edit> 	
+			</column>
+			<column head="Self Registration"  name="self_regis1"  index="12"  width="150" editable="false" hidden="false" key="false">
+				<edit type="select" size="2" editdomaintype="fixed" value="T:Yes;null:No"></edit> 	
+			</column>
+			<column head="Self Registration"  name="self_regis"  index="13"  width="150" editable="true" hidden="true" edithidden="true" key="false">
+				<edit type="select" size="2" editdomaintype="fixed" value="T:Yes;null:No"></edit> 	
+			</column>
+			<column head="Confirmation Required"  name="confirmation_reqd1"  index="14"  width="150" editable="false" hidden="false" key="false">
+				<edit type="select" size="2" editdomaintype="fixed" value="T:Yes;null:No"></edit> 	
+			</column>
+			<column head="Confirmation Required"  name="confirmation_reqd"  index="15"  width="150" editable="true" hidden="true" edithidden="true" key="false">
+				<edit type="select" size="2" editdomaintype="fixed" value="T:Yes;null:No"></edit> 	
+			</column>
+			<column head="Confirmed By"  name="confirmed_by"  index="16"  width="150" editable="true" hidden="false" key="false">
+				<edit type="select" editdomaintype="query" 
+				     value="select sd.student_id, ifnull(concat(sd.first_name,\' \',sd.sname),
+					                                      concat(sd.first_name,\' \',sd.middle_name,\' \',sd.sname)) 
+				            from student_details sd,user_role ur,role r 
+							where sd.student_id=ur.user_id and ur.role_id=r.role_id and r.title=\'ADMIN\'"></edit>
+			</column>
+			<column head="Home Page Type"  name="type"  index="17"  width="150" editable="true" hidden="false" key="false">
+				<edit type="select" size="3" editdomaintype="fixed" value="Empty:Empty;Status:Status;Custom:Custom"></edit> 	
+			</column>
+	
+			<loadquery value="select a.unit_id,a.unit_name,b.date_created,
+			                         ifnull(concat(sd.first_name,\' \',sd.sname),
+			                                concat(sd.first_name,\' \',sd.middle_name,\' \',sd.sname)),
+									 b.date_modified,
+									 ifnull(concat(sd1.first_name,\' \',sd1.sname),
+										    concat(sd1.first_name,\' \',sd1.middle_name,\' \',sd1.sname)),
+									 b.status,b.email_id,
+									 if(b.controll=\'TT\',\'Flow And Choice\',
+											if(b.controll=\'TF\',\'Flow\',
+											if(b.controll=\'FT\',\'Choice\',\'No Control\'))),
+									 b.controll,count(c.unit_id),
+									 if(b.self_regis=\'T\',\'T\',\'F\'),
+											b.self_regis,if(b.confirmation_reqd=\'T\',\'T\',\'F\'),
+									 b.confirmation_reqd,
+									 if(b.confirmed_by=\'0\',\'\',b.confirmed_by),
+									 z.type  
+							from student_details sd,student_details sd1,
+							     (unit_details a inner join unit_creation_details b on a.unit_id=b.unit_id)  
+								 left join unit_student_association c on a.unit_id = c.unit_id  
+								 left join home_page_type z on a.unit_id = z.unit_id 
+						    where sd.student_id=b.created_by 
+								  and sd1.student_id=b.modified_by  
+							group by a.unit_id,c.unit_id, a.unit_name "></loadquery>
+
+			<delete>
+				<validations>
+					<validation type="query">
+						<validationquery id="1" sql="[CDATA[select student_id from unit_student_association where unit_id=%unit_id%]]" parameter="unit_id" message="Some Students/Groups Are Associated With This Unit.Please Disassociate them First"></validationquery>
+					</validation>	
+				</validations>	
+				<queries>
+					<query id="1" sql="[CDATA[delete from content_management_object where unit_id = %course_id%]]" parameter="course_id"></query>
+					<query id="2" sql="[CDATA[delete from unit_details where unit_id = %unit_id%]]" parameter="unit_id"></query>
+					<query id="3" sql="[CDATA[delete from unit_creation_details where unit_id = %unit_id%]]" parameter="unit_id"></query>
+				</queries>					
+			</delete>
+			
+			<add>
+				<queries>
+					<query id="1" sql="[CDATA[insert into unit_details(unit_name) values (%unit_name%)]]" parameter="unit_name"></query>
+				</queries>
+				<queries>
+					<query id="2" sql="[CDATA[insert into unit_creation_details(unit_id,date_created,created_by,date_modified,modified_by,status,email_id,controll,self_regis,confirmation_reqd,confirmed_by) values ((select max(unit_id) from unit_details),sysdate(),%current_login_user_id%,sysdate(),%current_login_user_id%,%status%,%email_id%,%controll%,%self_regis%,%confirmation_reqd%,%confirmed_by%)]]" parameter="current_login_user_id,current_login_user_id,status,email_id,controll,self_regis,confirmation_reqd,confirmed_by"></query>
+				</queries>
+				<queries>
+					<query id="3" sql="[CDATA[insert into home_page_type(unit_id,type) values ((select max(unit_id) from unit_details),%type%)]]" parameter="type"></query>
+				</queries>				
+			</add>	
+			
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[update unit_details set unit_name = %unit_name% where unit_id =%unit_id% ]]" parameter="unit_name,unit_id"></query>
+				</queries>
+				<queries>
+					<query id="2" sql="[CDATA[update unit_creation_details set modified_by=%current_login_user_id%,date_modified=sysdate(),status =%status%,email_id=%email_id%,controll=%controll%,self_regis =%self_regis%,confirmation_reqd=%confirmation_reqd%,confirmed_by=%confirmed_by% where unit_id = %unit_id%]]" parameter="current_login_user_id,status,email_id,controll,self_regis,confirmation_reqd,confirmed_by,unit_id"></query>
+				</queries>
+				<queries>
+					<query id="3" sql="[CDATA[update home_page_type set type=%type%  where unit_id=%unit_id%]]" parameter="type,unit_id"></query>
+				</queries>
+			</modify>
+		</part>
+	</structure>
+	
+	<layout id="ManageUnitAdminLayout">
+		<part id="BodyDiv"></part>
+		<part id="ManageUnitAdminGrid" width="745" parent_id="BodyDiv"></part>
+	</layout>
+	
+</interface>

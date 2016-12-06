@@ -1,0 +1,57 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="forumReport" title="LMS Forum Report" type="Interface">
+
+<structure>
+	<part id="reportsmain" class="label" />
+	<part id="ComboRowContainer" class="label" />
+	<part id="selectforumlabel" class="label" />
+	<part id="selectforum" class="combo" />
+	<part id="reportframe" class="report" />
+	<part id="showreport" class="button" /> 
+</structure>
+
+<layout id="forumReportLayout">
+	<part id="reportsmain"/>
+	<part id="ComboRowContainer" parent_id="reportsmain" />
+	<part id="selectforumlabel" parent_id="ComboRowContainer" />
+	<part id="selectforum" parent_id="ComboRowContainer" />
+	<part id="showreport" parent_id="ComboRowContainer" />
+	<part id="reportframe" parent_id="reportsmain" />
+</layout>
+
+<content id="forumReportContent">
+	<part id="selectforumlabel" value="Select Forum" valuetype="inline" />
+	<part id="selectforum" valuetype="query" value="SELECT f.forum_id, f.forum_name FROM forum f"></part>
+	<part id="reportframe" value="dummy" viewer_type="html" rpt_file="Forum_Reg_Details.rptdesign">
+		<report_parameters> 
+			<report_parameter name="forum_id" value="forum_id()" value_type="function"></report_parameter>	
+		</report_parameters>
+	</part>
+	<part id="showreport" value="Show Report" valuetype="inline" />
+</content>
+
+<style id="forumReportStyle">
+	<part id="reportsmain" value="FlexColumnContainer" valuetype="reference"></part>
+	<part id="ComboRowContainer" value="FlexRowContainer FlexColumnContainerItem" valuetype="reference"></part>
+	<part id="ComboRowContainer" value="[CDATA[width: 70%;]]" valuetype="inline"/>
+	<part id="selectforumlabel" value="FlexRowContainerItem" valuetype="reference"></part>
+	<part id="selectforum" value="FlexRowContainerItem" valuetype="reference"></part>
+	<part id="showreport" value="FlexRowContainerItem" valuetype="reference"></part>
+	<part id="reportframe" value="FlexColumnContainerItem" valuetype="reference"></part>
+	<part id="reportframe" value="[CDATA[width: 90%; height: 400px;]]" valuetype="inline"/>
+	
+</style>
+
+<behaviour id="forumReportBehaviour">
+	<part id="showreport">
+		<event name="onclick" type="simple" function="LoadReport" valuetype="jsevent" resourceid="ForumDetailsjs" />
+	</part>
+</behaviour>
+
+<resource>
+	<resourceitem id="ForumDetailsjs" href="ForumDetails.js" valuetype="js"/>
+	
+</resource>
+</interface>
