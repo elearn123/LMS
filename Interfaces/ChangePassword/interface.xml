@@ -1,0 +1,118 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="ChangePassword" title="Change LMS Admin Password" type="InterfaceFragment">
+
+	<configuration TemplateID="GridTreeNew"></configuration>
+
+	<structure>
+		<part id="mainpage" class="label"></part>
+		<part id="mess" class="label"></part>
+		<part id="oldPassContainer" class="label"></part>
+		<part id="oldPassLabel" class="label"></part>
+		<part id="oldPass" class="inputtext"></part>
+		
+		<part id="newPassContainer" class="label"></part>
+		<part id="newPassLabel" class="label"></part>
+		<part id="newPass" class="password"></part>
+		
+		<part id="retypePassContainer" class="label"></part>
+		<part id="retypePassLabel" class="label"></part>
+		<part id="retypePass" class="password"></part>
+		
+		<part id="savecloseButtonContainer" class="label"></part>
+		<part id="saveButton" class="button"></part>
+		<part id="closeButton" class="button"></part>
+		
+		<part id="Passajaxcomp" class="ajaxcomponent"></part>
+		<part id="dummyBody" class="image"></part>
+	</structure>
+		
+		
+		
+	<layout id="ChangePasswordLay">
+
+		<part id="mainpage"></part>
+		<part id="mess" parent_id="mainpage"></part>
+		<part id="oldPassContainer"  parent_id="mainpage"></part>
+		<part id="oldPassLabel"  parent_id="oldPassContainer"></part>
+		<part id="oldPass"  parent_id="oldPassContainer"></part>
+		
+		<part id="newPassContainer"  parent_id="mainpage"></part>
+		<part id="newPassLabel"  parent_id="newPassContainer"></part>
+		<part id="newPass"  parent_id="newPassContainer"></part>
+		
+		<part id="retypePassContainer"  parent_id="mainpage"></part>
+		<part id="retypePassLabel"  parent_id="retypePassContainer"></part>
+		<part id="retypePass"  parent_id="retypePassContainer"></part>
+		
+		<part id="savecloseButtonContainer"  parent_id="mainpage"></part>
+		<part id="saveButton"  parent_id="savecloseButtonContainer"></part>
+		<part id="closeButton"  parent_id="savecloseButtonContainer"></part>
+		
+		<part id="Passajaxcomp" parent_id="mainpage"></part>
+		<part id="dummyBody" parent_id="mainpage"></part>
+	
+	</layout>
+	
+	
+	<content id="ChangePasswordCont">
+
+		<part id="mess" value="Change Password" valuetype="inline"></part>
+		<part id="oldPassLabel" value="Old Password : " valuetype="inline"></part>
+		<part id="newPassLabel" value="New Password : " valuetype="inline"></part>
+		<part id="retypePassLabel" value="Retype Password : " valuetype="inline"></part>
+		<part id="saveButton" value="SAVE" valuetype="inline"></part>
+		<part id="closeButton" value="CLOSE" valuetype="inline"></part>
+		
+		<part id="dummyBody" value="dummyimg" valuetype="reference"></part>
+
+	</content>
+	
+	<style id="ChangePasswordstyle">
+		<part id="mainpage" value="FlexColumnContainer" valuetype="reference"></part>
+		<part id="mess" value="[CDATA[background-color: #006699;color: #FFCC33;font-family:Verdana,sans-serif;font-size:16px;font-weight:bold]]" valuetype="inline"></part>	
+		<part id="oldPassContainer" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="newPassContainer" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="retypePassContainer" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="savecloseButtonContainer" value="FlexRowContainer" valuetype="reference"></part>
+		
+		<part id="oldPass" value="[CDATA[disabled;]]" valuetype="inline"></part>
+	
+		<part id="dummyBody" value="[CDATA[visibility: hidden;]]" valuetype="inline"></part>
+		
+	</style>
+
+
+	<behaviour id="ChangePasswordBeha">
+
+		<part id="closeButton">
+			<event name="onclick" type="simple" function="closeChangePass"
+				valuetype="jsevent" resourceid="ChangePasswordjs"></event>
+		</part>
+		
+		<part id="saveButton">
+			<event name="onclick" type="simple" function="submitForm"
+				valuetype="jsevent" resourceid="ChangePasswordjs"></event>
+		</part>
+		
+		<part id="dummyBody">
+			<event name="onerror" type="simple" function="alert" valuetype="jsevent" resourceid="portalforumjs"></event>
+		</part>
+
+		<part id="Passajaxcomp">
+			<event name="ajax" type="simple" function="dummy" javaclass="Portal"></event>
+		</part>
+
+	</behaviour>
+		
+	<resource>
+
+		<resourceitem id="ChangePasswordjs" href="ChangePassword.js"
+			valuetype="js"></resourceitem>
+		<resourceitem id="dummyimg" href="dummy.jpg" valuetype="image"></resourceitem>
+		
+	</resource>
+
+		
+</interface>
