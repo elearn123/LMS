@@ -1,0 +1,64 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="PortalUnit" title="Unit Grid on LMS Portal" type="InterfaceFragment">
+
+	<structure>
+  		<part id="BodyDiv" class="label"></part>
+		<part id="UnitGrid" class="DBgrid" caption="My Units" datatype="local" altRows="true" autowidth="true" 
+		      shrinkToFit="true" >
+			
+			<column head="Unit Id"  name="unit_id"  index="1"  editable="true" hidden="true" key="true" >
+			</column>
+			<column head="Unit Name"  name="unit_name"  index="2"   editable="true" hidden="false" key="false" >
+			</column>
+			<column head="Bookmark"  name="bookmark"  index="3"  editable="true" hidden="false" key="false" >
+			</column>
+			<column head="Last Accessed"  name="last_accessed"  index="4"   editable="false" hidden="false" key="false" required="false">
+			</column>
+			<column head="Access Allowed Till"  name="access_allowed_till"  index="5"   editable="false" hidden="false" key="false" required="false">
+			</column>
+			
+		</part>
+	<part id="popupContainer" class="label"></part>
+	<part id="popup" class="label"></part>
+	<part id="dummyBody" class="image"></part>
+	<part id="portalunitgridajax" class="ajaxcomponent"></part>
+	</structure>
+	
+	<layout id="portalunitstudentlayout">
+ 		<part id="BodyDiv"></part>
+		<part id="UnitGrid" parent_id="BodyDiv"></part>
+		<part id="popupContainer" parent_id="BodyDiv"></part>
+		<part id="popup" parent_id="popupContainer"></part>
+		<part id="dummyBody" parent_id="BodyDiv"></part>
+		<part id="unitgridajax" parent_id="BodyDiv"></part>
+	</layout>
+	
+	<style id="portalunitgridstyle">
+		<part id="popupContainer" value="overlay" valuetype="reference" resourceid="portalunitcss"></part>
+		<part id="popup" value="popup" valuetype="reference" resourceid="portalunitcss"></part>
+		<part id="dummyBody" value="[CDATA[visibility: hidden;]]" valuetype="inline"></part>
+</style>
+
+
+<behaviour id="portalunitgridbehaviour">
+	<part id="portalunitgridajax">
+		<event name="ajax" javaclass="Portal"></event>
+	</part>
+ 	<part id="dummyBody">
+ 		<event name="onerror" type="simple" function="alert" valuetype="jsevent" resourceid="portalforumjs"></event>
+	</part>
+</behaviour>
+
+	
+	<resource>
+		<resourceitem id="portalunitjs" href="portalunit.js" valuetype="js"></resourceitem>
+		<resourceitem id="portalunitcss" href="portalunit.css" valuetype="css"></resourceitem>
+		<resourceitem id="dummyimg" href="dummy.jpg" valuetype="image"></resourceitem>
+</resource>
+
+
+
+</interface>	
+

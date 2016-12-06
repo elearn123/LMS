@@ -1,0 +1,58 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="PortalAssessment" title="Assessment Grid on LMS Portal" type="InterfaceFragment">
+
+<structure>
+	<part id="main" class="label" ></part>
+	<part id="AssessmentGrid" class="DBgrid" caption="My Assessments" datatype="local" altRows="true" autowidth="true">
+		<column head="Assessment Id"  name="assessment_id"  index="1"  editable="true" hidden="true" key="true">
+		</column>
+		<column head="Title"  name="title"  index="2"  editable="true" hidden="false" key="false">
+		</column>
+		<column head="Available From"  name="available_date"  index="3"  editable="true" hidden="false" key="false">
+		</column>
+		<column head="Access Allowed Till"  name="access_allowed_till"  index="4"  editable="false" hidden="false" key="false" required="false">
+		</column>
+		<column head="Pass Mark"  name="pass_mark"  index="5"   editable="false" hidden="false" key="false" required="false">
+		</column>
+		<column head="Test Time (min)"  name="test_time"  index="6"  editable="false" hidden="false" key="false" required="false">
+		</column>
+		<column head="No of question"  name="no_of_question"  index="7" editable="false" hidden="false" key="false" required="false">
+		</column>
+		<column head="Status"  name="status"  index="8"  editable="false" hidden="false" key="false" required="false">
+		</column>
+	</part>
+	<part id="portalgridajax" class="ajaxcomponent"></part>
+	<part id="start" class="button"></part>
+</structure>
+
+<layout id="portalasmtgridlayout">
+    <part id="main"></part>
+	<part id="AssessmentGrid" parent_id="main"></part>
+	<part id="portalgridajax" parent_id="main"></part>
+	<part id="start" parent_id="main"></part>
+</layout>
+
+<content id="portalasmtgridcontent">
+	<part id="start" value="Start Online Test" valuetype="inline"></part>
+</content>
+
+<style id="portalasmtgridstyle">
+	<part id="main" value="[CDATA[text-align: center;]]" valuetype="inline"></part>
+</style>
+
+<behaviour id="portalasmtgridbehaviour">
+	<part id="portalgridajax">
+		<event name="ajax" function="dummy" javaclass="Portal"></event>
+	</part>
+	<part id="start">
+		<event name="onclick" type="simple" function="start_onclick" valuetype="jsevent" resourceid="portalasmtgridjs"></event>
+	</part>
+</behaviour>
+
+<resource>
+	<resourceitem id="portalasmtgridjs" href="portalasmtgrid.js" valuetype="js"></resourceitem>
+</resource>	
+
+</interface>

@@ -1,0 +1,83 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="NoticeBoardAdmin" title="LMS Notice Board Admininistration" type="Interface">
+
+	<structure>
+		<part id="main" class="label" >	</part>
+		<part id="GroupSelectorContainer" class="label" >	</part>
+		<part id="selectgroup" class="label" >	</part>
+		<part id="noticegrid" class="Conditionalgrid" caption="Currently Defined Notices" gridnavbar="true">
+	
+			<selector id="group_id" class="combo" contentid="NoticeBoardAdminContent" 
+			          behaviourid="NoticeBoardAdminBehaviour" domaintype="query" 
+					  value="select group_id,group_name from student_group" gridrefresh="true"></selector>
+	
+	
+				<column head="Notice ID"  name="notice_id"  index="1"  width="105" editable="true" hidden="true" key="true">
+					<edit type="text" size="10"></edit> 	
+				</column>
+				
+				<column head="Heading"  name="heading"  index="2"  width="200" editable="true" hidden="false" key="false">
+					<edit type="text" size="30"></edit> 	
+				</column>
+				
+				<column head="Message body"  name="body"  index="3"  width="355" editable="true" hidden="false" key="false">
+					<edit type="textarea" size="40" rows="10" cols="20"></edit> 	
+				</column>
+				
+				<column head="Created On"  name="posted_on"  index="4"  width="100" editable="false" hidden="false" key="false">
+					<edit type="text" size="10" rows="10" cols="20"></edit> 	
+				</column>
+				
+				
+				<loadquery value="SELECT notice_id,heading,body,posted_on 
+				FROM bulletin_board where group_id=%group_id%"></loadquery>
+				
+				<delete>
+					<queries>
+						<query id="1" sql="[CDATA[delete from bulletin_board where notice_id=%notice_id%]]" 
+						       parameter="notice_id"></query>
+					</queries>					
+				</delete>
+				<add>
+					<queries>
+						<query id="1" 
+						sql="[CDATA[insert into bulletin_board(student_id,heading,body,posted_on,group_id)
+						values(%curreny_login_user_id%,%heading%,%body%,sysdate(),%group_id%)]]" 
+						parameter="curreny_login_user_id,heading,body,group_id"></query>
+					</queries>			
+				</add>	
+				<modify>
+					<queries>
+						<query id="1" 
+						sql="[CDATA[update bulletin_board 
+						            set student_id=%curreny_login_user_id%,heading=%heading%,body=%body%,
+									    posted_on=sysdate(),group_id=%group_id% where notice_id=%notice_id%]]" 
+						parameter="curreny_login_user_id,heading,body,notice_id,group_id"></query>
+					</queries>				
+				</modify>
+		</part>
+	</structure>
+
+	<layout id="NoticeBoardAdminLay">
+		<part id="main"></part>
+		<part id="GroupSelectorContainer" parent_id="main"></part>
+		<part id="selectgroup" parent_id="GroupSelectorContainer"></part>
+		<part id="group_id" parent_id="GroupSelectorContainer"></part>
+		<part id="noticegrid" parent_id="main"></part>
+	</layout>
+
+<content id="NoticeBoardAdminContent">
+	<part id="selectgroup"  value="Select Group" valuetype="inline"></part>
+</content>
+
+<style id="NoticeBoardAdminStyle">
+	<part id="GroupSelectorContainer" valuetype="reference" value="FlexRowContainer"></part>
+	<part id="GroupSelectorContainer" valuetype="inline" value="[CDATA[width:50%;]]"></part>
+</style>
+
+<behaviour id="NoticeBoardAdminBehaviour">
+</behaviour>
+
+</interface>

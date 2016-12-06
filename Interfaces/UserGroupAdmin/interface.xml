@@ -1,0 +1,69 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="UserGroupAdmin" title="LMS User Group Administration" type="Interface">
+
+	<configuration checkrole="true" TemplateID="Bootstrap"></configuration>
+
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="UserGroupAdminGrid" class="DBgrid" caption="Currently Defined Groups" sortname="group_id" sortorder="desc">
+			
+			<column head="Group Id"  name="group_id"  index="1"  width="0" editable="true" hidden="true" key="true" >
+				<edit type="text" size="30" ></edit> 	
+			</column>
+			<column head="Group Name"  name="group_name"  index="2"  width="150" editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Created By"  name="group_created_by"  index="3"  width="125" editable="false" hidden="false" key="false">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Date Of Creation"  name="group_created_date"  index="4"  width="135" editable="false" hidden="false" key="false">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			
+			<column head="Last Modified"  name="last_modification_date"  index="5"  width="120" editable="false" hidden="false" key="false">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			<column head="No Of Members"  name="group"  index="6"  width="135" editable="false" hidden="false" key="false">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			<column head="Self"  name="self_regis"  index="7"  width="50" editable="true" hidden="false" key="false">
+				<edit type="select" editdomaintype="fixed" value="T:True;F:False"></edit> 	
+			</column>
+			
+			<loadquery value="select a.group_id, a.group_name,concat(b.first_name,\' \', b.middle_name,\' \',b.sname),a.group_created_date,a.last_modification_date, count(c.group_id), a.self_regis  from (student_group a inner join student_details b on a.group_created_by=b.student_id) left join student_group_association c on a.group_id = c.group_id group by c.group_id, a.group_name, a.group_id"></loadquery>
+			
+			<delete>
+				<queries>
+					<query id="1" sql="[CDATA[delete FROM student_group where group_id=%group_id% and group_id Not In(select group_id from group_course_registration) and group_id Not In(select group_id from  group_forum_association) and group_id Not In(select group_id from  groupaccessmanagement)]]" parameter="group_id"></query>
+				</queries>					
+			</delete>
+			
+			<add>
+				<queries>
+					<query id="1" sql="[CDATA[insert into student_group (group_name, group_created_date, group_created_by,last_modification_date, self_regis) values (%group_name%,sysdate(),%current_login_user_id%,sysdate(),%self_regis%)]]" parameter="group_name,current_login_user_id,self_regis"></query>
+				</queries>			
+			</add>	
+			
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[update student_group set group_name =%group_name% ,last_modification_date = sysdate(),self_regis =%self_regis% where group_id =%group_id%]]" parameter="group_name,self_regis,group_id"></query>
+				</queries>				
+			</modify>              
+		</part>
+	</structure>
+	
+	<layout id="UserGroupAdminLayout">
+		<part id="BodyDiv"></part>
+		<part id="UserGroupAdminGrid" parent_id="BodyDiv"></part>
+
+	</layout>
+
+	<style id="UserGroupAdminStyle">
+
+		<part id="BodyDiv" value="FlexColumnContainer" valuetype="reference"></part>
+
+	</style>
+	
+</interface>

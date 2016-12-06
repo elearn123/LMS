@@ -1,0 +1,61 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="UserRoleAssociation" title="LMS User Role Association" type="Interface">
+
+<configuration checkrole="true" TemplateID="Bootstrap"></configuration>
+
+<structure>
+<part id="main" class="label" >	</part>
+
+<part id="roleassociationgrid" class="DBgrid" editurl="./interfaceenginev2.DBGridQueryEditorServletForMulti?interface_id=UserRoleAssociation&amp;part_id=roleassociationgrid" caption=" Role Management" sortname="role_id" sortorder="desc">
+	
+	
+	<column head="STUDENT ID"  name="student_id"  index="1"  width="105" editable="true" hidden="true" key="true">
+		<edit type="text" size="30" ></edit> 	
+	</column>
+	
+	<column head="ROLE ID"  name="role_id"  index="2"  width="105" editable="true" hidden="true" key="true">
+		<edit type="text" size="30" ></edit> 	
+	</column>
+	<column head="Role"  name="title"  index="3"  width="255" editable="true" hidden="false" key="false">
+		<edit type="select" size="30" editdomaintype="query" value="select role_id,title from role"></edit> 	
+	</column>
+	<column head="User Name"  name="student"  index="4"  width="255" editable="true" hidden="false" key="false">
+		<edit type="select" size="60" multiple="true" editdomaintype="query" value="select student_id,concat(first_name,\' \',middle_name,\' \',sname) from student_details where student_id!=\'superuser\' order by concat(first_name,\' \',middle_name,\' \',sname)"></edit> 	
+	</column>
+	
+	<loadquery value="select  a.user_id,a.role_id,c.title,concat(b.first_name,\' \',b.middle_name,\' \',b.sname) from user_role a,student_details b,role c  where a.user_id=b.student_id and a.role_id=c.role_id and a.user_id!=\'superuser\'"></loadquery>
+		<delete>
+			<queries>
+				<query id="1" sql="[CDATA[delete from user_role where user_id=%student_id% and role_id=%role_id%]]" parameter="student_id,role_id"></query>
+			</queries>					
+		</delete>
+		<add>
+			
+			<validations>
+				<validation type="query">
+					<validationquery id="1" sql="[CDATA[select role_id from user_role where user_id=%student%]]" parameter="student" message="This user is already associated with some role."></validationquery>
+				</validation>	
+			</validations>
+			
+			<queries>
+				<query id="1" sql="[CDATA[insert into user_role(user_id,role_id,date)values(%student%,%title%,sysdate())]]" parameter="title,student"></query>
+			</queries>			
+		</add>	
+		<!--<modify>
+			<queries>
+				<query id="1" sql="[CDATA[update user_role set role_id=%title% where user_id=%student%]]" parameter="title,student"></query>
+			</queries>				
+		</modify>-->
+</part>
+</structure>
+
+<layout id="roleassociationlay">
+	<part id="main" height="100%" width="100%" left="0px" top="0px" position="absolute"></part>
+	
+	<part id="roleassociationgrid" parent_id="main"></part>
+	
+</layout>
+
+</interface>

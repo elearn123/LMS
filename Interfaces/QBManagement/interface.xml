@@ -1,0 +1,109 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="QBManagement" title="LMS Question Bank Management" type="Interface">
+	<structure>
+		<part id="QBMgmtMainDiv" class="label"></part>
+		<part id="QBManagementGrid" class="DBgrid" caption="Currently Defined Question Banks " sortname="qb_name" 
+		     sortorder="desc" gridnavbar="true" rownum="15" rowNumbers="true">
+			<column head="Question Bank Id Not Shown"  name="qb_id"  index="1"  width="150" editable="true" hidden="true" key="true" required="true">
+				<edit type="text" size="30"></edit> 	
+			</column>    
+			<column head="Question Bank Id"  name="qb_id_shown"  index="2"  width="150" editable="false" hidden="false" key="false" required="true">
+			</column>    
+			<column head="Question Bank Name"  name="qb_name"  index="3"  width="220" editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="No. of Items"  name="itemcount"  index="4"  width="80" editable="false" hidden="false" key="false">
+			</column>
+			<column head="File Name"  name="file_name"  index="5"  width="140" editable="false" hidden="false" key="false">
+			</column>
+			<column head="File Size"  name="file_size"  index="6"  width="80" editable="false" hidden="false" key="false">
+			</column>
+			<column head="Created On"  name="date_upload"  index="7"  width="140" editable="false" hidden="false" key="false">
+			</column>
+			<column head="Created By"  name="upload_by"  index="8"  width="100" editable="false" hidden="false" key="false">
+			</column>
+			<column head="Updated On"  name="refresh_on"  index="9"  width="140" editable="false" hidden="false" key="false">
+			</column>
+			
+			<loadquery value="select distinct qb_id,qb_id,qb_name,(select count(*) from qb_mgmt_item as itemcount where qb_id=qb_mgmt.qb_id),file_name,file_size,date_upload,upload_by,refresh_on from qb_mgmt"></loadquery>
+
+			<delete>
+				<queries>
+					<query id="1" sql="[CDATA[delete from qb_mgmt_item where qb_id=%qb_id%]]" 
+					       parameter="qb_id"></query>
+				</queries>	
+				<queries>
+					<query id="2" sql="[CDATA[delete from qb_mgmt where qb_id=%qb_id%]]" 
+					       parameter="qb_id"></query>
+				</queries>	
+			</delete>
+			
+			<add>
+				<queries>
+					<query id="1" sql="[CDATA[insert into qb_mgmt (qb_id,qb_name,date_upload,upload_by) 
+					                                 values(%qb_id%,%qb_name%,sysdate(),%current_login_user_id%)]]" 
+					        parameter="qb_id,qb_name,current_login_user_id"></query>
+				</queries>
+			</add>	
+
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[update qb_mgmt set qb_name=%qb_name% where qb_id=%qb_id%]]" 
+					        parameter="qb_id,qb_name"></query>
+				</queries>
+			</modify>	
+		</part>	
+		<part id="ButtonRowContainer" class="label"></part>
+		<part id="BrowseFile" class="inputfile"></part>
+		<part id="UploadButton" class="button"></part>
+		<part id="DownloadButton" class="button"></part>
+		<part id="RefreshButton" class="button"></part>
+		<part id="message" class="label"></part>
+		<part id="ee" class="ajaxcomponent" ></part>	
+	</structure>
+	
+	<layout id="QBManagementLayout">
+		<part id="QBMgmtMainDiv"></part>
+		<part id="QBManagementGrid" width="740" height="310" parent_id="QBMgmtMainDiv"></part>
+		<part id="ButtonRowContainer" parent_id="QBMgmtMainDiv"></part>
+		<part id="DownloadButton" parent_id="ButtonRowContainer"></part>
+		<part id="UploadButton" parent_id="ButtonRowContainer"></part>
+		<part id="BrowseFile" parent_id="ButtonRowContainer"></part>
+		<part id="message" parent_id="QBMgmtMainDiv"></part>
+		<part id="ee" parent_id="QBMgmtMainDiv"></part>
+	</layout>
+
+	<content id="QBManagementContent">
+		<part id="UploadButton" value="Upload Question Bank" valuetype="inline"></part>
+		<part id="DownloadButton" value="Download Question Bank" valuetype="inline"></part>
+	</content>
+			
+	<style id="QBManagementStyle">
+		<part id="QBMgmtMainDiv" value="FlexColumnContainer" valuetype="reference"></part>
+		<part id="ButtonRowContainer" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="ButtonRowContainer" value="[CDATA[width:70%;]]" valuetype="inline"></part>
+	</style>
+			
+	<behaviour id="QBManagementBehaviour">
+		<part id="root">
+			<event name="onload" type="simple" function="onload_onclick" valuetype="reference" resourceid="qbmgmtjs"></event>
+		</part>
+		<part id="ee">
+			<event name="ajax" javaclass="StAsmtAdmin"></event>
+		</part>
+		<part id="UploadButton">
+			<event name="onclick" type="simple" function="upload_onclick" valuetype="jsevent" resourceid="qbmgmtjs"></event>
+		</part>
+		<part id="DownloadButton">
+			<event name="onclick" type="simple" function="download_onclick" valuetype="jsevent" resourceid="qbmgmtjs"></event>
+		</part>
+	</behaviour>
+
+	<resource>
+		<resourceitem id="qbmgmtjs" href="qbmgmtjs.js" valuetype="js"></resourceitem>
+	</resource>
+	
+	
+</interface>

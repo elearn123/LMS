@@ -1,0 +1,45 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="UserChart" title="Chart of active/inactive LMS users" type="Interface">
+
+	<configuration createsession="false" checkrole="true" TemplateID="GridTree"></configuration>
+
+	<structure>
+	<part id="mainpage" class="label"></part>	
+	<part id="chart1" class="chart"></part>	
+	</structure>
+
+	<layout id="userChartLay">
+	<part id="mainpage" height="100%" width="100%" left="0px" top="0px" position="absolute" ></part>
+	<part id="chart1" height="96%" width="96%" left="5px" top="10px" position="absolute" parent_id="mainpage"></part>
+	</layout>
+
+	<content id="userChartCont">
+		<part id="chart1" value="dummy">
+			<chartstructure>
+				<matric_title>Active User</matric_title> 
+				<description>Active User</description>
+				<X_axis_query>select account_status from student_details group by account_status</X_axis_query> 
+				<series1_query>select count(account_status) from student_details group by account_status</series1_query> 
+				<series2_query>2</series2_query> 
+				<series3_query>3</series3_query>
+				<legenddata1>User Type</legenddata1> 
+				<legenddata2>2l</legenddata2> 
+				<legenddata3>3l</legenddata3>
+				<chart_type>pie</chart_type> 
+				<subtype>0</subtype> 
+				<width>700</width> 
+				<height>700</height> 
+				<xaxis_label>Active User</xaxis_label>
+				<yaxis_label>Active User</yaxis_label>
+				<color>3</color> 
+				<transpose>0</transpose> 
+				<stacked>0</stacked> 
+				<chart_dimension>TwoDimensionalwithdepth</chart_dimension>
+			</chartstructure>
+		</part>
+	</content>
+	
+	
+</interface>

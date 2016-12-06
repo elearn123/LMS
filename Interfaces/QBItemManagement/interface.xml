@@ -1,0 +1,87 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="QBItemManagement" title="LMS Question Bank Item Management" type="Interface">
+	<structure>
+		<part id="QBItemMgmtMainDiv" class="label"></part>
+		<part id="SelectorRowContainer" class="label"></part>
+		<part id="ComboLabel" class="label"></part>
+		<part id="QBItemManagementGrid" class="Conditionalgrid" 
+		     caption="Currently Defined Items for the above Question Bank" sortname="assess_id" sortorder="asc" 
+			 gridnavbar="true" rownum="15" rowNumbers="true">
+			
+			<selector id="qb_id" class="combo" contentid="QBItemManagementContent" behaviourid="QBItemManagementBehaviour" domaintype="query" value="select qb_id,qb_name from qb_mgmt" gridrefresh="true"></selector>
+
+			<column head="Item Id Not Shown"  name="assess_id"  index="1"  width="150" editable="true" hidden="true" key="true">
+				<edit type="text" size="30"></edit> 	
+			</column>    
+
+			<column head="Item Id"  name="assess_id_shown"  index="2"  width="150" editable="false" hidden="false" key="false">
+			</column>    
+
+			<column head="Item Type"  name="assess_title"  index="3"  width="150" editable="true" hidden="false" key="true" required="true">
+				<edit type="select" size="30" editdomaintype="fixed" value="Multiple Choice:Multiple Choice;True False:True False;Multiple Response:Multiple Response;Fill in Blank:Fill in Blank;Matching Type:Matching Type"></edit> 	
+			</column>
+			
+			<column head="Item"  name="assess_text"  index="4"  width="250" editable="true" hidden="false" key="false" required="true">
+				<edit type="textarea" rows="8" cols="70"></edit> 	
+			</column>
+			
+			<loadquery value="select assess_id, assess_id, assess_title,AES_DECRYPT(assess_text,\'password1\') 
+			                   from qb_mgmt_item where qb_id=%qb_id%"></loadquery>
+			<delete>
+				<queries>
+					<query id="1" sql="[CDATA[delete from qb_mgmt_item 
+					                          where qb_id=%qb_id% and assess_id=%assess_id%]]" 
+							    parameter="qb_id,assess_id"></query>
+					<query id="2" sql="[CDATA[update qb_mgmt set refresh_on=NOW() where qb_id=%qb_id%]]" 
+							    parameter="qb_id"></query>
+				</queries>	
+			</delete>
+
+			<add>
+				<queries>
+					<query id="1" sql="[CDATA[insert into qb_mgmt_item(qb_id,assess_title,assess_text) 
+					                          values(%qb_id%,%assess_title%,AES_ENCRYPT(%assess_text%,\'password1\'))]]" 
+								   parameter="qb_id,assess_title,assess_text"></query>
+					<query id="2" sql="[CDATA[update qb_mgmt set refresh_on=NOW() where qb_id=%qb_id%]]" 
+							    parameter="qb_id"></query>
+				</queries>
+ 			</add>	
+			<modify>
+				<queries>
+					<query id="2" sql="[CDATA[update qb_mgmt_item 
+					                          set assess_title=%assess_title%,assess_text=AES_ENCRYPT(%assess_text%,\'password1\') 
+					                          where qb_id=%qb_id% and assess_id=%assess_id%]]" 
+					parameter="assess_title,assess_text,qb_id,assess_id"></query>
+					<query id="3" sql="[CDATA[update qb_mgmt set refresh_on=NOW() where qb_id=%qb_id%]]" 
+							    parameter="qb_id"></query>
+				</queries>				
+			</modify>  
+			
+		</part>	
+	</structure>
+
+	<layout id="QBItemManagementLayout">
+		<part id="QBItemMgmtMainDiv"></part>
+		<part id="SelectorRowContainer" parent_id="QBItemMgmtMainDiv"></part>
+		<part id="ComboLabel" parent_id="SelectorRowContainer"></part>
+		<part id="qb_id" parent_id="SelectorRowContainer"></part>
+		<part id="QBItemManagementGrid" height="310" parent_id="QBItemMgmtMainDiv"></part>
+	</layout>
+
+	<content id="QBItemManagementContent">
+		<part id="ComboLabel"  valuetype="inline" value="Select Question Bank"></part>
+	</content>
+
+	<style id="QBItemManagementStyle">
+		<part id="QBItemMgmtMainDiv"  valuetype="reference" value="FlexColumnContainer"></part>
+		<part id="SelectorRowContainer"  valuetype="reference" value="FlexRowContainer"></part>
+		<part id="SelectorRowContainer"  valuetype="inline" value="[CDATA[width:70%;]]"></part>
+	</style>
+
+	<behaviour id="QBItemManagementBehaviour">
+	</behaviour>
+
+	
+</interface>

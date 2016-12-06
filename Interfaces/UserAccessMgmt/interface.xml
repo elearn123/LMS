@@ -1,0 +1,119 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="UserAccessMgmt" title="LMS User Access Mgmt" type="Interface">
+	
+	<configuration checkrole="true" TemplateID="Bootstrap"></configuration>
+
+	
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="UserNameLabel" class="label"></part>
+		<part id="UserAccessMgmtGrid" class="Conditionalgrid" caption="Total Access Time For The User" 
+					sortname="student_id" sortorder="desc" gridnavbar="true">
+
+			<selector id="user_id" class="combo" contentid="UserAccessMgmtContent" 
+				behaviourid="UserAccessMgmtBehaviour" domaintype="query" 
+				value="select sd.student_id,concat(sd.first_name,\' \',sd.middle_name,\' \',sd.sname) from student_details sd,user_role ur where ur.user_id=sd.student_id and ur.role_id!=2" 
+				gridrefresh="true"></selector>
+			
+			<column head="User Id"  name="student_id"  index="1"  width="10" editable="true" hidden="true" key="true" required="false">
+				<edit type="text" size="30" ></edit> 	
+			</column> 
+									
+			<column head="User Name"  name="first_name"  index="2"  width="200" editable="false" hidden="false" key="false" required="true">
+				<edit type="select" size="30" editdomaintype="query" value="select student_id,concat(first_name,\' \',middle_name,\' \',sname) from student_details"></edit> 	
+			</column> 
+			
+			<column head="Maximum Hours Access Allowed Per Day"  name="accesstime"  index="3"  width="400" editable="true" hidden="false" key="false" required="true" custom="true" custom_func="numbercheck">
+				<edit type="text" size="20"></edit> 	
+			</column> 
+		
+			<loadquery value="select a.user_id, concat(b.first_name,\' \',b.middle_name,\' \',b.sname),a.accesstime  from useraccessmanagement a,student_details b where a.user_id=%user_id% and a.user_id=b.student_id"></loadquery>
+			
+			<delete>
+				<queries>
+					<query id="1" sql="[CDATA[delete from useraccessmanagement where user_id=%user_id% ]]" parameter="user_id"></query>
+				</queries>					
+			</delete>
+			
+			<add> 
+		        	<validations>
+					<validation type="query">
+						<validationquery id="1" sql="[CDATA[select user_id from useraccessmanagement where user_id=%user_id%]]" parameter="user_id" message="You cannot enter more than one accesstime for the above user.Try modifying it if needed."></validationquery>
+					</validation>	
+				</validations>
+				<queries>
+					<query id="1" sql="[CDATA[insert into useraccessmanagement values(%user_id%,%accesstime%)]]" parameter="user_id,accesstime"></query>
+				</queries>
+				
+			</add>
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[update useraccessmanagement set accesstime=%accesstime% where user_id=%user_id%]]" parameter="accesstime,user_id"></query>
+				</queries>				
+			</modify>
+		</part>
+	</structure>
+	
+	<layout id="UserAccessMgmtLayout">
+		<part id="BodyDiv" ></part>
+		<part id="UserNameLabel" left="0px" top="10px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="user_id" left="115px" top="8px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="UserAccessMgmtGrid" left="0px" top="50px" position="absolute" parent_id="BodyDiv"></part>
+	</layout>
+	
+	<content id="UserAccessMgmtContent">
+		<part id="UserNameLabel"  value="dummy" valuetype="cdata"><![CDATA[Select User:]]></part>
+		
+	</content>
+
+	<behaviour id="UserAccessMgmtBehaviour">
+		<part id="root" >
+			<event name="onload" function="dummy" valuetype="inline" resourceid="useraccessjs"></event>
+		</part>
+
+	</behaviour>
+
+	<resource>
+		<resourceitem id="useraccessjs" href="useraccess.js" valuetype="js"></resourceitem>	
+	</resource>
+<!--
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="UserNameLabel" class="label"></part>
+		<part id="UserAccessForm" class="DBform">
+		    <element id="UserNameDropdown" class="combo" 
+			type="entered"   selectindex="1" modifyindex="2"  />
+		    <element id="MaximumHours" class="input" number="true" numbermess="Please enter a number between 1 and 24"
+			type="entered"   selectindex="1" modifyindex="2" />
+			<select>
+				<query id="1" sql="select a.accesstime  from useraccessmanagement a,student_details b where a.user_id=%user_id% and a.user_id=b.student_id"
+				   parameter="user_id"/>
+			</select>
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[insert into useraccessmanagement (user_id,accesstime) 
+					                    values (%user_id%,%accesstime%) 
+										on duplicate key update accesstime = values(accesstime)]]" 
+					parameter="accesstime,user_id"></query>
+				</queries>				
+			</modify>
+		</part>
+	</structure>
+
+	<layout id="UserAccessMgmtLayout">
+		<part id="BodyDiv" ></part>
+		<part id="UserAccessForm" parent_id="BodyDiv"></part>
+		<part id="UserNameLabel" left="0px" top="10px" position="absolute" parent_id="UserAccessForm"></part>
+		<part id="UserNameDropdown" left="115px" top="8px" position="absolute" parent_id="UserAccessForm"></part>
+		<part id="MaximumHours" left="115px" top="30px" position="absolute" parent_id="UserAccessForm"></part>
+	</layout>
+	
+	<content id="UserAccessMgmtContent">
+		<part id="UserNameLabel"  value="dummy" valuetype="cdata"><![CDATA[Select User:]]></part>
+		<part id="UserNameDropdown"  valuetype="query" value="select sd.student_id,concat(sd.first_name,\' \',sd.middle_name,\' \',sd.sname) from student_details sd,user_role ur where ur.user_id=sd.student_id and ur.role_id!=2" ></part>
+		
+	</content>
+-->
+</interface>

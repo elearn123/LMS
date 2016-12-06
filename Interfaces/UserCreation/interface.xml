@@ -1,0 +1,346 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="UserCreation" title="LMS User Creation" type="Interface">
+
+
+	<!-- <configuration TemplateID="GridTreeNew"></configuration> -->
+	<structure>
+		<part id="main" class="label"></part>
+		<part id="userimage" class="inputfile"></part>
+
+		<part id="image_button_container" class="label"></part>
+		<part id="ShowProfileButton_Container" class="label"></part>
+		<part id="ShowProfileButton" class="button"></part>
+
+
+
+		<part id="batchusermsg" class="label"></part>
+		<part id="UploadButton" class="button"></part>
+		<part id="excelimage_container" class="label"></part>
+		<part id="excelimage" class="image"></part>
+
+		<part id="batchuser_container" class="label"></part>
+		<part id="batchuserlabel" class="label"></part>
+		<part id="batchuser_file_container" class="label"></part>
+		<part id="batchuser" class="inputfile"></part>
+		<part id="UploadButton_container" class="label"></part>
+
+		<part id="UserCreationAjaxComp" class="ajaxcomponent"></part>
+		<part id="usercreationgrid" class="DBgrid" caption=" Currently Defined User(s)"
+			sortname="student_id" sortorder="desc"
+			altRows="true">
+
+			<column head="User Id" name="student_id" index="1" width="105"
+				editable="true" hidden="false" key="true" required="true">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="First Name" name="a.first_name" index="2" width="125"
+				editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="Middle Name" name="a.middle_name" index="3"
+				width="125" editable="true" hidden="false" key="false" required="false">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="Last Name" name="a.sname" index="4" width="125"
+				editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="Age" name="a.age" index="5" width="55" editable="true"
+				hidden="false" key="false" required="false">
+				<edit type="text" size="10"></edit>
+			</column>
+
+			<column head="Experience" name="a.experience" index="6" width="120"
+				editable="true" hidden="false" key="false" required="false">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="Educational Qualification" name="a.edu_status"
+				index="7" width="150" editable="true" hidden="false" key="false"
+				required="false">
+				<edit type="text" size="30"></edit>
+			</column>
+
+			<column head="Gender" name="a.gender" index="8" width="105"
+				editable="true" hidden="false" key="false" required="true">
+				<edit type="select" editdomaintype="fixed" value="M:Male;F:Female"></edit>
+			</column>
+			<column head="Email Id" name="a.email_id" index="9" width="105"
+				editable="true" hidden="false" key="false" required="false" custom="true"
+				custom_func="CheckEmail">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="Department" name="a.department" index="10"
+				width="105" editable="true" hidden="false" key="false" required="false">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="Question Preferred" name="a.question_preffered"
+				index="11" width="50" editable="true" hidden="false" key="false"
+				required="false">
+				<edit type="select" editdomaintype="fixed" value="Yes:Yes;No:No"></edit>
+			</column>
+			<column head="Media Preferred" name="a.media_preffered" index="12"
+				width="150" editable="true" hidden="false" key="false" required="false">
+				<edit type="select" editdomaintype="fixed"
+					value="Video:Video;Audio:Audio;Text:Text"></edit>
+			</column>
+			<column head="Created By" name="b.student_created_by" index="13"
+				width="150" editable="false" hidden="false" key="false" required="false">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="Date of Creation" name="b.date_student_created"
+				index="14" width="155" editable="false" hidden="false" key="false"
+				required="false">
+				<edit type="date" size="30"></edit>
+			</column>
+
+			<column head="Password" name="c.password" index="15" width="105"
+				editable="true" hidden="false" key="false" required="true">
+				<edit type="password" size="30"></edit>
+			</column>
+			<column head="Account Status" name="a.account_stat" index="16"
+				width="155" editable="true" hidden="false" key="false" required="true">
+				<edit type="select" size="30" editdomaintype="fixed"
+					value="Active:Active;Inactive:Inactive"></edit>
+			</column>
+			<column head="Self Registration" name="a.strself" index="17"
+				width="155" editable="true" hidden="false" key="false" required="false">
+				<edit type="select" editdomaintype="fixed" value="T:True;F:False"></edit>
+			</column>
+			<column head="Qualifier" name="qualifiertext" index="18"
+				width="155" editable="false" hidden="false" edithidden="false" key="false"
+				required="false">
+				<edit type="text" size="30"></edit>
+			</column>
+			<column head="User Qualifier" name="qualifiercombo" index="19"
+				width="155" editable="true" hidden="true" edithidden="true" key="false"
+				required="false">
+				<edit type="select" size="30" editdomaintype="query"
+					value="select lqualifier,lqualifier from learning_qualifier"></edit>
+			</column>
+			<loadquery
+				value="select  a.student_id,a.first_name,a.middle_name,a.sname,a.age,a.experience,a.edu_status,a.gender,a.email_id,a.department,a.question_preffered,a.media_preffered,b.student_created_by,b.date_student_created,c.password,a.account_status,a.strself,a.learning_style,d.lqualifier from student_details a left join learning_qualifier d on a.learning_style=d.lqualifier,student_creation_details b,student_password c where a.student_id=b.student_id and b.student_id=c.student_id and a.student_id !=\'superuser\' "></loadquery>
+			<delete>
+				<validations>
+					<validation type="query">
+						<validationquery id="1"
+							sql="[CDATA[select student_id from student_details where student_id=%student_id% and student_id=%current_login_user_id%]]"
+							parameter="student_id,current_login_user_id" message="You cannot delete your own account."></validationquery>
+					</validation>
+
+					<validation type="query">
+						<validationquery id="2"
+							sql="[CDATA[select sd.student_id from student_details sd,user_role ur where sd.student_id=ur.user_id and ur.role_id=\'2\' and sd.student_id=%student_id% and %current_login_user_id%!=\'superuser\']]"
+							parameter="student_id,current_login_user_id" message="You cannot delete other Administrator accounts."></validationquery>
+					</validation>
+				</validations>
+
+
+				<queries>
+					<query id="1"
+						sql="[CDATA[delete from student_creation_details where student_id=%student_id%]]"
+						parameter="student_id"></query>
+				</queries>
+				<queries>
+					<query id="2"
+						sql="[CDATA[delete from student_password where student_id=%student_id%]]"
+						parameter="student_id"></query>
+				</queries>
+
+				<queries>
+					<query id="3"
+						sql="[CDATA[delete from student_group_association where student_id=%student_id%]]"
+						parameter="student_id"></query>
+				</queries>
+				<queries>
+					<query id="4"
+						sql="[CDATA[delete from student_details where student_id=%student_id%]]"
+						parameter="student_id"></query>
+				</queries>
+				<queries>
+					<query id="5"
+						sql="[CDATA[delete from usergroup_course_registration where student_id=%student_id%]]"
+						parameter="student_id"></query>
+				</queries>
+				<queries>
+					<query id="6"
+						sql="[CDATA[delete from user_course_registration where student_id=%student_id%]]"
+						parameter="student_id"></query>
+				</queries>
+				<queries>
+					<query id="7"
+						sql="[CDATA[delete from user_forum_association where student_id=%student_id%]]"
+						parameter="student_id"></query>
+				</queries>
+				<queries>
+					<query id="8"
+						sql="[CDATA[delete from sc_user_association where user_id=%student_id%]]"
+						parameter="student_id"></query>
+				</queries>
+				<queries>
+					<query id="9"
+						sql="[CDATA[delete from user_role where user_id=%student_id%]]"
+						parameter="student_id"></query>
+				</queries>
+
+			</delete>
+			<add>
+
+
+				<validations>
+					<validation type="query">
+						<validationquery id="1"
+							sql="[CDATA[select student_id from student_details where student_id=%student_id%]]"
+							parameter="student_id" message="This User already Exists."></validationquery>
+					</validation>
+				</validations>
+
+
+
+				<queries>
+					<query id="1"
+						sql="[CDATA[insert into student_details(student_id,first_name,middle_name,sname,account_status,email_id,department,age,gender,strself,experience,edu_status,question_preffered,media_preffered,learning_style) values(%student_id%,%a.first_name%,%a.middle_name%,%a.sname%,%a.account_stat%,%a.email_id%,%a.department%,%a.age%,%a.gender%,%a.strself%,%a.experience%,%a.edu_status%,%a.question_preffered%,%a.media_preffered%,%qualifiercombo%)]]"
+						parameter="student_id,a.first_name,a.middle_name,a.sname,a.account_stat,a.email_id,a.department,a.age,a.gender,a.strself,a.experience,a.edu_status,a.question_preffered,a.media_preffered,qualifiercombo"></query>
+				</queries>
+				<queries>
+					<query id="2"
+						sql="[CDATA[insert into student_creation_details(student_id,date_student_created,last_modification_date,student_created_by) values(%student_id%,sysdate(),sysdate(),%current_login_user_id%)]]"
+						parameter="student_id,current_login_user_id"></query>
+				</queries>
+				<queries>
+					<query id="3"
+						sql="[CDATA[insert into student_password(student_id,password) values(%student_id%,%c.password%)]]"
+						parameter="student_id,c.password"></query>
+				</queries>
+			</add>
+			<modify>
+				<queries>
+					<query id="1"
+						sql="[CDATA[update student_details set first_name=%a.first_name%,middle_name=%a.middle_name%,sname=%a.sname%,account_status=%a.account_stat%,email_id=%a.email_id%,department=%a.department%,age=%a.age%,gender=%a.gender%,strself=%a.strself%,experience=%a.experience%,edu_status=%a.edu_status%,question_preffered=%a.question_preffered%,media_preffered=%a.media_preffered%,learning_style=%qualifiercombo% where student_id=%student_id%]]"
+						parameter="a.first_name,a.middle_name,a.sname,student_id,a.account_stat,a.email_id,a.department,a.age,a.gender,a.strself,a.experience,a.edu_status,a.question_preffered,a.media_preffered,qualifiercombo"></query>
+				</queries>
+				<queries>
+					<query id="2"
+						sql="[CDATA[update student_creation_details set last_modification_date=sysdate() where student_id=%student_id%]]"
+						parameter="student_id"></query>
+				</queries>
+				<queries>
+					<query id="3"
+						sql="[CDATA[update student_password set password=%c.password% where student_id=%student_id%]]"
+						parameter="c.password,student_id"></query>
+				</queries>
+			</modify>
+
+		</part>
+		<!-- <selector id="lqualifier" class="combo" contentid="usercreationcontent" 
+			behaviourid="usercreationbehaviour" domaintype="query" value="select lqualifier,lqualifier 
+			from learning_qualifier" ></selector> -->
+
+	</structure>
+	<layout id="usercreationlay">
+		<part id="main"></part>
+
+		<part id="usercreationgrid" height="200" width="745" parent_id="main"></part>
+
+		<part id="image_button_container" parent_id="main"></part>
+		<part id="ShowProfileButton_Container" parent_id="image_button_container"></part>
+
+		<part id="excelimage_Container" parent_id="image_button_container"></part>
+		<part id="ShowProfileButton" parent_id="ShowProfileButton_Container"></part>
+		<part id="excelimage" height="30px" width="30px" parent_id="excelimage_Container"></part>
+
+		<part id="batchusermsg" parent_id="main"></part>
+
+
+
+
+
+		<part id="batchuser_container" parent_id="main"></part>
+		<part id="batchuserlabel" parent_id="batchuser_container"></part>
+		<part id="batchuser_file_container" parent_id="batchuser_container"></part>
+		<part id="batchuser" parent_id="batchuser_file_container"></part>
+		<part id="UploadButton_container" parent_id="batchuser_container"></part>
+		<part id="UploadButton" parent_id="UploadButton_container"></part>
+
+		<part id="UserCreationAjaxComp" parent_id="main"></part>
+
+
+
+
+
+	</layout>
+	<content id="usercreationcontent">
+		<!-- <part id="QualifierLabel" valuetype="inline" value="Select Qualifier: 
+			"></part> -->
+
+		<!-- <part id="UploadButton" valuetype="inline" value="Batch User Creation"></part> -->
+		<part id="ImageUploadButton" valuetype="inline" value="Upload Image"></part>
+		<part id="ShowProfileButton" valuetype="inline" value="Show Profile"></part>
+		<part id="batchusermsg" valuetype="inline"
+			value="Upload Excel to create users in batch. Click on excel image to get the Excel Format"></part>
+		<part id="batchuserlabel" valuetype="inline" value="Batch User Creation : "></part>
+		<part id="UploadButton" valuetype="inline" value="Upload"></part>
+		<part id="excelimage" valuetype="reference" value="xlimage"></part>
+
+
+	</content>
+
+
+	<style id="UserCreationStyle">
+		<part id="batchusermsg" value="[CDATA[color: #0000FF;]]"
+			valuetype="inline"></part>
+		<part id="excelimage" value="[CDATA[cursor: pointer;]]"
+			valuetype="inline"></part>
+
+		<part id="image_button_container" value="row row-padding"
+			valuetype="reference"></part>
+		<part id="ShowProfileButton_Container" value="col-md-8 col-xs-8"
+			valuetype="reference"></part>
+		<part id="excelimage_Container" value="col-md-4 col-xs-4"
+			valuetype="reference"></part>
+
+		<part id="batchusermsg" value="col-md-12 col-xs-12 row row-padding" valuetype="reference"></part>
+
+
+		<part id="batchuser_container" value="row row-padding" valuetype="reference"></part>
+		<part id="batchuserlabel" value="col-md-4 col-xs-4" valuetype="reference"></part>
+		<part id="batchuser_file_container" value="col-md-4 col-xs-4"
+			valuetype="reference"></part>
+		<part id="UploadButton_container" value="col-md-4 col-xs-4"
+			valuetype="reference"></part>
+
+
+	</style>
+
+
+
+	<behaviour id="usercreationbehaviour">
+		<part id="UploadButton">
+			<event name="onclick" type="simple" function="upload_onclick"
+				valuetype="jsevent" resourceid="usercreationjs"></event>
+		</part>
+		<part id="ImageUploadButton">
+			<event name="onclick" type="simple" function="imageupload_onclick"
+				valuetype="jsevent" resourceid="usercreationjs"></event>
+		</part>
+		<part id="ShowProfileButton">
+			<event name="onclick" type="simple" function="showprofile_onclick"
+				valuetype="jsevent" resourceid="usercreationjs"></event>
+		</part>
+		<part id="excelimage">
+			<event name="onclick" type="simple" function="excelimage_onclick"
+				valuetype="jsevent" resourceid="usercreationjs"></event>
+		</part>
+		<part id="UserCreationAjaxComp">
+			<event name="ajax" type="simple" function="dummy" javaclass="ladminTree"></event>
+		</part>
+	</behaviour>
+
+	<resource>
+		<resourceitem id="usercreationjs" href="usercreation.js"
+			valuetype="js"></resourceitem>
+		<resourceitem id="xlimage" href="Excel.gif" valuetype="image" />
+	</resource>
+
+</interface>

@@ -1,0 +1,121 @@
+<interface  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="NotebookMgmt" title="LMS Notebook Management" type="Interface">
+
+	<configuration TemplateID="GridTree"/>
+	
+	<structure>
+		
+		<part id="notebookadminmain" class="label"></part>
+		<part id="student_id" class="combo"></part>
+		<part id="abc" class="label"></part>
+		<part id="unit_id" class="combo"></part>
+		<part id="abc1" class="label"></part>
+		<part id="ee" class="ajaxcomponent" ></part>
+		<part id="go" class="button"></part>
+		<part id="showtree" class="label"></part>
+		<part id="coursename" class="label"></part>
+		<part id="treediv" class="tree" treedataremotefunction="NoteBookUtil.treeConstructadmin" onselectremotefunction="f12"  autocollapse="true" initialiseonload="false"></part>
+		<part id="showdetails" class="label"></part>
+		<part id="shownotes" class="label"></part>
+		<part id="showdate" class="label"></part>
+		<part id="subject" class="label"></part>
+		<part id="subjectfield" class="inputtext" size="45px"></part>
+ 		<part id="notes" class="textarea" rows="7" cols="58"></part> 
+		<part id="noteslable" class="label"></part>
+		<part id="deletenote" class="button"></part>
+		<part id="savenote" class="button"></part>
+		<part id="printnote" class="button"></part>
+		<part id="attachment" class="label"></part>
+	</structure>
+
+	<layout id="NotebookMgmtlayout">
+		
+		<part id="notebookadminmain" height="100%" width="100%" left="0px" top="0px" position="absolute"></part>
+		<part id="student_id" height="20px" width="35px" left="140px" top="15px" position="absolute" parent_id="notebookadminmain"></part>
+		<part id="abc" left="20px" top="15px" position="absolute" parent_id="notebookadminmain"></part>
+		<part id="unit_id" height="20px" width="35px" left="470px" top="15px" position="absolute" parent_id="notebookadminmain"></part>
+		<part id="abc1" left="390px" top="15px" position="absolute" parent_id="notebookadminmain"></part>
+		<part id="ee" parent_id="notebookadminmain"></part>
+		<part id="go" height="20px" width="35px" left="135px" top="45px" position="absolute" parent_id="notebookadminmain"></part>
+		<part id="showtree" height="250px" width="400px" left="40px" top="70px" position="absolute" parent_id="notebookadminmain"></part>
+		<part id="coursename" parent_id="showtree"></part>
+		<part id="treediv" height="205px" width="400px" parent_id="showtree"></part>
+		<part id="showdetails" height="250px" width="250px" left="480px" top="70px" position="absolute" parent_id="notebookadminmain"></part>
+		<part id="shownotes" height="250px" width="735px" left="0px" top="330px" position="absolute" parent_id="notebookadminmain"></part>
+		<part id="showdate" height="10px" width="200px" left="5px" top="5px" position="absolute" parent_id="shownotes"></part>
+		<part id="subject" height="10px" width="50px" left="5px" top="40px" position="absolute" parent_id="shownotes"></part>
+		<part id="subjectfield" height="10px" width="50px" left="75px" top="40px" position="absolute" parent_id="shownotes"></part>
+ 		<part id="notes" left="5px" top="90px" position="absolute" parent_id="shownotes"></part> 
+		<part id="noteslable" left="5px" top="70px" position="absolute" parent_id="shownotes"></part>
+		<part id="deletenote" height="15x" width="25px" left="20px" top="215px" position="absolute" parent_id="shownotes"></part>
+		<part id="savenote" height="15x" width="25px" left="140px" top="215px" position="absolute" parent_id="shownotes"></part>
+		<part id="printnote" height="15x" width="25px" left="250px" top="215px" position="absolute" parent_id="shownotes"></part>
+		<part id="attachment" height="100px" width="300px" left="400px" top="110px" position="absolute" parent_id="shownotes"></part>
+	</layout>
+
+	<content id="NotebookMgmtcontent">
+		<part id="student_id"  valuetype="query" 
+		          value="select student_id,concat(first_name,\' \',middle_name,\' \',sname) 
+				         from student_details order by first_name"></part>
+		<part id="abc"  valuetype="inline" value="Select User Name"></part>
+		<part id="abc1"  valuetype="inline" value="Select Unit"></part>
+		<part id="go" value="Go" valuetype="inline"></part>
+		<part id="showdate" value="Date: " valuetype="inline"></part>
+		<part id="subject" value="Subject: " valuetype="inline"></part>
+		<part id="noteslable" value="Note : " valuetype="inline"></part>
+		<part id="deletenote" value="Delete Note" valuetype="inline"></part>
+		<part id="savenote" value="Save Note" valuetype="inline"></part>
+		<part id="printnote" value="Print Note" valuetype="inline"></part>
+		<part id="attachment" value="Attachments : " valuetype="inline"></part>
+	</content>
+
+	<style id="NotebookMgmtstyle">
+		<part id="notebookadminmain" value="[CDATA[background-color: #D6D6C0]]" valuetype="inline"></part>
+<!-- 		<part id="showtree" value="[CDATA[border:1px solid black;background-color: #D6D6C0]]" valuetype="inline"></part> -->
+		<part id="showtree" value="[CDATA[background-color: #D6D6C0]]" valuetype="inline"></part>
+		<part id="treediv" value="[CDATA[background-color: #D6D6C0;overflow:auto]]" valuetype="inline"></part>
+		<part id="showdetails" value="[CDATA[background-color: #D6D6C0]]" valuetype="inline"></part>
+		<part id="shownotes" value="[CDATA[background-color: #D6D6C0]]" valuetype="inline"></part>
+		<part id="coursename" value="[CDATA[background-color: #D6D6C0]]" valuetype="inline"></part>
+ 		<part id="notes" value="[CDATA[overflow:auto;font-family:Verdana,Helvetica,sans-serif;font-size:9px;font-weight:bold]]" valuetype="inline"></part> 
+		<part id="attachment" value="[CDATA[background-color: #D6D6C0]]" valuetype="inline"></part>
+	</style>	
+	
+	<behaviour id="NotebookMgmtbehaviour">
+		<part id="ee">
+			<event name="ajax" javaclass="NoteBookUtil"></event>
+		</part>
+		<part id="root">
+			<event name="onload" type="simple" function="onload_onclick" valuetype="reference" resourceid="nbadmjs"></event>
+		</part>
+		<part id="student_id">
+			<event name="onchange" type="simple" function="user_onchange" valuetype="inline" resourceid="nbadmjs"></event>
+		</part>
+		<part id="unit_id">
+			<event name="onchange" type="simple" function="unit_onchange" valuetype="inline" resourceid="nbadmjs"></event>
+		</part>
+		<part id="go">
+			<event name="onclick" type="simple" function="go_onclick" valuetype="inline" resourceid="nbadmjs"></event>
+		</part>
+		<part id="treediv">
+			<event name="onunload" type="simple" function="dummy" valuetype="jsevent" resourceid="nbadminresource"></event>
+		</part>
+		<part id="deletenote">
+			<event name="onclick" type="simple" function="deletenote_onclick" valuetype="jsevent" resourceid="nbadmjs"></event>
+		</part>
+		<part id="savenote">
+			<event name="onclick" type="simple" function="savenote_onclick" valuetype="jsevent" resourceid="nbadmjs"></event>
+		</part>
+		<part id="printnote">
+			<event name="onclick" type="simple" function="printnote_onclick" valuetype="jsevent" resourceid="nbadmjs"></event>
+		</part>
+	</behaviour>
+
+	<resource>
+		<resourceitem id="nbadmjs" href="notebookadmin.js" valuetype="js"></resourceitem>
+		<resourceitem id="nbadminresource" href="nbadmindynatree.js" valuetype="js"></resourceitem>
+	</resource>
+
+</interface>

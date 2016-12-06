@@ -1,0 +1,97 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="UnitRegByUser" title="LMS Unit Registration By User" type="Interface">
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="UnitNameLabel" class="label"></part>
+		<part id="UnitRegByUserGrid" class="Conditionalgrid" caption="Currently Registered Users for the above Unit" sortname="student_id" sortorder="desc" gridnavbar="true">
+			
+			<selector id="course_id" class="combo" contentid="UnitRegByUserContent" behaviourid="UnitRegByUserBehaviour" domaintype="query" value="select a.unit_id,a.unit_name  from unit_details a, unit_creation_details b where a.unit_id=b.unit_id" gridrefresh="true"></selector>
+
+			<column head="Student Id"  name="student"  index="1"  width="150" editable="true" hidden="true" key="true" required="false">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			
+			<column head="User Name"  name="student_id"  index="2"  width="170" editable="true" hidden="false" key="false" required="true">
+				<edit type="select" size="30" editdomaintype="query" value="select a.student_id,concat(a.first_name,\' \',a.middle_name,\' \',a.sname) 
+				                                                            from student_details a,user_role b,role c 
+																			where a.student_id=b.user_id and b.role_id=c.role_id 
+																			      and c.title&lt;&gt;\'ADMIN\' 
+																		    order by concat(a.first_name,\' \',a.middle_name,\' \',a.sname)"></edit> 	
+			</column>
+			<column head="Registration Date"  name="date_registration"  index="3"  width="170" editable="false" hidden="false" key="false" required="true">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			
+			<column head="Registered By"  name="registered_by"  index="4"  width="170" editable="false" hidden="false" key="false">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			
+			<column head="Access Allowed Till"  name="access_allowed_till"  index="5"  width="175" editable="true" hidden="false" key="false">
+				<edit type="date" size="30"></edit> 	
+			</column>
+			<column head="Total Access Time(Hr)"  name="total_access_time"  index="6"  width="170" editable="true" hidden="false" key="false">
+				<edit type="text" size="30"></edit> 	
+			</column>
+			<column head="Send Mail"  name="send_mail"  index="7"  width="170" editable="true" hidden="true" key="false">
+				<edit type="checkbox" size="30" editdomaintype="fixed" value="On:Off"></edit>
+			</column>
+			
+			<loadquery value="select a.student_id,concat(b.first_name,\' \',b.middle_name,\' \',b.sname), 
+			                         a.date_registration,ifnull(a.registered_by,\'SELF\'),
+									                      ifnull(a.access_allowed_till,\'No Limit\'),
+														   ifnull(a.total_access_time, \'No Limit\') 
+					          from unit_student_association a, student_details b 
+							  where a.unit_id=%course_id% and a.student_id=b.student_id"></loadquery>
+			
+			<delete>
+				<queries>
+					<query id="1" sql="[CDATA[delete from unit_student_association where student_id=%student% and unit_id=%course_id%]]" parameter="student,course_id"></query>
+				</queries>	
+			</delete>
+			
+			<add>
+				<validations>
+					<validation type="query">
+						<validationquery id="1" sql="[CDATA[select unit_id from unit_details where unit_id=%course_id% and unit_id not in (select unit_id from csformat)]]" parameter="course_id" message="Unit Does Not Have Content."></validationquery>
+					</validation>	
+				</validations>
+				<validations>
+					<validation type="query">
+						<validationquery id="2" sql="[CDATA[select student_id from unit_student_association where student_id=%student_id% and unit_id=%course_id%]]" parameter="student_id,course_id" message="This Student Is Already Associated With The Above Unit."></validationquery>
+					</validation>	
+				</validations>
+				<queries>
+					<query id="1" sql="[CDATA[insert into unit_student_association (student_id,unit_id,date_registration,registered_by,access_allowed_till,total_access_time) values (%student_id%,%course_id%,sysdate(),%current_login_user_id%,%access_allowed_till%,%total_access_time%) ]]" parameter="student_id,course_id,access_allowed_till,current_login_user_id,total_access_time"></query>
+				</queries>
+<!--				<action sequence="replace" actionname="deliveryengine.unitUserRegAction"></action> -->
+				
+			</add>	
+			
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[update unit_student_association set access_allowed_till=%access_allowed_till%, total_access_time=%total_access_time%  where student_id=%student_id% and unit_id=%course_id%]]" parameter="access_allowed_till,total_access_time,student_id,course_id"></query>				
+			    </queries>
+<!--				<action sequence="replace" actionname="deliveryengine.unitUserRegAction"></action> -->
+			</modify>              
+		</part>
+	</structure>
+	
+	<layout id="UnitRegByUserLayout">
+		<part id="BodyDiv"></part>
+		<part id="UnitNameLabel" left="0px" top="10px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="course_id" left="100px" top="8px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="UnitRegByUserGrid" width="745" left="0px" top="50px" position="absolute" parent_id="BodyDiv"></part>
+	
+	</layout>
+	
+	<content id="UnitRegByUserContent">
+		<part id="UnitNameLabel"  value="Unit Name:" valuetype="inline"></part>
+	</content>
+	
+	<behaviour id="UnitRegByUserBehaviour">
+	</behaviour>
+
+	
+</interface>

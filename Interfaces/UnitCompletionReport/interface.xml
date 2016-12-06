@@ -1,0 +1,45 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="UnitCompletionReport" title="LMS Unit Completion Report" type="Interface">
+
+	<structure>
+		<part id="mainpage" class="label"></part>
+		<part id="userRoleComboLabel" class="label"></part>
+		<part id="userRoleCombo" class="combo"></part>
+		<part id="unitComboLabel" class="label"></part>
+		<part id="unitCombo" class="combo"></part>
+		<part id="submit" class="button" ></part>
+		<part id="showreport" class="iframe"></part>
+	</structure>
+
+	<layout id="UnitCompletionReportLayout">
+			<part id="mainpage" height="100%" width="100%" left="0px" top="0px" position="absolute"></part>
+			<part id="userRoleComboLabel" height="25px" width="120px" left="15px" top="10px" position="absolute" parent_id="mainpage"></part>
+			<part id="userRoleCombo" height="25px" width="120px" left="140px" top="10px" position="absolute" parent_id="mainpage"></part>
+			<part id="unitComboLabel" height="25px" width="120px" left="15px" top="40px" position="absolute" parent_id="mainpage"></part>
+			<part id="unitCombo" height="25px" width="120px" left="140px" top="40px" position="absolute" parent_id="mainpage"></part>
+			<part id="submit" height="25px" width="20px" left="650px" top="40px" position="absolute" parent_id="mainpage"></part>
+			<part id="showreport" height="420px" width="720px" left="6px" top="70px" position="absolute" parent_id="mainpage"></part>
+	</layout>
+
+	<content id="UnitCompletionReportContent">
+		<part id="userRoleComboLabel"  valuetype="inline" value="Select Role:"></part>
+		<part id="userRoleCombo" valuetype="query" value="select role_id,title from role where role_id!=5 and role_id!=6 and role_id!=7 and role_id!=8"></part>
+		<part id="unitComboLabel"  valuetype="inline" value="Select Unit:"></part>
+		<part id="unitCombo" valuetype="query" value="select unit_id,unit_name from unit_details order by unit_name"></part>
+		<part id="submit" value="RUN" valuetype="inline"></part>
+	</content>
+	
+	<behaviour id="UnitCompletionReportBehaviour">
+		
+		<part id="submit">
+			<event name="onclick" type="simple" function="show_report_onclick" valuetype="jsevent" resourceid="UnitCompletionReportjs"></event>
+		</part>
+		
+	</behaviour>
+
+	<resource>
+		<resourceitem id="UnitCompletionReportjs" href="UnitCompletionReport.js" valuetype="js"></resourceitem>
+	</resource>
+</interface>

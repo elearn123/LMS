@@ -1,0 +1,61 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="ShowUserProfile" title="LMS User Profile Change" type="Interface">
+
+<structure>
+
+<part id="main" class="label" >	</part>
+<part id="ProfileMainDiv" class="label" >	</part>
+<part id="userdetailslabel" class="label"></part>
+<part id="userimagelabel" class="image"></part>
+<part id="userimageselectlabel" class="label"></part>
+<part id="userimage" class="inputfile"></part>
+<part id="ImageUploadButton" class="button"></part>
+<part id="ShowUserProfileAjaxComp" class="ajaxcomponent" ></part>
+
+</structure>
+
+<layout id="ShowUserProfilelay">
+
+	<part id="main" height="100%" width="100%" left="0px" top="0px" position="absolute"></part>
+	<part id="ProfileMainDiv" height="325px" width="513px" left="58px" top="22px" position="absolute" parent_id="main"></part>	
+	<part id="userdetailslabel" height="320px" width="320px" left="20px" top="1px" position="absolute" parent_id="ProfileMainDiv"></part>	
+	<part id="userimagelabel" height="100px" width="100px" left="337px" top="10px" position="absolute" parent_id="ProfileMainDiv"></part>	
+	<part id="userimageselectlabel" height="40px" width="150px" left="23px" top="273px" position="absolute" parent_id="ProfileMainDiv"></part>	
+	<part id="userimage" height="30px" width="200px" left="140px" top="272px" position="absolute" parent_id="ProfileMainDiv"></part>	
+	<part id="ImageUploadButton" height="25px" width="69px" left="419px" top="274px" position="absolute" parent_id="ProfileMainDiv"></part>	
+	<part id="ShowUserProfileAjaxComp" parent_id="main"></part>
+	
+</layout>
+
+<content id="ShowUserProfilecontent">
+
+	<part id="userimageselectlabel" valuetype="inline" value="Upload Photo : "></part>
+	<part id="ImageUploadButton" valuetype="inline" value="Upload"></part>
+	
+</content>
+
+<style id="ShowUserProfilestyle">
+
+<part id="main" value="dummy" valuetype="reference" resourceid="cssuserprofile"></part>
+
+</style>
+
+<behaviour id="ShowUserProfilebehaviour">
+	<part id="root">
+		<event name="onload" type="simple" function="onload_click" valuetype="inline" resourceid="showprofilejs"></event>
+	</part>
+	
+	<part id="ImageUploadButton">
+		<event name="onclick" type="simple" function="imageupload_onclick" valuetype="jsevent" resourceid="showprofilejs"></event>
+	</part>
+	<part id="ShowUserProfileAjaxComp">
+		<event name="ajax" type="simple" function="dummy" valuetype="inline" javaclass="ladminTree"></event>
+	</part>
+</behaviour>
+<resource>	
+	<resourceitem id="showprofilejs" href="showprofile.js" valuetype="js"></resourceitem>
+	<resourceitem id="cssuserprofile" href="showuserprofile.css" valuetype="css"></resourceitem>
+</resource>
+</interface>

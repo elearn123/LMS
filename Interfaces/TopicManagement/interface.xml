@@ -1,0 +1,66 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="TopicManagement" title="LMS Assessment Topic Management" type="Interface">
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="TopicManagementGrid" class="DBgrid" caption="Currently Defined Topics" sortname="topic_name" 
+		           sortorder="desc" rownum="15" rowNumbers="true">
+			
+			<column head="Topic Id"  name="topic_id"  index="1"  width="0" editable="true" hidden="true" key="true">
+				<edit type="text" size="50"></edit> 	
+			</column>
+			<column head="Topic Name"  name="topic_name"  index="2"  width="200" editable="true" hidden="false" key="false" required="false">
+				<edit type="text" size="50" editdomaintype="true"></edit> 	
+			</column>
+			<column head="Sub Topic Name"  name="subtopic_name"  index="3"  width="200" editable="true" hidden="false" key="false">
+				<edit type="text" size="50" editdomaintype="true"></edit> 	
+			</column>
+			<column head="Added By"  name="added_by"  index="4"  width="200" editable="false" hidden="false" key="false">
+				<edit type="text" size="50" editdomaintype="true"></edit> 	
+			</column>
+			
+			<loadquery value="select topic_id,topic_name,subtopic_name,added_by from topic_management"></loadquery>
+			
+			<delete>
+				<validations>
+					<validation type="query">
+						<validationquery id="1" sql="[CDATA[select topic_id from assessment_defination 
+															where topic_id=%topic_id%]]" 
+						                 parameter="topic_id" 
+										 message="First Remove This Topic From Assessment Definition"></validationquery>
+					</validation>	
+				</validations>
+				<queries>
+					<query id="1" sql="[CDATA[delete from topic_management where topic_id=%topic_id%]]" 
+					       parameter="topic_id"></query>
+				</queries>					
+			</delete>
+			
+			<add>
+				<queries>
+					<query id="1" sql="[CDATA[insert into topic_management(topic_name,subtopic_name,added_by) 
+					                          values(%topic_name%,%subtopic_name%,%current_login_user_id%)]]" 
+								  parameter="topic_name,subtopic_name,current_login_user_id"></query>
+				</queries>			
+			</add>	
+			
+			<modify>
+				<queries>
+					<query id="1" sql="[CDATA[update topic_management 
+					                          set topic_name=%topic_name%,subtopic_name=%subtopic_name% 
+											  where topic_id=%topic_id%]]" 
+								  parameter="topic_name,subtopic_name,topic_id"></query>
+				</queries>				
+			</modify>              
+		</part>
+
+	</structure>
+	
+	<layout id="TopicManagementLayout">
+		<part id="BodyDiv"></part>
+		<part id="TopicManagementGrid" height="300" parent_id="BodyDiv"></part>
+	</layout>
+	
+	
+</interface>

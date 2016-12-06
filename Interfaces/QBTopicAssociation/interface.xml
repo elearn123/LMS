@@ -1,0 +1,85 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="QBTopicAssociation" title="LMS Question Bank Topic Association" type="Interface">
+
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="TopicSelectorContainer" class="label"></part>
+		<part id="TopicSelectorLabel" class="label"></part>
+		<part id="QBTopicAssociationGrid" class="Conditionalgrid" 
+		          caption="Question Banks associated with the above Topic">
+			
+			<selector id="topic_id" class="combo" contentid="QBTopicAssociationContent" 
+			          behaviourid="QBTopicAssociationBehaviour" domaintype="query" 
+			          value="select topic_id,subtopic_name from topic_management" gridrefresh="true"></selector>
+			
+			<column head="Question Bank Id"  name="qb_id"  index="1"  width="220" editable="true" 
+			                hidden="false" key="true" required="false">
+				<edit type="select" size="60" editdomaintype="query" 
+				           value="select qb_id,qb_name from qb_mgmt"></edit> 	
+			</column>
+			<column head="Question Bank Name"  name="qb_name"  index="2"  width="220" editable="false" 
+			           hidden="false" key="false" required="false">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			
+			
+			
+			<loadquery value="select a.qb_id,c.qb_name from qb_topic_association a,qb_mgmt c 
+			                  where a.qb_id=c.qb_id and a.topic_id=%topic_id%"></loadquery>
+			
+			<delete>
+<!-- 				<validations>
+					<validation type="query">
+						<validationquery id="1" sql="[CDATA[select topic_id from assessment_defination 
+						                                    where topic_id=%topic_id%]]" 
+										parameter="topic_id" 
+										message="First Remove This Topic from Assessment Definition"></validationquery>
+						
+					</validation>	
+				</validations>
+ -->				<queries>
+					<query id="1" sql="[CDATA[delete from qb_topic_association 
+					                          where qb_id=%qb_id% and topic_id=%topic_id%]]" 
+											  parameter="topic_id,qb_id"></query>
+				</queries>
+				
+			</delete>
+			
+			<add>
+				<queries>
+				
+					<query id="1" sql="[CDATA[insert into qb_topic_association(topic_id,qb_id) 
+					                          values(%topic_id%,%qb_id%)]]" parameter="topic_id,qb_id"></query>
+				</queries>
+				
+			</add>	
+			
+			
+			    
+		</part>
+	</structure>
+	
+	<layout id="QBTopicAssociationLayout">
+		<part id="BodyDiv"></part>
+		<part id="TopicSelectorContainer" parent_id="BodyDiv"></part>
+		<part id="TopicSelectorLabel" parent_id="TopicSelectorContainer"></part>
+		<part id="topic_id" parent_id="TopicSelectorContainer"></part>
+		<part id="QBTopicAssociationGrid" parent_id="BodyDiv"></part>
+	</layout>
+
+	<content id="QBTopicAssociationContent">
+		<part id="TopicSelectorLabel"  valuetype="inline" value="Select Topic Name"></part>
+	</content>
+
+	<style id="QBTopicAssociationStyle">
+		<part id="BodyDiv"  valuetype="reference" value="FlexColumnContainer"></part>
+		<part id="TopicSelectorContainer"  valuetype="reference" value="FlexRowContainer"></part>
+		<part id="TopicSelectorContainer"  valuetype="inline" value="[CDATA[width:70%;]]"></part>
+	</style>
+
+	<behaviour id="QBTopicAssociationBehaviour">
+	</behaviour>
+
+</interface>

@@ -1,0 +1,68 @@
+<interface  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="NotebookAttach" title="LMS Notebook Attachment" type="Interface">
+
+	<structure>
+		<part id="nbattachmain" class="label"></part>
+		<part id="nbattachlogobox" class="label"></part>
+		<part id="nbattachtitle" class="label"></part>
+		<part id="nbattachtopimg" class="label"></part>
+		<part id="nbattachtopbar" class="label"></part>
+		<part id="nbattachinputfile" class="inputfile"></part>
+		<part id="nbattachinputfilediv" class="label"></part>
+		<part id="nbattachfile" class="button"></part>
+		<part id="nbattachdone" class="button"></part>
+		<part id="nbattachfname" class="inputtext"></part>
+		<part id="nbattachajaxcomp" class="ajaxcomponent"></part>
+		<part id="NotebookAttachform" class="form"></part>
+	</structure>
+
+	<layout id="nbattachlt1">
+		<part id="nbattachmain" height="100%" width="100%" left="0px" top="0px" position="absolute"></part>
+		<part id="nbattachlogobox" height="25px" width="30px" left="10px" top="10px" position="absolute" parent_id="NotebookAttachform"></part>
+		<part id="nbattachtitle" height="25px" width="200px" left="40px" top="10px" position="absolute" parent_id="NotebookAttachform"></part>
+		<part id="nbattachtopimg" height="20px" width="20px" left="200px" top="10px" position="absolute" parent_id="NotebookAttachform"></part>
+		<part id="nbattachtopbar" height="5px" width="200px" left="200px" top="30px" position="absolute" parent_id="NotebookAttachform"></part>
+		<part id="nbattachinputfile" height="25px" width="200px" left="10px" top="1px" position="absolute" parent_id="nbattachinputfilediv"></part>
+		<part id="nbattachinputfilediv" height="25px" width="200px" left="10px" top="50px" position="absolute" parent_id="NotebookAttachform"></part>
+		<part id="NotebookAttachform" parent_id="nbattachmain"></part>
+		<part id="nbattachfile" height="25px" left="160px" top="80px" position="absolute" parent_id="NotebookAttachform"></part>
+		<part id="nbattachdone" height="25px" left="260px" top="80px" position="absolute" parent_id="NotebookAttachform"></part>
+		<part id="nbattachfname" height="25px" left="10px" top="120px" position="absolute" parent_id="NotebookAttachform"></part>
+		<part id="nbattachajaxcomp" parent_id="NotebookAttachform"></part>
+
+	</layout>
+
+	<content id="nbattachcontent1">
+		<part id="nbattachtitle" value="NoteBook" valuetype="inline"></part>
+		<part id="nbattachfile" value="Attach File" valuetype="inline"></part>
+		<part id="nbattachdone" value="Done" valuetype="inline"></part>
+	</content>
+
+	<style id="nbattachstyle1">
+		<part id="nbattachmain" value="[CDATA[background-color: #99CCCC]]" valuetype="inline"></part>
+		<part id="nbattachlogobox" value="[CDATA[background: url(../images/SmallLogo.gif) no-repeat;background-color: #006699]]" valuetype="inline"></part>
+		<part id="nbattachtitle" value="[CDATA[background-color: #006699;color: #FFCC33;font-family:Verdana,sans-serif;font-size:16px;font-weight:bold]]" valuetype="inline"></part>
+		<part id="nbattachtopimg" value="[CDATA[z-index:1;background: url(../images/tr20x20.gif) no-repeat;background-color: #006699]]" valuetype="inline"></part>
+		<part id="nbattachtopbar" value="[CDATA[background-color:#006699]]" valuetype="inline"></part>
+		<part id="nbattachinputfile" value="[CDATA[position=absolute;left=25px;top=70px]]" valuetype="inline"></part>
+	</style>
+
+	<behaviour id="nbattachevents1">
+		<part id="nbattachfile">
+			<event name="onclick" type="simple" function="attachfile" valuetype="jsevent" resourceid="nbattachjs"></event>
+		</part>
+		<part id="nbattachdone">
+			<event name="onclick" type="simple" function="done" valuetype="jsevent" resourceid="nbattachjs"></event>
+		</part>
+		<part id="nbattachajaxcomp">
+			<event name="ajax" function="dummy" javaclass="NoteBookUtil"></event>
+		</part>
+	</behaviour>
+
+	<resource>
+		<resourceitem id="nbattachjs" href="notebookattach.js" valuetype="js"></resourceitem>
+	</resource>
+
+</interface>
