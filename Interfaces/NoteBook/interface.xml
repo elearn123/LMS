@@ -1,0 +1,319 @@
+<interface  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="NoteBook" title="LMS Student NoteBook" type="InterfaceFragment">
+
+	<configuration TemplateID="GridTreeNew"></configuration>
+
+	<structure>
+		<part id="nbmain" class="label"></part>
+		<part id="nblogobox" class="label"></part>
+		<part id="nbtitle" class="label"></part>
+		
+		
+		<part id="quit" class="textlink"></part>
+		<part id="help" class="textlink"></part>
+		<part id="personalnotes" class="label"></part>
+		<part id="sharednotes" class="label"></part>
+		<part id="courselable" class="label"></part>
+		<part id="selectcourse" class="label"></part>
+		<part id="userlable" class="label"></part>
+		<part id="selectuser" class="label"></part>
+		<part id="unitlable" class="label"></part>
+		<part id="selectunit" class="label"></part>
+		<part id="go" class="button"></part>
+		<part id="treebox1" class="label"></part>
+		<part id="treebox" class="tree" treedataremotefunction="NoteBookUtil.treeConstruct" 
+		      onselectremotefunction="f12"  autocollapse="true" initialiseonload="false" ></part>
+		<part id="notemain" class="label"></part>
+		<part id="notedate" class="label"></part>
+		<part id="sublable" class="label"></part>
+		<part id="subtxt" class="inputtext" size="45"></part>
+		<part id="noteslable" class="label"></part>
+		<part id="notes" class="textarea" rows="5" cols="57"></part>
+		<part id="attachment" class="textlink"></part>
+		<part id="add" class="textlink"></part>
+		<part id="delete" class="textlink"></part>
+		<part id="modify" class="textlink"></part>
+		<part id="publish" class="textlink"></part>
+		<part id="nbattachments" class="label"></part>				
+		<part id="nbajaxcomp" class="ajaxcomponent"></part>
+		
+
+		<part id="lay1" class="label"></part>
+		<part id="lay2" class="label"></part>
+		<part id="lay3" class="label"></part>
+		<part id="lay4" class="label"></part>
+		<part id="lay5" class="label"></part>
+		<part id="lay6" class="label"></part>
+		<part id="lay7" class="label"></part>
+		<part id="lay8" class="label"></part>
+		<part id="lay9" class="label"></part>
+		<part id="lay10" class="label"></part>
+		<part id="lay11" class="label"></part>
+		<part id="lay12" class="label"></part>
+		<part id="lay13" class="label"></part>
+		<part id="lay14" class="label"></part>
+		<part id="lay15" class="label"></part>
+		<part id="lay16" class="label"></part>
+		<part id="lay17" class="label"></part>
+		<part id="lay18" class="label"></part>
+		<part id="lay19" class="label"></part>
+		<part id="lay20" class="label"></part>
+		<part id="lay21" class="label"></part>
+		<part id="lay22" class="label"></part>
+		<part id="lay23" class="label"></part>
+		<part id="lay24" class="label"></part>
+		<part id="lay25" class="label"></part>
+		<part id="lay26" class="label"></part>
+		<part id="lay27" class="label"></part>
+		<part id="lay28" class="label"></part>
+		<part id="lay29" class="label"></part>
+		<part id="lay30" class="label"></part>
+		<part id="dummyBody" class="image"></part>
+		
+		<part id="title" class="label"></part>
+	</structure>
+
+	<layout id="notebooklayout1">
+			<part id="nbmain" ></part>
+			<part id="title" parent_id="nbmain"></part> 
+			
+			
+			
+			<part id="nbtitle"   parent_id="title"></part>
+			
+			<part id="lay1" parent_id="nbmain"></part>
+			
+			
+			<part id="quit"  parent_id="lay1"></part>
+			<part id="help"  parent_id="lay1"></part>
+			
+			<part id="lay2" parent_id="nbmain"></part>
+			<part id="lay3" parent_id="lay2"></part>
+			
+			<part id="lay4" parent_id="lay2"></part>
+<!--
+			
+			
+			<part id="personalnotes"  parent_id="lay5"></part>  -->
+			
+			<part id="lay6" parent_id="lay3"></part>
+			<part id="lay7" parent_id="lay3"></part>
+			<part id="treebox1" height="350px" width="330px" left="10px"  parent_id="lay7"></part>
+			<part id="treebox"  parent_id="treebox1"></part>
+			
+			<part id="lay8" parent_id="lay6"></part>
+			
+			<part id="courselable"   parent_id="lay8"></part>		
+			
+			<part id="lay9" parent_id="lay6"></part>
+
+			<part id="selectcourse" parent_id="lay9"></part>
+			
+				
+			<part id="nbajaxcomp" parent_id="treebox"></part>
+			
+			
+
+<!--			<part id="lay10" parent_id="lay4"></part>
+			<part id="sharednotes"   parent_id="lay10"></part>  -->
+			
+			<part id="lay11" parent_id="lay4"></part>			
+			<part id="lay17" parent_id="lay4"></part>
+			<part id="notemain"   height="150px" width="455px"  parent_id="lay17"></part>
+			
+			
+			<part id="lay18" parent_id="lay4"></part>
+			<part id="notedate"   parent_id="lay18"></part>
+			<part id="lay19" parent_id="lay4"></part>
+			<part id="lay22" parent_id="lay4"></part>	
+			<part id="noteslable"  parent_id="lay22"></part>
+			<part id="notes"   parent_id="noteslable"></part>
+			
+			<part id="lay23" parent_id="lay4"></part>
+			<part id="lay26" parent_id="lay4"></part>
+			
+<!--			<part id="lay12" parent_id="lay11"></part>
+			<part id="lay13" parent_id="lay11"></part>			
+			<part id="lay14" parent_id="lay11"></part>
+			<part id="lay15" parent_id="lay11"></part>
+			<part id="lay16" parent_id="lay11"></part>
+		
+			<part id="userlable"   parent_id="lay12"></part>
+			<part id="selectuser"   parent_id="lay13"></part>
+			<part id="unitlable"   parent_id="lay14"></part>
+			<part id="selectunit"   parent_id="lay15"></part>
+			<part id="go"   parent_id="lay16"></part>
+			
+	-->		
+			
+			<part id="lay20" parent_id="lay19"></part>			
+			<part id="lay21" parent_id="lay19"></part>
+			<part id="sublable"   parent_id="lay20"></part>
+			<part id="subtxt"  parent_id="lay21"></part>
+			
+			
+			<part id="lay24" parent_id="lay23"></part>
+<!--			<part id="lay25" parent_id="lay23"></part> -->
+			
+			<part id="attachment"  parent_id="lay24"></part>	
+			<part id="nbattachments"    parent_id="lay25"></part>
+			
+			
+			<part id="lay27" parent_id="lay26"></part>			
+			<part id="lay28" parent_id="lay26"></part>
+			<part id="lay29" parent_id="lay26"></part>
+			<part id="lay30" parent_id="lay26"></part>
+			
+			<part id="add"  parent_id="lay27"></part>
+			<part id="delete"   parent_id="lay28"></part>
+			<part id="modify"   parent_id="lay29"></part>
+<!--			<part id="publish" parent_id="lay30"></part>	-->
+		
+		
+			 <part id="dummyBody" parent_id="nbmain"></part>
+			
+			
+
+
+	</layout>
+
+	<content id="notebookcontent1">
+		<part id="nbtitle" value="NoteBook" valuetype="inline"></part>
+		
+		<part id="quit" value="Quit" valuetype="inline"></part>
+		<part id="help" value="Help" valuetype="inline"></part>
+		<part id="personalnotes" value="Personal Notes" valuetype="inline"></part>
+		<part id="sharednotes" value="Shared Notes" valuetype="inline"></part>
+		<part id="courselable" value="Unit Name :" valuetype="inline"></part>
+		<part id="userlable" value="User Name :" valuetype="inline"></part>
+		<part id="unitlable" value="Unit Name :" valuetype="inline"></part>
+		<part id="go" value="Go" valuetype="inline"></part>
+		<part id="sublable" value="Subject : " valuetype="inline"></part>
+		<part id="noteslable" value="Note : " valuetype="inline"></part>
+		<part id="attachment" value="Attach Files" valuetype="inline"></part>
+		<part id="add" value="Add Note" valuetype="inline"></part>
+		<part id="delete" value="Delete Note" valuetype="inline"></part>
+		<part id="modify" value="Modify Note" valuetype="inline"></part>
+		<part id="publish" value="Publish Note" valuetype="inline"></part>
+		
+		<part id="dummyBody" value="dummyimg" valuetype="reference"></part>
+	</content>
+
+	<style id="notebookstyle1">
+	
+		<part id="nbmain" value="FlexColumnContainer" valuetype="inline"></part>
+		
+		<part id="lay1" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="lay2" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="title" value="FlexRowContainer" valuetype="reference"></part>
+	<part id="nbtitle" value="[CDATA[background-color: #006699;color: #FFCC33;font-family:Verdana,sans-serif;font-size:16px;font-weight:bold]]" valuetype="inline"></part>	
+	<part id="quit" value="[CDATA[cursor:pointer;text-decoration:none;font-family:Verdana,Helvetica,sans-serif;font-size:12px;font-weight:bold]]" valuetype="inline"></part>
+	<part id="help" value="[CDATA[cursor:pointer;text-decoration:none;font-family:Verdana,Helvetica,sans-serif;font-size:12px;font-weight:bold]]" valuetype="inline"></part>	
+		<part id="lay3" value="FlexColumnContainer" valuetype="reference"></part>
+		<part id="lay4" value="FlexColumnContainer" valuetype="reference"></part>
+		<part id="lay5" value="FlexColumnContainer" valuetype="reference"></part>
+		<part id="treebox1" value="[CDATA[border:1px solid black;background-color: #cbbf95; overflow:auto;]]" valuetype="inline"></part>
+		
+		<part id="lay6" value="FlexRowContainer" valuetype="reference"></part>
+	
+		<part id="lay7" value="FlexRowContainer" valuetype="reference"></part>
+		
+		
+		<part id="lay10" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="lay11" value="FlexRowContainer" valuetype="reference"></part>
+		
+		<part id="lay17" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="notemain" value="[CDATA[border:1px solid black;background-color:white;font-family:Verdana,Arial,Helvetica;font-size:11px]]" valuetype="inline"></part>
+		
+		<part id="lay18" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="lay19" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="lay22" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="lay23" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="lay26" value="FlexRowContainer" valuetype="reference"></part>
+		
+		<part id="dummyBody" value="[CDATA[visibility: hidden;]]" valuetype="inline"></part>
+		
+<!--	<part id="lay8" value="FlexRowContainer" valuetype="reference"></part>
+		<part id="lay9" value="FlexRowContainer" valuetype="reference"></part>
+		
+		
+		<part id="topimg" value="[CDATA[z-index:1;background: url(../images/tr20x20.gif) no-repeat;background-color: #006699]]" valuetype="inline"></part>
+		
+		
+		<part id="personalnotes" value="[CDATA[color:black;font-family:Verdana,Helvetica,sans-serif;font-size:xx-small;font-weight:bold]]" valuetype="inline"></part>
+		<part id="sharednotes" value="[CDATA[color:black;font-family:Verdana,Helvetica,sans-serif;font-size:xx-small;font-weight:bold]]" valuetype="inline"></part>
+		
+		<part id="userlable" value="[CDATA[color:black;font-family:Verdana,Helvetica,sans-serif;font-size:xx-small;font-weight:bold]]" valuetype="inline"></part>
+		<part id="unitlable" value="[CDATA[color:black;font-family:Verdana,Helvetica,sans-serif;font-size:xx-small;font-weight:bold]]" valuetype="inline"></part>
+		<part id="treebox1" value="[CDATA[border:1px solid black;background-color: #cbbf95; overflow:auto;]]" valuetype="inline"></part>
+		<part id="notemain" value="[CDATA[background-color:white;font-family:Verdana,Arial,Helvetica;font-size:11px]]" valuetype="inline"></part>
+		<part id="notedate" value="[CDATA[font-family:Verdana,Helvetica,sans-serif;font-size:9px;font-weight:bold]]" valuetype="inline"></part>
+		<part id="sublable" value="[CDATA[font-family:Verdana,Helvetica,sans-serif;font-size:9px;font-weight:bold]]" valuetype="inline"></part>
+		<part id="subtxt" value="[CDATA[font-family:Verdana,Helvetica,sans-serif;font-size:9px;font-weight:bold]]" valuetype="inline"></part>
+		<part id="noteslable" value="[CDATA[font-family:Verdana,Helvetica,sans-serif;font-size:9px;font-weight:bold]]" valuetype="inline"></part>
+		<part id="notes" value="[CDATA[overflow:auto;font-family:Verdana,Helvetica,sans-serif;font-size:9px;font-weight:bold]]" valuetype="inline"></part>
+		<part id="attachment" value="[CDATA[font-family:Verdana,Helvetica,sans-serif;font-size:9px;font-weight:bold]]" valuetype="inline"></part>
+		<part id="add" value="[CDATA[font-family:tahoma,sans-serif,serif;font-size:11px;font-weight:400;background-color:#D6E7EF;border-right-color:#104A7B;border-bottom-color:#104A7B;border-right-style:solid;border-bottom-style:solid;border-right-width:1px;border-bottom-width:1px]]" valuetype="inline"></part>
+		<part id="modify" value="[CDATA[font-family:tahoma,sans-serif,serif;font-size:11px;font-weight:400;background-color:#D6E7EF;border-right-color:#104A7B;border-bottom-color:#104A7B;border-right-style:solid;border-bottom-style:solid;border-right-width:1px;border-bottom-width:1px]]" valuetype="inline"></part>
+		<part id="delete" value="[CDATA[font-family:tahoma,sans-serif,serif;font-size:11px;font-weight:400;background-color:#D6E7EF;border-right-color:#104A7B;border-bottom-color:#104A7B;border-right-style:solid;border-bottom-style:solid;border-right-width:1px;border-bottom-width:1px]]" valuetype="inline"></part>
+		<part id="publish" value="[CDATA[font-family:tahoma,sans-serif,serif;font-size:11px;font-weight:400;background-color:#D6E7EF;border-right-color:#104A7B;border-bottom-color:#104A7B;border-right-style:solid;border-bottom-style:solid;border-right-width:1px;border-bottom-width:1px]]" valuetype="inline"></part>
+		<part id="nbattachments" value="[CDATA[font-family:Verdana,Helvetica,sans-serif;font-size:9px;font-weight:bold]]" valuetype="inline"></part>
+-->
+
+		</style>
+
+	<behaviour id="notebookevents1">
+		<part id="quit">
+			<event name="onclick" type="simple" function="Quit" valuetype="jsevent" resourceid="nbjs"></event>
+		</part>
+		<part id="help">
+			<event name="onclick" type="simple" function="Help" valuetype="jsevent" resourceid="nbjs"></event>
+		</part>
+		<part id="go">
+			<event name="onclick" type="simple" function="goonclick" valuetype="jsevent" resourceid="nbjs"></event>
+		</part>
+<!--
+		<part id="treebox">
+			<event name="" type="simple" function="" callback="" javaclass="" target="" valuetype="" resourceid="nbportalresource"></event>
+		</part>
+-->
+		<part id="attachment">
+			<event name="onclick" type="simple" function="attach" valuetype="jsevent" resourceid="nbjs"></event>
+		</part>
+		<part id="add">
+			<event name="onclick" type="simple" function="addNote" valuetype="jsevent" resourceid="nbjs"></event>
+		</part>
+		<part id="modify">
+			<event name="onclick" type="simple" function="editNote" valuetype="jsevent" resourceid="nbjs"></event>
+		</part>
+		<part id="delete">
+			<event name="onclick" type="simple" function="deleteNote" valuetype="jsevent" resourceid="nbjs"></event>
+		</part>
+<!--
+		<part id="publish">
+			<event name="onclick" type="simple" function="publishNote" valuetype="jsevent" resourceid="nbjs"></event>
+		</part>
+-->
+		<part id="nbattachments">
+			<event name="onclick" type="simple" function="attach" valuetype="jsevent" resourceid="nbjs"></event>
+		</part>
+		<part id="nbajaxcomp">
+			<event name="ajax" function="dummy" javaclass="NoteBookUtil"></event>
+		</part>
+	
+		<part id="dummyBody">
+			<event name="onerror" type="simple" function="alert" valuetype="jsevent" resourceid="portalforumjs"></event>
+		</part>
+	
+	
+	</behaviour>
+
+	<resource>
+		<resourceitem id="nbjs" href="notebook.js" valuetype="js"></resourceitem>
+		
+		<resourceitem id="dummyimg" href="dummy.jpg" valuetype="image"></resourceitem>
+	</resource>
+
+</interface>
