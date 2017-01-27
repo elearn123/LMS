@@ -230,10 +230,22 @@
         </interface>
     </role>
     <role id="STUDENT">
+        <interface id="AdEvent">
+            <layout id="adeventlayout1"/>
+            <content id="adeventcontent1"/>
+            <style id="adeventstyle1"/>
+            <behaviour id="adeventevents1"/>
+        </interface>
         <interface id="AssessmentDelivery">
             <layout id="AssessmentPortallayout"/>
             <style id="AssessmentPortalstyle"/>
             <behaviour id="AssessmentPortalbehaviour"/>
+        </interface>
+        <interface id="Calender">
+            <layout id="calendarlayout1"/>
+            <content id="calendarcontent1"/>
+            <style id="calendarstyle1"/>
+            <behaviour id="calenderevents1"/>
         </interface>
         <interface id="ChangePassword">
             <layout id="ChangePasswordLay"/>
@@ -287,12 +299,6 @@
             <style id="notebookstyle1"/>
             <behaviour id="notebookevents1"/>
         </interface>
-        <interface id="NotebookAttach">
-            <layout id="nbattachlt1"/>
-            <content id="nbattachcontent1"/>
-            <style id="nbattachstyle1"/>
-            <behaviour id="nbattachevents1"/>
-        </interface>
         <interface id="NoticeBoardView">
             <layout id="gennotice"/>
             <content id="gennoticecont"/>
@@ -331,4 +337,4 @@
         </interface>
     </role>
 </roles>
-<!--XML is generated on Fri Jan 27 15:47:27 IST 2017-->
+<!--XML is generated on Fri Jan 27 16:55:00 IST 2017-->

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest id="MSMELMS" title="MSMELMS" xmlns="http://learnityframework.org/">
+    <interface id="AdEvent" title="Add Calender Event"
+        type="InterfaceFragment" zip="AdEvent.zip"/>
     <interface id="AsmtResultNotificationMgmt"
         title="LMS Assessment Result Notification Management"
         type="Interface" zip="AsmtResultNotificationMgmt.zip"/>
@@ -15,10 +17,12 @@
         title="LMS Assessment Registration By User" type="Interface" zip="AssessmentRegByUser.zip"/>
     <interface id="AssessmentResult" title="LMS Assessment Results"
         type="Interface" zip="AssessmentResult.zip"/>
+    <interface id="Calender" title="Calender View"
+        type="InterfaceFragment" zip="Calender.zip"/>
     <interface id="ChangePassword" title="Change LMS Admin Password"
-        type="Interface" zip="ChangePassword.zip"/>
+        type="InterfaceFragment" zip="ChangePassword.zip"/>
     <interface id="ChangeProfile" title="LMS Change Admin Profile"
-        type="Interface" zip="ChangeProfile.zip"/>
+        type="InterfaceFragment" zip="ChangeProfile.zip"/>
     <interface id="ConfigureMailServer"
         title="LMS Mail Server Configuration" type="Interface" zip="ConfigureMailServer.zip"/>
     <interface id="DeliveryEngine" title="LMS Content Delivery"
@@ -59,9 +63,7 @@
     <interface id="ManageUnitInformation"
         title="Manage LMS Unit Information" type="Interface" zip="ManageUnitInformation.zip"/>
     <interface id="NoteBook" title="LMS Student NoteBook"
-        type="Interface" zip="NoteBook.zip"/>
-    <interface id="NotebookAttach" title="LMS Notebook Attachment"
-        type="Interface" zip="NotebookAttach.zip"/>
+        type="InterfaceFragment" zip="NoteBook.zip"/>
     <interface id="NotebookMgmt" title="LMS Notebook Management"
         type="Interface" zip="NotebookMgmt.zip"/>
     <interface id="NoticeBoardAdmin"
@@ -109,4 +111,4 @@
     <interface id="UserRoleAssociation"
         title="LMS User Role Association" type="Interface" zip="UserRoleAssociation.zip"/>
 </manifest>
-<!--XML is generated on Fri Jan 27 15:47:12 IST 2017-->
+<!--XML is generated on Fri Jan 27 16:55:00 IST 2017-->
