@@ -231,6 +231,8 @@ public class NoteBookUtil
         return path;
     }
     
+   
+    
     public void addNote(final String subject, final String notes) {
         final WebContext wctx1 = WebContextFactory.get();
         final HttpSession mysession = wctx1.getSession();
@@ -430,24 +432,27 @@ public class NoteBookUtil
         final HttpSession mysession = wctx1.getSession();
         String courseid = (String)mysession.getAttribute("unit_id");
         String userId = (String)mysession.getAttribute("userid");
-        String unit = (String)mysession.getAttribute("unit");
+       String unit = (String)mysession.getAttribute("unit");
         String type = (String)mysession.getAttribute("type");
         System.out.println("======courseid===parse=====" + courseid);
         if (courseid == null) {
             courseid = "";
         }
-        if (userId == null) {
+
+        if (type == null) {
+            type = "personal";
+        }
+      
+       if (userId == null) {
             userId = "";
         }
         if (unit == null) {
             unit = "0";
         }
-        if (type == null) {
-            type = "personal";
-        }
         if (!unit.equals("0")) {
             courseid = unit;
         }
+
         System.out.println("======courseid===treeConstruct==2===" + courseid);
         final XMLDocument manifest = DataBaseLayer.parse(courseid, "csformat");
         String strTreeNodes = "";
