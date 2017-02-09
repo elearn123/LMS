@@ -1656,7 +1656,7 @@ public class DataBaseLayer
 		{
             stmtDeleteItem.setString( 1, unitId );
             noOfRecordsInserted = stmtDeleteItem.executeUpdate();            
-            if (noOfRecordsInserted <=0) return false;
+ //           if (noOfRecordsInserted <=0) return false;
             for (int i = 0; i < identifierList.size(); i++){
 				stmtInsertItem.setString( 1, unitId );
 				stmtInsertItem.setString( 2, identifierList.get(i) );
