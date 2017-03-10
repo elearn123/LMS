@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest id="MSMELMS" title="MSMELMS" xmlns="http://learnityframework.org/">
-    <interface id="AdEvent" title="Add Calender Event"
-        type="InterfaceFragment" zip="AdEvent.zip"/>
     <interface id="AsmtResultNotificationMgmt"
         title="LMS Assessment Result Notification Management"
         type="Interface" zip="AsmtResultNotificationMgmt.zip"/>
@@ -17,8 +15,6 @@
         title="LMS Assessment Registration By User" type="Interface" zip="AssessmentRegByUser.zip"/>
     <interface id="AssessmentResult" title="LMS Assessment Results"
         type="Interface" zip="AssessmentResult.zip"/>
-    <interface id="Calender" title="Calender View"
-        type="InterfaceFragment" zip="Calender.zip"/>
     <interface id="ChangePassword" title="Change LMS Admin Password"
         type="InterfaceFragment" zip="ChangePassword.zip"/>
     <interface id="ChangeProfile" title="LMS Change Admin Profile"
@@ -62,8 +58,14 @@
         type="Interface" zip="ManageUnitHomePage.zip"/>
     <interface id="ManageUnitInformation"
         title="Manage LMS Unit Information" type="Interface" zip="ManageUnitInformation.zip"/>
-    <interface id="NoteBook" title="LMS Student NoteBook"
+	
+	<interface id="ManageUnitFileInfo"
+        title="Manage LMS Unit File Import Export" type="Interface" zip="ManageUnitFileInfo.zip"/>
+	
+	
+	<interface id="NoteBook" title="LMS Student NoteBook"
         type="InterfaceFragment" zip="NoteBook.zip"/>
+
     <interface id="NotebookMgmt" title="LMS Notebook Management"
         type="Interface" zip="NotebookMgmt.zip"/>
     <interface id="NoticeBoardAdmin"
@@ -110,5 +112,12 @@
         type="Interface" zip="userReport.zip"/>
     <interface id="UserRoleAssociation"
         title="LMS User Role Association" type="Interface" zip="UserRoleAssociation.zip"/>
+		
+	 <interface id="Calender"
+        title="Calender Pop-up" type="InterfaceFragment" zip="Calender.zip"/>	   
+	     	
+	 <interface id="AdEvent"
+        title="Add Event Pop-up" type="InterfaceFragment" zip="AdEvent.zip"/>	
+
 </manifest>
-<!--XML is generated on Fri Jan 27 16:55:00 IST 2017-->
+<!--XML is generated on Thu Nov 03 16:04:34 IST 2016-->

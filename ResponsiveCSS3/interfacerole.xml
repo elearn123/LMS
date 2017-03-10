@@ -141,6 +141,14 @@
             <content id="ManageUnitInformationContent"/>
             <behaviour id="ManageUnitInformationBehaviour"/>
         </interface>
+		
+		<interface id="ManageUnitFileInfo">
+            <layout id="ManageUnitFileInfoLayout"/>
+            <content id="ManageUnitFileInfoContent"/>
+            <behaviour id="ManageUnitFileInfoBehaviour"/>
+        </interface>
+      
+		
         <interface id="NotebookMgmt">
             <layout id="NotebookMgmtlayout"/>
             <content id="NotebookMgmtcontent"/>
@@ -337,4 +345,4 @@
         </interface>
     </role>
 </roles>
-<!--XML is generated on Fri Jan 27 16:55:00 IST 2017-->
+<!--XML is generated on Fri Jan 27 16:29:37 IST 2017-->

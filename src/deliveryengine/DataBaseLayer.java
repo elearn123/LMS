@@ -131,9 +131,11 @@ public class DataBaseLayer
         return b;
     }
     
-    public static boolean insertContent(final String s, final String s2, final String s3, final String s4) {
+    public static boolean insertContent(final String s, final String s2, final String s3, final String s4,final String idens5,int size) {
         boolean b = true;
         Connection connection = null;
+        
+        //insert IdentifierList into table 
         try {
             connection = DataBaseLayer.ds1.getConnection();
             final Statement statement = connection.createStatement();
@@ -144,7 +146,7 @@ public class DataBaseLayer
             executeQuery.close();
             statement.close();
             final Statement statement2 = connection.createStatement();
-            statement2.executeUpdate("insert into " + s + " values('" + s3 + "','" + s2 + "',sysdate(),'" + s4 + "')");
+            statement2.executeUpdate("insert into " + s + " values('" + s3 + "','" + s2 + "',sysdate(),'" + s4 + "','" + idens5 + "','" + idens5 + "','" + size + "')");	/*Last idens5 is faking the content entry  */
             executeQuery.close();
             statement2.close();
         }
@@ -1734,4 +1736,211 @@ public class DataBaseLayer
         }
     	return xmlInputStream;
     }
+    
+    /*Author Anupam*/
+    
+	public synchronized static void updateUnitContent(String unit_id,InputStream is,int size,String file_name) {
+		
+	Statement  oStmt=null;
+	
+	Connection oConn = null;
+	
+	
+	try {
+		oConn = DataBaseLayer.ds1.getConnection();
+		oConn.setAutoCommit(false);
+		oStmt = oConn.createStatement();
+
+		
+		System.out.println("unit_id==updateStudentContent==="+unit_id+" File Neme:"+file_name);
+			
+			
+		PreparedStatement pstmt = oConn.prepareStatement("update content_management_object SET content= ?  where unit_id=? and file_name=?");
+		pstmt.setBinaryStream( 1, is, size);
+
+		pstmt.setString(2,unit_id);
+		pstmt.setString(3,file_name);
+		pstmt.executeUpdate();
+			
+		
+		
+		oConn.commit();
+		oConn.setAutoCommit(true);
+		
+		
+	}
+	catch (SQLException e) {
+		System.out.println("==SQLException===");
+		e.printStackTrace();
+	}
+	catch (Exception ex) {
+		System.out.println("==Exception===");
+		ex.printStackTrace();
+	}
+  //  //connMgr.freeConnection("mysql", oConn);
+	finally{
+		if(oConn!=null)
+		{
+			try
+			{
+				oStmt.close();
+				oConn.close();
+			}
+			catch(SQLException e)
+			{
+			}
+		
+		
+		}
+	
+	}	 
+				 
+		}			
+
+	
+	
+	public synchronized static void updateUnitContent2(String unit_id,InputStream is,int size,String file_name,String user_id) {
+		
+		Statement  oStmt=null;
+		
+		Connection oConn = null;
+		
+		
+		try {
+			oConn = DataBaseLayer.ds1.getConnection();
+			oConn.setAutoCommit(false);
+			oStmt = oConn.createStatement();
+
+			
+			final Statement statement = oConn.createStatement();
+			 final ResultSet executeQuery = oStmt.executeQuery("select * from content_management_object where unit_id = '" + unit_id + "' and file_name = '" + file_name + "'");
+			 if (executeQuery.next()) {
+	                statement.execute("delete from content_management_object where unit_id = '" + unit_id + "' and file_name = '" + file_name + "'");
+	            }
+	            executeQuery.close();
+	            statement.close();
+			 final Statement statement2 = oConn.createStatement();
+	            statement2.executeUpdate("insert into content_management_object values('" + unit_id + "','" + file_name + "',sysdate(),'" + user_id + "','" + 0 + "','" + 0 + "')");	/*Last idens5 is faking the content entry  */
+	            executeQuery.close();
+	            statement2.close();
+				
+			System.out.println("unit_id==updateStudentContent==="+unit_id+" File Neme:"+file_name);
+				
+				
+			PreparedStatement pstmt = oConn.prepareStatement("update content_management_object SET content= ? where unit_id=? and file_name=?");
+			pstmt.setBinaryStream( 1, is, size);
+			pstmt.setString(2,unit_id);
+			pstmt.setString(3,file_name);
+			pstmt.executeUpdate();
+				
+			 
+			oConn.commit();
+			oConn.setAutoCommit(true);
+			
+			
+		}
+		catch (SQLException e) {
+			System.out.println("==SQLException===");
+			e.printStackTrace();
+		}
+		catch (Exception ex) {
+			System.out.println("==Exception===");
+			ex.printStackTrace();
+		}
+	  //  //connMgr.freeConnection("mysql", oConn);
+		finally{
+			if(oConn!=null)
+			{
+				try
+				{
+					oStmt.close();
+					oConn.close();
+				}
+				catch(SQLException e)
+				{
+				}
+			
+			
+			}
+		
+		}	 
+					 
+			}			
+
+	
+	
+	   public static byte[] getContentFile(String unit_id,String file_name){
+		
+		//DBConnectionManager connMgr = DBConnectionManager.getInstance();
+       		//Connection conn = connMgr.getConnection("mysql");
+       		 byte[] _blob=null;
+		 Connection conn = null;
+		 PreparedStatement pstmt = null;
+		 ResultSet rs =null;
+       		try{
+			conn = ds1.getConnection();	
+       		pstmt = conn.prepareStatement("SELECT content FROM content_management_object where unit_id=? and file_name=? ");
+		pstmt.setString(1, unit_id);
+		pstmt.setString(2, file_name);
+		rs = pstmt.executeQuery();
+		if(rs.next()) {
+			System.out.println("rs has next");
+			Blob blob = rs.getBlob(1);
+			int length = (int)blob.length();
+			System.out.println("length is:"+length);
+			 _blob = blob.getBytes(1, length);
+			
+		}
+		System.out.println("Completed.Retreiving..");
+		//conn.close();
+ 
+		}catch(SQLException ex) {
+			System.out.println("SQLException in getUserPhoto "+ex.getMessage());
+			ex.printStackTrace();
+		}
+	 catch(Exception e) {
+		System.out.println("Exception in getUserPhoto "+e.getMessage());
+		e.printStackTrace();
+	}
+	finally{
+		try{
+			pstmt.close();
+			rs.close();		
+			conn.close();}catch(SQLException e){}
+	}
+	return _blob;
+	}
+	
+	
+
+			    
+	      public static String getUploadTime(final String unit_id,final String file_name) {
+        String string = "";
+        Connection connection = null;
+        try {
+            connection = DataBaseLayer.ds1.getConnection();
+            final Statement statement = connection.createStatement();
+            final ResultSet executeQuery = statement.executeQuery("select upload_date from content_management_object where unit_id='" + unit_id + "' and file_name='" + file_name + "'");
+            while (executeQuery.next()) {
+            string = executeQuery.getString(1);
+            
+            }
+            statement.close();
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException ex2) {}
+            }
+        }
+        return string;
+    }
+	   
+	
+	/* End*/
 }    
