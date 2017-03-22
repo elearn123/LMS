@@ -5,6 +5,7 @@
 	
 	import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 	import java.io.FileInputStream;
 	import java.io.FileNotFoundException;
@@ -451,6 +452,9 @@ import java.io.File;
 							String str2 = "";
 							for (int k = 0; k < localNamedNodeMap.getLength(); k++) {
 								localNode1 = localNamedNodeMap.item(k);
+								
+								
+								
 								if (localNode1.getNodeName().equalsIgnoreCase(
 										"href")) {
 									str2 = localNode1.getNodeValue();
@@ -518,6 +522,7 @@ import java.io.File;
 						//			return source;
 									return (String) localObject;
 								}
+							
 							}
 						}
 					}
@@ -529,7 +534,7 @@ import java.io.File;
 		}
 	
 		public String UploadUnit(String paramString1, String paramString2,
-				FileTransfer paramFileTransfer) {
+				FileTransfer paramFileTransfer,String target) {
 			Object localObject1 = "Unit Imported Successfully";
 			ArrayList<String> identifierList = new ArrayList<String>();
 			DebugSwitch localDebugSwitch = new DebugSwitch(
@@ -643,7 +648,7 @@ import java.io.File;
 					String manifestFilePath = (String) localObject2 + File.separatorChar
 							+ "imsmanifest.xml";
 					DataBaseLayer.insertCourse("csformat", paramString1,
-							manifestFilePath, str3, str1);
+							manifestFilePath, str3, str1,target);
 					if (localDebugSwitch.ON) {
 						System.out
 								.println("-------->>>>>>>-----insertCourse() successful ");
@@ -720,7 +725,7 @@ import java.io.File;
 							.println("----111.1---->>>>>>>-----get the zip file ... "
 									+ str11);
 				}
-				Object localObject3 = getZipFiles(str11, paramString2, paramString1,identifierList);
+				Object localObject3 = getZipFiles(str11, paramString2, paramString1,identifierList,target);
 				if (!((String) localObject3).equals("")) {
 					localObject1 = localObject3;
 				}
@@ -783,12 +788,13 @@ import java.io.File;
 		}
 	
 		public String getZipFiles(String paramString1, String paramString2,
-				String paramString3, ArrayList<String> identifierList) {
+				String paramString3, ArrayList<String> identifierList,String target) {
 	
 		//Need to parse identifierList one by one and send to DatabaseLayer.insertcontent	
 			WebContext localWebContext = WebContextFactory.get();
 			HttpSession localHttpSession = localWebContext.getSession();
 			String str1 = (String) localHttpSession.getAttribute("user_id");
+			
 			String str2 = "";
 			try {
 				String str3 = "" + Host.getServerDocumentPath() + paramString3
@@ -810,7 +816,28 @@ import java.io.File;
 					String iden=identifierList.get(iden_no);
 					iden_no++;
 			*/		
+				//Edited by Anupam
+					if (target.equals("DB")){
+					 InputStream is =  localZipInputStream;
+						
+						int size=20000000;
+						
+						//DataBaseLayer.insertContent("content_management_object",localFile1.getName(), paramString3, str1,"0",size); //Only have to get size correctly
+						DataBaseLayer.insertContent("content_management_object",str4, paramString3, str1,"0",size,"Database"); //Only have to get size correctly
+						
+						DataBaseLayer.updateUnitContent(paramString3,is,size,str4);
+				
+				
+						DataBaseLayer.updateUnitSize(size,paramString3,str4);
+											
+						localZipInputStream.closeEntry();
+						localZipEntry = localZipInputStream.getNextEntry();
+					
+					}else{
+				 //End here
+					
 					File localFile1 = new File(str3 + str4);
+					File localFile2 = null;
 					if (localZipEntry.isDirectory()) {
 						localFile1.mkdirs();
 						localZipInputStream.closeEntry();
@@ -819,37 +846,36 @@ import java.io.File;
 						String str5 = localFile1.getParent();
 						System.out.println("===========parent=============" + str5+"  identifire=");
 						if (str5 != null) {
-							File localFile2 = new File(str5);
+							 localFile2 = new File(str5);
 							System.out
 									.println("===============parentFile==============="
 											+ localFile2);
+							
 							if (!localFile2.exists()) {
 								localFile2.mkdirs();
 							}
 						}
 						FileOutputStream localFileOutputStream = new FileOutputStream(
 								str3 + str4);
+						
+						//if (target.equals("FS")){
 						int i;
 						while ((i = localZipInputStream.read(arrayOfByte, 0, 1024)) > -1) {
 							localFileOutputStream.write(arrayOfByte, 0, i);
 						}
+						//Edited by Anupam
+						long fileLength = localFile1.length();
+						int size = (int)fileLength;
+						DataBaseLayer.insertContent("content_management_object",str4, paramString3, str1,null,size,str3+File.separatorChar+ str4);
+						//End Here
 						
-						/*Edited by Anupam*/
-						String strpath=str5+File.separator+localFile1.getName();
-						
-						File inFile=new File(strpath);
-						InputStream inStream= new FileInputStream(inFile);
-						int size =(int)(inFile.length());
-						DataBaseLayer.insertContent("content_management_object",
-								localFile1.getName(), paramString3, str1,"0",size);
-						
-						DataBaseLayer.updateUnitContent(paramString3,inStream,size,localFile1.getName());
-				
-						/*End*/
 						localFileOutputStream.close();
 						localZipInputStream.closeEntry();
 						localZipEntry = localZipInputStream.getNextEntry();
 					}
+					
+				}
+					
 				}
 				localZipInputStream.close();
 			} catch (Exception localException) {
@@ -2133,6 +2159,20 @@ import java.io.File;
 			return fd.returnFileFormat();
 		
 		}
+		
+		public String deleteUnitContent(String unit_id,String file){
+			String status="";
+			String target=DataBaseLayer.getUploadTarget(unit_id);
+			
+			status=DataBaseLayer.deleteUnit(unit_id,file,target);
+			
+			
+			
+			
+			return status;
+		}
+		
+		
 		
 		/*End*/
 		

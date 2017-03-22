@@ -825,9 +825,9 @@ CREATE TABLE `content_management_object` (
   `file_name` varchar(100) NOT NULL,
   `upload_date` datetime DEFAULT NULL,
   `upload_by` varchar(25) NOT NULL,
-  `identifier` varchar(255) DEFAULT NULL,
   `content` longblob,
   `size` int(15) DEFAULT NULL,
+  `fspath` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`unit_id`,`file_name`),
   KEY `unit_idd` (`upload_by`,`unit_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -4013,4 +4013,4 @@ CREATE TABLE `userscoinfo` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-10 18:11:12
+-- Dump completed on 2017-03-23  1:08:34

@@ -379,7 +379,7 @@ public class launchcourse_1
                 }
                 LMSPackageHandler.extract(string4, "imsmanifest.xml", string3);
                 final String string5 = string3 + File.separatorChar + "imsmanifest.xml";
-                DataBaseLayer.insertCourse("csformat", courseID, string5, string2, s2);
+                DataBaseLayer.insertCourse("csformat", courseID, string5, string2, s2,"");
                 if (debugSwitch.ON) {
                     System.out.println("-------->>>>>>>-----insertCourse() successful ");
                 }
@@ -504,7 +504,7 @@ public class launchcourse_1
                     while ((read = zipInputStream.read(array, 0, 1024)) > -1) {
                         fileOutputStream.write(array, 0, read);
                     }
-                    DataBaseLayer.insertContent("content_management_object", file.getName(), s3, s4);
+                    DataBaseLayer.insertContent("content_management_object", file.getName(), s3, s4,"0",0,"");
                     fileOutputStream.close();
                     zipInputStream.closeEntry();
                 }

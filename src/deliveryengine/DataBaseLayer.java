@@ -6,6 +6,11 @@ import org.w3c.dom.*;
 import org.xml.sax.*;
 import javax.xml.parsers.*;
 import java.io.*;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import org.adl.util.debug.*;
 import java.util.*;
@@ -91,7 +96,7 @@ public class DataBaseLayer
         return string;
     }
     
-    public static boolean insertCourse(final String s, final String s2, final String s3, final String s4, final String s5) {
+    public static boolean insertCourse(final String s, final String s2, final String s3, final String s4, final String s5,final String target) {
         boolean b = true;
         Connection connection = null;
         try {
@@ -101,7 +106,7 @@ public class DataBaseLayer
             if (executeQuery.next()) {
                 statement.execute("delete from " + s + " where unit_id = '" + s2 + "'");
             }
-            final PreparedStatement prepareStatement = connection.prepareStatement("insert into " + s + " values(? ,? ,? ,?, ?, ?)");
+            final PreparedStatement prepareStatement = connection.prepareStatement("insert into " + s + " values(? ,? ,? ,?, ?, ?,?)");
             prepareStatement.setString(1, s2);
             final File file = new File(s3);
             final FileInputStream fileInputStream = new FileInputStream(file);
@@ -110,6 +115,8 @@ public class DataBaseLayer
             prepareStatement.setString(4, s5);
             prepareStatement.setString(5, file.getName());
             prepareStatement.setLong(6, file.length());
+            prepareStatement.setString(7, target);
+            
             prepareStatement.execute();
             prepareStatement.close();
             fileInputStream.close();
@@ -131,7 +138,7 @@ public class DataBaseLayer
         return b;
     }
     
-    public static boolean insertContent(final String s, final String s2, final String s3, final String s4,final String idens5,int size) {
+    public static boolean insertContent(final String s, final String s2, final String s3, final String s4,final String idens5,int size , String fullpath) {
         boolean b = true;
         Connection connection = null;
         
@@ -146,7 +153,8 @@ public class DataBaseLayer
             executeQuery.close();
             statement.close();
             final Statement statement2 = connection.createStatement();
-            statement2.executeUpdate("insert into " + s + " values('" + s3 + "','" + s2 + "',sysdate(),'" + s4 + "','" + idens5 + "','" + idens5 + "','" + size + "')");	/*Last idens5 is faking the content entry  */
+            //statement2.executeUpdate("insert into " + s + " values('" + s3 + "','" + s2 + "',sysdate(),'" + s4 + "','" + idens5 + "','" + idens5 + "','" + size + "')");	/*Last idens5 is faking the content entry  */
+            statement2.executeUpdate("insert into " + s + " values('" + s3 + "','" + s2 + "',sysdate(),'" + s4 + "','" + idens5 + "','" + size + "','" + fullpath + "')");	/*Last idens5 is faking the content entry  */
             executeQuery.close();
             statement2.close();
         }
@@ -1678,7 +1686,8 @@ public class DataBaseLayer
     public static boolean insertManifest(final String unitId, 
     		final String fullPath, 
     		final String fileSize, 
-    		final String uploadedBy){
+    		final String uploadedBy
+    		){
 
     	int noOfRecordsInserted = 0;
 		String sqlInsertSQL
@@ -1703,6 +1712,7 @@ public class DataBaseLayer
             	stmtInsertStmt.setString( 7, uploadedBy );
             	stmtInsertStmt.setString( 8, "imsmanifest.xml" );
             	stmtInsertStmt.setString( 9, fileSize );
+            	
 				noOfRecordsInserted = stmtInsertStmt.executeUpdate();
 				if (noOfRecordsInserted <=0) return false;
 			
@@ -1797,6 +1807,66 @@ public class DataBaseLayer
 				 
 		}			
 
+	
+	 public synchronized static void updateUnitSize(int size,String unit_id,String file_name) {
+		
+	Statement  oStmt=null;
+	
+	Connection oConn = null;
+	
+	
+	try {
+		oConn = DataBaseLayer.ds1.getConnection();
+		oConn.setAutoCommit(false);
+		oStmt = oConn.createStatement();
+
+		
+		System.out.println("unit_id==="+unit_id+" File Neme:"+file_name);
+			
+			
+		PreparedStatement pstmt = oConn.prepareStatement("update content_management_object SET size= length(content)  where unit_id=? and file_name=?");
+		//pstmt.setInt( 1,length(content));
+
+		pstmt.setString(1,unit_id);
+		pstmt.setString(2,file_name);
+		pstmt.executeUpdate();
+			
+		
+		
+		oConn.commit();
+		oConn.setAutoCommit(true);
+		
+		
+	}
+	catch (SQLException e) {
+		System.out.println("==SQLException===");
+		e.printStackTrace();
+	}
+	catch (Exception ex) {
+		System.out.println("==Exception===");
+		ex.printStackTrace();
+	}
+  //  //connMgr.freeConnection("mysql", oConn);
+	finally{
+		if(oConn!=null)
+		{
+			try
+			{
+				oStmt.close();
+				oConn.close();
+			}
+			catch(SQLException e)
+			{
+			}
+		
+		
+		}
+	
+	}	 
+				 
+		}			
+
+	
 	
 	
 	public synchronized static void updateUnitContent2(String unit_id,InputStream is,int size,String file_name,String user_id) {
@@ -1914,16 +1984,22 @@ public class DataBaseLayer
 	
 
 			    
-	      public static String getUploadTime(final String unit_id,final String file_name) {
+	      public static Timestamp getUploadTime(final String unit_id,final String file_name) {
         String string = "";
+        Timestamp timestamp = null; //= resultSet.getTimestamp("columnname");
         Connection connection = null;
         try {
             connection = DataBaseLayer.ds1.getConnection();
             final Statement statement = connection.createStatement();
             final ResultSet executeQuery = statement.executeQuery("select upload_date from content_management_object where unit_id='" + unit_id + "' and file_name='" + file_name + "'");
-            while (executeQuery.next()) {
-            string = executeQuery.getString(1);
+
             
+            //use the appropriate column name
+           
+            
+            while (executeQuery.next()) {
+            //string = executeQuery.getString(1);
+            timestamp=executeQuery.getTimestamp("upload_date");
             }
             statement.close();
         }
@@ -1938,9 +2014,183 @@ public class DataBaseLayer
                 catch (SQLException ex2) {}
             }
         }
-        return string;
+        return timestamp;
     }
 	   
-	
+	      public static String getUploadTarget(String unit_id){
+	    	  
+	    	  String string = "";
+	          Connection connection = null;
+	          try {
+	              connection = DataBaseLayer.ds1.getConnection();
+	              final Statement statement = connection.createStatement();
+	              final ResultSet executeQuery = statement.executeQuery("select upload_target from csformat where unit_id='" + unit_id + "'");
+	              while (executeQuery.next()) {
+	              string = executeQuery.getString(1);
+	              
+	              }
+	              statement.close();
+	          }
+	          catch (SQLException ex) {
+	              ex.printStackTrace();
+	          }
+	          finally {
+	              if (connection != null) {
+	                  try {
+	                      connection.close();
+	                  }
+	                  catch (SQLException ex2) {}
+	              }
+	          }
+	          return string;
+
+	    	  
+	      }
+	      
+	      
+	      	      public static String deleteUnit(String unit_id,String file_name,String target){
+	    	  String status="";
+	    	  Statement  oStmt=null;
+	  		
+	  		Connection oConn = null;
+	    	  /*if (a==true)
+				status="Successfully uploaded";
+			else
+				status="Upload failed";
+			*/
+	    	  
+	  		if (target.equals("DB")){
+	    		 
+	    		  try {
+	    				oConn = DataBaseLayer.ds1.getConnection();
+	    				oConn.setAutoCommit(false);
+	    				oStmt = oConn.createStatement();
+
+	    				PreparedStatement pstmt = oConn.prepareStatement("delete from content_management_object where unit_id =? and file_name=?");
+	    				pstmt.setString(1,unit_id);
+	    				pstmt.setString(2,file_name);
+	    				pstmt.executeUpdate();
+	    					
+	    				oConn.commit();
+	    				oConn.setAutoCommit(true);
+	    				status="File Deleted";
+	    				
+	    			}
+	    			catch (SQLException e) {
+	    				System.out.println("==SQLException===");
+	    				e.printStackTrace();
+	    			}
+	    			catch (Exception ex) {
+	    				System.out.println("==Exception===");
+	    				ex.printStackTrace();
+	    			}
+	    		  
+	    			finally{
+	    				if(oConn!=null)
+	    				{
+	    					try
+	    					{
+	    						oStmt.close();
+	    						oConn.close();
+	    					}
+	    					catch(SQLException e)
+	    					{
+	    					}
+	    				
+	    				
+	    				}
+	    			
+	    			}
+	    		  
+	    		  
+	    		  
+	    	  }else{
+	    		  
+	    		  
+	    		  String fullpath = "";
+		          Connection connection = null;
+		          try {
+		              connection = DataBaseLayer.ds1.getConnection();
+		              final Statement statement = connection.createStatement();
+		              final ResultSet executeQuery = statement.executeQuery("select fspath from content_management_object where unit_id='" + unit_id + "' and file_name='" + file_name + "' ");
+		              while (executeQuery.next()) {
+		              fullpath = executeQuery.getString(1);
+		              		              
+		              }
+		              statement.close();
+		          }
+		          catch (SQLException ex) {
+		              ex.printStackTrace();
+		          }
+		          finally {
+		              if (connection != null) {
+		                  try {
+		                      connection.close();
+		                  }
+		                  catch (SQLException ex2) {}
+		              }
+		          }
+	    		  
+		          
+		          
+		          Path path = Paths.get(fullpath);
+		          
+		          
+		          
+		          try {
+	    			    Files.delete(path);
+	    			    status="File Deleted";
+	    			} catch (NoSuchFileException x) {
+	    			    System.err.format("%s: no such" + " file or directory%n", path);
+	    			} catch (DirectoryNotEmptyException x) {
+	    			    System.err.format("%s not empty%n", path);
+	    			} catch (IOException x) {
+	    			    // File permission problems are caught here.
+	    			    System.err.println(x);
+	    			}  
+	    	 
+	    	 
+		          
+		          
+		          try {
+	    				oConn = DataBaseLayer.ds1.getConnection();
+	    				oConn.setAutoCommit(false);
+	    				oStmt = oConn.createStatement();
+
+	    				PreparedStatement pstmt = oConn.prepareStatement("delete from content_management_object where unit_id =? and file_name=?");
+	    				pstmt.setString(1,unit_id);
+	    				pstmt.setString(2,file_name);
+	    				pstmt.executeUpdate();
+	    					
+	    				oConn.commit();
+	    				oConn.setAutoCommit(true);
+	    				//status="File Deleted";
+	    				
+	    			}
+	    			catch (SQLException e) {
+	    				System.out.println("==SQLException===");
+	    				e.printStackTrace();
+	    			}
+	    			catch (Exception ex) {
+	    				System.out.println("==Exception===");
+	    				ex.printStackTrace();
+	    			}
+	    		  
+		          finally {
+		              if (connection != null) {
+		                  try {
+		                      connection.close();
+		                  }
+		                  catch (SQLException ex2) {}
+		              }
+		          }
+		          
+		          
+		          
+	    	  } 
+	    	  return status;
+	      }
+	      
+	      
 	/* End*/
 }    
