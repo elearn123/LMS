@@ -2108,10 +2108,10 @@ public class DataBaseLayer
 	    		  
 	    		  
 	    		  String fullpath = "";
-		          Connection connection = null;
+		          oConn=null;
 		          try {
-		              connection = DataBaseLayer.ds1.getConnection();
-		              final Statement statement = connection.createStatement();
+		        	  oConn = DataBaseLayer.ds1.getConnection();
+		              final Statement statement = oConn.createStatement();
 		              final ResultSet executeQuery = statement.executeQuery("select fspath from content_management_object where unit_id='" + unit_id + "' and file_name='" + file_name + "' ");
 		              while (executeQuery.next()) {
 		              fullpath = executeQuery.getString(1);
@@ -2123,9 +2123,9 @@ public class DataBaseLayer
 		              ex.printStackTrace();
 		          }
 		          finally {
-		              if (connection != null) {
+		              if (oConn != null) {
 		                  try {
-		                      connection.close();
+		                	  oConn.close();
 		                  }
 		                  catch (SQLException ex2) {}
 		              }
@@ -2177,9 +2177,9 @@ public class DataBaseLayer
 	    			}
 	    		  
 		          finally {
-		              if (connection != null) {
+		              if (oConn != null) {
 		                  try {
-		                      connection.close();
+		                	  oConn.close();
 		                  }
 		                  catch (SQLException ex2) {}
 		              }
