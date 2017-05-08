@@ -90,6 +90,11 @@ public String verifyUser(String userid,String password) throws ServletException,
 							mysession.setAttribute("student_id",userid);
 							DataBaseLayer.insertStudentLogin(session_id,userid,strTime, strDate);
 					
+							/*For xAPI*/
+							String mbox=DataBaseLayer.getMbox(userid);
+							mysession.setAttribute("mbox",mbox);
+							System.out.println("Mbox  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+mbox);
+							
 							String role_tilte=DataBaseLayer.getUserRole(userid);
 							System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+role_tilte);
 							if(role_tilte==null)
@@ -142,7 +147,11 @@ public String verifyUser(String userid,String password) throws ServletException,
 							mysession.setAttribute("user_id",userid);
 							mysession.setAttribute("student_id",userid);
 							DataBaseLayer.insertStudentLogin(session_id,userid,strTime, strDate);
-					
+							/*For xAPI*/
+							String mbox=DataBaseLayer.getMbox(userid);
+							mysession.setAttribute("mbox",mbox);
+							System.out.println("Mbox  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+mbox);
+							
 							String role_tilte=DataBaseLayer.getUserRole(userid);
 							System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+role_tilte);
 							if(role_tilte==null)
@@ -3026,6 +3035,14 @@ public void setSessionNoticeId(String notice_id)
 	}
 	
 	/************************* End of Partha on 16.01.2012 ************************/
+	
+	public String getCurrentDate(){
+		Date dNow = new Date( );
+	      SimpleDateFormat ft = 
+	      new SimpleDateFormat ("E dd.MM.yyyy 'at' hh:mm:ss a zzz");
+	      String abc=ft.format(dNow);
+		return abc;
+	}
 	
 	
 }

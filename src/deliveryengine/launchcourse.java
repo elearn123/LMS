@@ -383,7 +383,7 @@ import java.io.File;
 										+ "',url: '"
 										+ getResourseURL(str4, paramDocument,
 											paramString) + "' ,description: '"
-								//		+"FrontController?idententifier="+str4+"&unit_id="+str100;
+								//		+"ContentFrontController?idententifier="+str4+"&unit_id="+str100;
 										+ str5 + "' ,sequence: '" + i
 										+ "' ,isFolder: false\">" + str5;
 	
@@ -473,7 +473,7 @@ import java.io.File;
 									
 									/*Anupam*/
 									
-									String source="FrontController?unit_id="+paramString2+"&file_name="+str2;
+									String source="ContentFrontController?unit_id="+paramString2+"&file_name="+str2;
 									
 									//byte[] source = DataBaseLayer.getContentFile(paramString2,str2);
 									//System.out.println(source);
