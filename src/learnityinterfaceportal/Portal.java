@@ -92,9 +92,7 @@ public String verifyUser(String userid,String password) throws ServletException,
 					
 							/*For xAPI*/
 							String mbox=DataBaseLayer.getMbox(userid);
-							mysession.setAttribute("mbox",mbox);
-							System.out.println("Mbox  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+mbox);
-							
+							mysession.setAttribute("mbox",mbox);														
 							String role_tilte=DataBaseLayer.getUserRole(userid);
 							System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+role_tilte);
 							if(role_tilte==null)
