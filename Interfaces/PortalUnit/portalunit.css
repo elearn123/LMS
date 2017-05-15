@@ -22,8 +22,15 @@
   padding: 3vh;
   background: #fff;
   border-radius: 5px;
-  min-width: 60vw;
-  max-width: 80vw;
-  max-height: 80vh;
+/*  min-width: 80vw; */
+  max-width: 90vw;
+/*  min-height: 60vh; */
+  max-height: 90vh;
   transition: all 5s ease-in-out;
+  resize: both;
+  overflow:auto;
+}
+
+.popuphide{
+visibility: hidden;
 }

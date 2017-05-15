@@ -1,17 +1,32 @@
 function showUnitGrid()
 {
 	clearGridData( "PortalUnit_UnitGrid" );
-	
-	Portal.getUnits(setUnitData);
+//	Portal.unitGrid(setUnitGridData);
+	Portal.getUnits(setUnitGridData);
 };
 
-function setUnitData(UnitData)
+function setUnitGridData(unitGridData)
 {
-	setArrayGridRowData("PortalUnit_UnitGrid",UnitData);
+	setArrayGridRowData("PortalUnit_UnitGrid",unitGridData);
 };
 
 
-function lunchCourse(course_id)
+function showUnit(unitData)
+{
+	setFragment("PortalUnit_unitpopup",unitData);
+	unitpopupContainer = document.getElementById("PortalUnit_unitpopupContainer");
+	unitpopupContainer.classList.add("afterPopup");
+};
+
+function closeUnit()
+{
+	unitpopup=document.getElementById("PortalUnit_unitpopup");
+	//unitpopup.classList.add("popuphide");
+	unitpopupContainer = document.getElementById("PortalUnit_unitpopupContainer");
+	unitpopupContainer.classList.remove("afterPopup");
+};
+
+function lunchCourse(unitId)
 {
 	var browserName = navigator.appName;
 			var browserVersion = parseInt(navigator.appVersion);
@@ -22,25 +37,11 @@ function lunchCourse(course_id)
 			else {
 				browser='mf';
 			}
-	Portal.lunchCourseAll(browser,browserVersion,course_id,"0","0",function (data) {
+	Portal.lunchCourseAll(browser,browserVersion,unitId,"0","0",function (data) {
 				setValue('',data);
 			});
 	
 	PortalEngine.getInterfaceFragment("LMSPortal","DeliveryEngine",showUnit);
 }
-
-
-function showUnit(unitData)
-{
-	setFragment("PortalUnit_popup",unitData);
-	unitpopupContainer = document.getElementById("PortalUnit_popupContainer");
-	unitpopupContainer.classList.add("afterPopup");
-};
-
-function closeUnit()
-{
-	unitpopupContainer = document.getElementById("PortalUnit_popupContainer");
-	unitpopupContainer.classList.remove("afterPopup");
-};
 
 showUnitGrid();

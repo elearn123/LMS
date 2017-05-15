@@ -18,7 +18,11 @@ import java.io.File;
 	import java.io.OutputStream;
 	import java.io.PrintStream;
 	import java.io.StringWriter;
-	import java.util.ArrayList;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 	import java.util.Calendar;
 	import java.util.Date;
 	import java.util.GregorianCalendar;
@@ -31,7 +35,8 @@ import java.io.File;
 	import java.util.zip.ZipOutputStream;
 	
 	import javax.servlet.http.HttpSession;
-	import javax.xml.parsers.DocumentBuilder;
+import javax.swing.JOptionPane;
+import javax.xml.parsers.DocumentBuilder;
 	import javax.xml.parsers.DocumentBuilderFactory;
 	import javax.xml.parsers.ParserConfigurationException;
 	
@@ -45,7 +50,8 @@ import java.io.File;
 	import org.adl.samplerte.server.LMSPackageHandler;
 	import org.apache.commons.codec.EncoderException;
 	import org.apache.commons.codec.binary.Base64;
-	import org.apache.xml.serialize.OutputFormat;
+import org.apache.commons.io.FileUtils;
+import org.apache.xml.serialize.OutputFormat;
 	import org.apache.xml.serialize.XMLSerializer;
 	import org.directwebremoting.WebContext;
 	import org.directwebremoting.WebContextFactory;
@@ -2173,6 +2179,48 @@ import java.io.File;
 		}
 		
 		
+		public boolean DeleteAction(String unitid) {
+
+			final boolean b = false;
+			final String unit_id1 =unitid; //httpServletRequest.getParameter("unit_id");
+			//final String parameter2 = httpServletRequest.getParameter("course_id");
+			String target = DataBaseLayer.getUploadTarget(unit_id1);
+			System.out.println(" ======unitId===onselectTitle=====" + unit_id1);
+
+			String str3 = Host.getServerDocumentPath();
+			String fullpath = str3 + unit_id1;
+			Path path = Paths.get(fullpath);
+
+			if (target.equals("DB")) {
+				System.out.println("In DB");
+				String c=DataBaseLayer.deleteAll(unitid, target);
+				String st="Deleted from DB";
+				JOptionPane.showMessageDialog(null,st);
+				
+				return b;
+			} else {
+
+				try {
+					String c=DataBaseLayer.deleteAll(unitid, target);
+					FileUtils.forceDelete(new File(fullpath));
+					String st="Deleted from FS";
+					JOptionPane.showMessageDialog(null,st);
+					
+					
+				} catch (NoSuchFileException x) {
+					System.err.format("%s: no such" + " file or directory%n", path);
+				} catch (DirectoryNotEmptyException x) {
+					System.err.format("%s not empty%n", path);
+				} catch (IOException x) {
+
+					System.err.println(x);
+				}
+
+			}
+
+			return b;
+		}
+
 		
 		/*End*/
 		

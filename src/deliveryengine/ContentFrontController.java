@@ -60,7 +60,7 @@ public class ContentFrontController extends HttpServlet {
 		String user_id = (String) session.getAttribute("user_id");
 		String mbox = (String) session.getAttribute("mbox");
 		LRSClient lrsClient = new LRSClient();
-		lrsClient.SaveStatement(user_id, mbox);
+		lrsClient.SaveStatement(user_id, mbox,file_name,unit_id);
 
 		/* End */
 		Timestamp UploadTime = null;

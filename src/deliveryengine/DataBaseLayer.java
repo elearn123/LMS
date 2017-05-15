@@ -1890,7 +1890,7 @@ public class DataBaseLayer
 	            executeQuery.close();
 	            statement.close();
 			 final Statement statement2 = oConn.createStatement();
-	            statement2.executeUpdate("insert into content_management_object values('" + unit_id + "','" + file_name + "',sysdate(),'" + user_id + "','" + 0 + "','" + 0 + "')");	/*Last idens5 is faking the content entry  */
+	            statement2.executeUpdate("insert into content_management_object values('" + unit_id + "','" + file_name + "',sysdate(),'" + user_id + "','" + 0 + "','" + 0 + "','" + 0 + "')");	/*Last idens5 is faking the content entry  */
 	            executeQuery.close();
 	            statement2.close();
 				
@@ -1902,6 +1902,13 @@ public class DataBaseLayer
 			pstmt.setString(2,unit_id);
 			pstmt.setString(3,file_name);
 			pstmt.executeUpdate();
+			
+			PreparedStatement pstmt2 = oConn.prepareStatement("update content_management_object SET size= length(content)  where unit_id=? and file_name=?");
+			//pstmt.setInt( 1,length(content));
+
+			pstmt2.setString(1,unit_id);
+			pstmt2.setString(2,file_name);
+			pstmt2.executeUpdate();
 				
 			 
 			oConn.commit();
@@ -2115,6 +2122,7 @@ public class DataBaseLayer
 		              final ResultSet executeQuery = statement.executeQuery("select fspath from content_management_object where unit_id='" + unit_id + "' and file_name='" + file_name + "' ");
 		              while (executeQuery.next()) {
 		              fullpath = executeQuery.getString(1);
+		              
 		              		              
 		              }
 		              statement.close();
@@ -2191,6 +2199,58 @@ public class DataBaseLayer
 	    	  return status;
 	      }
 	      
+	      	    public static String deleteAll(String unit_id,String target){
+	  	    	String status="";
+	  	    	Statement  oStmt=null;	  	  		
+	  	  		Connection oConn = null;
+				
+
+	    		 
+	    		  try {
+	    				oConn = DataBaseLayer.ds1.getConnection();
+	    				oConn.setAutoCommit(false);
+	    				oStmt = oConn.createStatement();
+
+	    				PreparedStatement pstmt = oConn.prepareStatement("delete from content_management_object where unit_id =?");
+	    				pstmt.setString(1,unit_id);	    	
+	    				pstmt.executeUpdate();
+	    					
+	    				oConn.commit();
+	    				oConn.setAutoCommit(true);
+	    				status="File Deleted";
+	    				
+	    			}
+	    			catch (SQLException e) {
+	    				System.out.println("==SQLException===");
+	    				e.printStackTrace();
+	    			}
+	    			catch (Exception ex) {
+	    				System.out.println("==Exception===");
+	    				ex.printStackTrace();
+	    			}
+	    		  
+	    			finally{
+	    				if(oConn!=null)
+	    				{
+	    					try
+	    					{
+	    						oStmt.close();
+	    						oConn.close();
+	    					}
+	    					catch(SQLException e)
+	    					{
+	    					}
+	    				
+	    				
+	    				}
+	    			
+	    			}
+	    		  
+	  	  		
+	  	  		return status;
+	  	  		
+	      	    }
+	      	      
 	      
 	/* End*/
 }    

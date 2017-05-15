@@ -39,7 +39,8 @@ public class LRSClient {
 		target = client.target(BASE_URI);
 	}
 
-	public String SaveStatement(String UserId, String Mbox) throws IOException {
+	public String SaveStatement(String UserId, String Mbox,String FileName,String UnitId) throws IOException {
+		String desc=FileName +":"+UnitId;
 		StatementClient client = new StatementClient(BASE_URI, username, password);
 		Statement statement = new Statement();
 		Agent agent = new Agent();
@@ -57,12 +58,12 @@ public class LRSClient {
 		InteractionComponent ic = new InteractionComponent();
 		ic.setId("http://example.com");
 		ic.setDescription(new HashMap<String, String>());
-		ic.getDescription().put("en-US", "test");
+		ic.getDescription().put("en-US", desc);
 		ad.getChoices().add(ic);
 		ad.setInteractionType("choice");
 		ad.setMoreInfo("http://example.com");
 		activity.setDefinition(ad);
-		String publishedId = client.postStatement(statement);
+		String publishedId = client.postStatement(statement); 
 		String responceMsg = "OK";
 		return responceMsg;
 	}

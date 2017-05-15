@@ -1,0 +1,101 @@
+<interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="ManageUnitFileInfo" title="Manage LMS Unit File Import Export" type="Interface">
+
+	<structure>
+		<part id="BodyDiv" class="label"></part>
+		<part id="Unitnamelabel" class="label"></part>
+		<part id="Ajaxdummypart" class="ajaxcomponent" ></part>
+		<part id="ManageUnitInformationGrid" class="Conditionalgrid" caption="Currently Defined Content File of Selected Unit" gridnavbar="true">
+			<selector id="unit_id" class="combo" contentid="ManageUnitFileInfoContent" behaviourid="ManageUnitFileInfoBehaviour" domaintype="query" value="select a.unit_id, a.unit_name from unit_details a, unit_creation_details b where a.unit_id=b.unit_id" gridrefresh="true">
+			</selector>
+			<column head="File Name"  name="file_name"  index="1"  width="150" editable="false" hidden="false" key="true" required="true">
+				<edit type="text" size="60" ></edit> 	
+			</column>
+			<column head="File Last Uploaded"  name="date_last_upload"  index="2"  width="200" editable="false" hidden="false" key="false" required="true">
+				<edit type="date" size="60"></edit> 	
+			</column>			
+			<column head="Uploaded By"  name="upload_by"  index="3"  width="150" editable="false" hidden="false" key="false" required="true">
+				<edit type="text" size="60" ></edit> 	
+			</column>
+			<column head="Size of File"  name="file_size"  index="4"  width="150" editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			<column head="Saved in"  name="upload_target"  index="5"  width="150" editable="true" hidden="false" key="false" required="true">
+				<edit type="text" size="60"></edit> 	
+			</column>
+			
+
+			<loadquery value="select a.file_name,a.upload_date,a.upload_by,a.size,b.upload_target from content_management_object a inner join csformat b on a.unit_id=b.unit_id where a.unit_id=%unit_id%"></loadquery>
+		
+	<!--		
+			<delete>
+			
+				<queries>
+					<query id="1" sql="[CDATA[delete from content_management_object where unit_id = %unit_id% and file_name=%file_name%]]" parameter="unit_id,file_name"></query>
+				</queries>
+<action sequence="replace" actionname="deliveryengine.DeleteContentFromFS"></action>
+				
+			</delete>
+		-->	
+		</part>
+		<part id="BrowseFile" class="inputfile"></part>
+		<part id="upload" class="button"></part>
+		<part id="download" class="button"></part>
+		<part id="delete" class="button"></part>
+		<part id="deleteAll" class="button"></part>
+		<part id="fileInfo" class="label"></part>		
+	</structure>
+	
+	<layout id="ManageUnitFileInfoLayout">
+		<part id="BodyDiv"></part>
+		<part id="Unitnamelabel" left="80px" top="20px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="unit_id" left="200px" top="20px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="ManageUnitInformationGrid" top="80px" position="absolute" parent_id="BodyDiv"></part> 
+		<part id="BrowseFile" left="25px" top="450px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="upload" height="20px" width="30px" left="280px" top="450px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="download" height="20px" width="30px" left="442px" top="450px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="delete" height="20px" width="30px" left="635px" top="450px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="deleteAll" height="20px" width="30px" left="700px" top="450px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="fileInfo" height="20px" width="400px" left="100px" top="480px" position="absolute" parent_id="BodyDiv"></part>
+		<part id="Ajaxdummypart" parent_id="BodyDiv"></part>
+	</layout>
+
+	<content id="ManageUnitFileInfoContent">
+		<part id="Unitnamelabel"  valuetype="inline" value="Unit Name"></part>
+		<part id="upload" value="Upload To Repository" valuetype="inline"></part>
+		<part id="download" value="Download From Repository" valuetype="inline"></part>
+		<part id="delete" value="Delete" valuetype="inline"></part>
+		<part id="deleteAll" value="Delete All" valuetype="inline"></part>
+	</content>
+
+	<behaviour id="ManageUnitFileInfoBehaviour">
+		<part id="Ajaxdummypart">
+			<event name="ajax" function="dummy" javaclass="launchcourse"></event>
+		</part>
+		<part id="upload">
+			<event name="onclick" type="simple" function="upload_onclick" valuetype="jsevent" resourceid="ManageUnitFileInfojs"></event>
+		</part>
+		<part id="download">
+			<event name="onclick" type="simple" function="download_onclick" valuetype="jsevent" resourceid="ManageUnitFileInfojs"></event>
+		</part>
+		
+		<part id="delete">
+			<event name="onclick" type="simple" function="delete_onclick" valuetype="jsevent" resourceid="ManageUnitFileInfojs"></event>
+		</part>
+
+		<part id="deleteAll">
+			<event name="onclick" type="simple" function="deleteAll_onclick" valuetype="jsevent" resourceid="ManageUnitFileInfojs"></event>
+		</part>
+		
+		<part id="BrowseFile">
+			<event name="onchange" type="simple" function="showFileInfo" valuetype="jsevent" resourceid="ManageUnitFileInfojs"></event>
+		</part>
+	</behaviour>
+
+	<resource>	
+		<resourceitem id="ManageUnitFileInfojs" href="ManageUnitFileInfo.js" valuetype="js"></resourceitem>  	
+	</resource>
+
+	</interface>

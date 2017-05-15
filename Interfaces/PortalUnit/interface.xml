@@ -20,37 +20,39 @@
 			</column>
 			
 		</part>
-	<part id="popupContainer" class="label"></part>
-	<part id="popup" class="label"></part>
-	<part id="dummyBody" class="image"></part>
+	<part id="unitpopupContainer" class="label"></part>
+	<part id="unitpopup" class="label"></part>
+	<part id="unitdummyBody" class="image"></part>
 	<part id="portalunitgridajax" class="ajaxcomponent"></part>
 	</structure>
 	
-	<layout id="portalunitstudentlayout">
+	<layout id="portalunitgridlayout">
  		<part id="BodyDiv"></part>
 		<part id="UnitGrid" parent_id="BodyDiv"></part>
-		<part id="popupContainer" parent_id="BodyDiv"></part>
-		<part id="popup" parent_id="popupContainer"></part>
-		<part id="dummyBody" parent_id="BodyDiv"></part>
-		<part id="unitgridajax" parent_id="BodyDiv"></part>
+		<part id="unitpopupContainer" parent_id="BodyDiv"></part>
+		<part id="unitpopup" parent_id="unitpopupContainer"></part>
+		<part id="unitdummyBody" parent_id="BodyDiv"></part>
+		<part id="portalunitgridajax" parent_id="BodyDiv"></part>
 	</layout>
+
+	<content id="portalunitgridcontent">
+		<part id="unitdummyBody" value="dummyimg" valuetype="reference"></part>
+	</content>
 	
 	<style id="portalunitgridstyle">
-		<part id="popupContainer" value="overlay" valuetype="reference" resourceid="portalunitcss"></part>
-		<part id="popup" value="popup" valuetype="reference" resourceid="portalunitcss"></part>
-		<part id="dummyBody" value="[CDATA[visibility: hidden;]]" valuetype="inline"></part>
+		<part id="unitpopupContainer" value="overlay" valuetype="reference" resourceid="portalunitcss"></part>
+		<part id="unitpopup" value="popup" valuetype="reference" resourceid="portalunitcss"></part>
+		<part id="unitdummyBody" value="[CDATA[visibility: hidden;]]" valuetype="inline"></part>
 </style>
-
 
 <behaviour id="portalunitgridbehaviour">
 	<part id="portalunitgridajax">
 		<event name="ajax" javaclass="Portal"></event>
 	</part>
- 	<part id="dummyBody">
- 		<event name="onerror" type="simple" function="alert" valuetype="jsevent" resourceid="portalforumjs"></event>
+ 	<part id="unitdummyBody">
+ 		<event name="onerror" type="simple" function="alert" valuetype="jsevent" resourceid="portalunitjs"></event>
 	</part>
 </behaviour>
-
 	
 	<resource>
 		<resourceitem id="portalunitjs" href="portalunit.js" valuetype="js"></resourceitem>
