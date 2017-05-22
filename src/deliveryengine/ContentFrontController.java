@@ -57,11 +57,17 @@ public class ContentFrontController extends HttpServlet {
 		String file_name = (String) request.getParameter("file_name");
 
 		/* For xAPI */
-		String user_id = (String) session.getAttribute("user_id");
-		String mbox = (String) session.getAttribute("mbox");
-		LRSClient lrsClient = new LRSClient();
-		lrsClient.SaveStatement(user_id, mbox,file_name,unit_id);
-
+		
+		private final ResourceBundle rb = ResourceBundle.getBundle("portal", Locale.getDefault());
+		private final String key1 = "UseLRS";
+		private final String USE_LRS = rb.getString(key1);
+		if (USE_LRS.equalsIgnoreCase("TRUE"))
+		{
+			String user_id = (String) session.getAttribute("user_id");
+			String mbox = (String) session.getAttribute("mbox");
+			LRSClient lrsClient = new LRSClient();
+			lrsClient.SaveStatement(user_id, mbox,file_name,unit_id);
+		}
 		/* End */
 		Timestamp UploadTime = null;
 		long fileLastModified;
