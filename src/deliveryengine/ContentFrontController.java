@@ -13,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.sql.Timestamp;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -58,15 +60,18 @@ public class ContentFrontController extends HttpServlet {
 
 		/* For xAPI */
 		
-		private final ResourceBundle rb = ResourceBundle.getBundle("portal", Locale.getDefault());
-		private final String key1 = "UseLRS";
-		private final String USE_LRS = rb.getString(key1);
+		final ResourceBundle rb = ResourceBundle.getBundle("portal", Locale.getDefault());
+		final String key1 = "UseLRS";
+		final String USE_LRS = rb.getString(key1);
 		if (USE_LRS.equalsIgnoreCase("TRUE"))
 		{
-			String user_id = (String) session.getAttribute("user_id");
 			String mbox = (String) session.getAttribute("mbox");
-			LRSClient lrsClient = new LRSClient();
-			lrsClient.SaveStatement(user_id, mbox,file_name,unit_id);
+			if (mbox != null)
+			{
+				String user_id = (String) session.getAttribute("user_id");
+				LRSClient lrsClient = new LRSClient();
+				lrsClient.SaveStatement(user_id, mbox,file_name,unit_id);
+			}
 		}
 		/* End */
 		Timestamp UploadTime = null;
