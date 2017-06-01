@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.DatatypeConverter;
+
 import learnityInit.Host;
 
 /**
@@ -55,38 +57,41 @@ public class ContentFrontController extends HttpServlet {
 		}
 		/* enable caching */
 		response.setHeader("Cache-Control", "public");
-		String unit_id = (String) request.getParameter("unit_id");
-		String file_name = (String) request.getParameter("file_name");
-
+		String eunit_id = (String) request.getParameter("unit_id");
+		String efile_name = (String) request.getParameter("file_name");
+		
+		String dunit_id =new String(DatatypeConverter.parseBase64Binary(eunit_id));
+		String dfile_name = new String(DatatypeConverter.parseBase64Binary(efile_name));
+		
 		/* For xAPI */
 		
-		final ResourceBundle rb = ResourceBundle.getBundle("portal", Locale.getDefault());
-		final String key1 = "UseLRS";
-		final String USE_LRS = rb.getString(key1);
-		if (USE_LRS.equalsIgnoreCase("TRUE"))
-		{
-			String mbox = (String) session.getAttribute("mbox");
-			if (mbox != null)
+		 final ResourceBundle rb = ResourceBundle.getBundle("portal", Locale.getDefault());
+		 final String key1 = "UseLRS";
+		 final String USE_LRS = rb.getString(key1);
+		 if (USE_LRS.equalsIgnoreCase("TRUE"))
 			{
-				String user_id = (String) session.getAttribute("user_id");
-				LRSClient lrsClient = new LRSClient();
-				lrsClient.SaveStatement(user_id, mbox,file_name,unit_id);
+				String mbox = (String) session.getAttribute("mbox");
+				if (mbox != null)
+				{
+					String user_id = (String) session.getAttribute("user_id");
+					LRSClient lrsClient = new LRSClient();
+					lrsClient.SaveStatement(user_id, mbox,dfile_name,dunit_id);
+				}
 			}
-		}
 		/* End */
 		Timestamp UploadTime = null;
 		long fileLastModified;
-		String uploadTarget = DataBaseLayer.getUploadTarget(unit_id);
-		String mimetype = getServletContext().getMimeType(file_name);
+		String uploadTarget = DataBaseLayer.getUploadTarget(dunit_id);
+		String mimetype = getServletContext().getMimeType(dfile_name);
 		response.setContentType(mimetype);
 
 		if (uploadTarget.equals("DB")) {
-			UploadTime = DataBaseLayer.getUploadTime(unit_id, file_name);
+			UploadTime = DataBaseLayer.getUploadTime(dunit_id, dfile_name);
 			fileLastModified = UploadTime.getTime();
 		} else {
 
 			String contentFolder = Host.getServerDocumentPath();
-			String contentFileURL = contentFolder + unit_id + "/" + file_name;
+			String contentFileURL = contentFolder + dunit_id + "/" + dfile_name;
 			FileTime a = Files.getLastModifiedTime(Paths.get(contentFileURL));
 			fileLastModified = a.toMillis();
 		}
@@ -106,13 +111,13 @@ public class ContentFrontController extends HttpServlet {
 				} else {
 
 					if (uploadTarget.equals("DB")) {
-						byte[] buffer = DataBaseLayer.getContentFile(unit_id, file_name);
+						byte[] buffer = DataBaseLayer.getContentFile(dunit_id, dfile_name);
 
 						response.setContentLength(buffer.length);
 						response.getOutputStream().write(buffer);
 					} else {
 						String contentFolder = Host.getServerDocumentPath();
-						String contentFilePath = contentFolder + unit_id + "/" + file_name;
+						String contentFilePath = contentFolder + dunit_id + "/" + dfile_name;
 						File contentFile = new File(contentFilePath);
 						long fileLength = contentFile.length();
 						FileInputStream inStream = new FileInputStream(contentFile);
@@ -128,13 +133,13 @@ public class ContentFrontController extends HttpServlet {
 			} else {
 
 				if (uploadTarget.equals("DB")) {
-					byte[] buffer = DataBaseLayer.getContentFile(unit_id, file_name);
+					byte[] buffer = DataBaseLayer.getContentFile(dunit_id, dfile_name);
 
 					response.setContentLength(buffer.length);
 					response.getOutputStream().write(buffer);
 				} else {
 					String contentFolder = Host.getServerDocumentPath();
-					String contentFilePath = contentFolder + unit_id + "/" + file_name;
+					String contentFilePath = contentFolder + dunit_id + "/" + dfile_name;
 					File contentFile = new File(contentFilePath);
 					long fileLength = contentFile.length();
 					FileInputStream inStream = new FileInputStream(contentFile);
