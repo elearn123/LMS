@@ -225,6 +225,7 @@ public class launchcourse {
 		Object localObject1 = null;
 		String str5 = null;
 		Object localObject2 = null;
+		
 		str1 = str1 + "\n<ul>";
 		int i = 0;
 		if (localNodeList.getLength() > 0) {
@@ -243,6 +244,8 @@ public class launchcourse {
 						if (localNode2.getNodeName().equalsIgnoreCase("identifierref")) {
 							str4 = localNode2.getNodeValue();
 						}
+						
+						
 					}
 					i = DataBaseLayer.getSequence(paramString, str3);
 
@@ -259,11 +262,13 @@ public class launchcourse {
 					if (str2.equalsIgnoreCase("item")) {
 						if (str4 == null) {
 							System.out.println("resourseRef==if= " + str4);
-
-							str1 = str1 + "\n<li data=\"key: '" + str3 + "',tooltip: '" + str5 + "',url:'"
-							// + getResourseURL(str4, paramDocument,
-							// paramString) + "' , description: '"
-									+ "abcd" + str5 + "',sequence: '" + i + "', isFolder: false\">" + str5;
+							
+									str1 = str1 + "\n<li data=\"key: '" + str3 + "',tooltip: '" + str5 + "',url:'" + "" + "',sequence: '" + i + "', isFolder: false\">" + str5; //Anupam
+											// 	+ getResourseURL(str4, paramDocument,
+											// paramString) + "' , description: '"
+											/*+ "abcd" */
+											//+ str5 + "',sequence: '" + i + "', isFolder: false\">" + str5;
+										
 						} else {
 							System.out.println("resourseRef==else= " + str4);
 
@@ -1490,6 +1495,7 @@ public class launchcourse {
 		localHttpSession.setAttribute("bookmarkTopicTitle", paramString5);
 		String str1 = (String) localHttpSession.getAttribute("user_id");
 
+	
 		GregorianCalendar localGregorianCalendar = new GregorianCalendar();
 		Date localDate = new Date();
 		localGregorianCalendar.setTime(localDate);

@@ -10,6 +10,10 @@ import org.grlea.log.*;
 import java.util.Locale;
 import org.w3c.dom.*;
 import com.oreilly.servlet.MultipartRequest;
+import com.timgroup.jgravatar.Gravatar;
+import com.timgroup.jgravatar.GravatarDefaultImage;
+import com.timgroup.jgravatar.GravatarRating;
+
 import java.util.ResourceBundle;
 import java.util.Properties;
 import java.text.*;
@@ -3182,5 +3186,87 @@ private FileOutputStream fileWriter = null;
 			return "Failed To save!!";
 		}
 	}
+	
+	/*Author Anupam Samanta*/
+	public String GravatarsImageUpload(){
+
+		WebContext wctx1 = WebContextFactory.get();
+		javax.servlet.http.HttpSession mysession = wctx1.getSession();
+		String student_id = (String)mysession.getAttribute("studentid_to_update");					
+		System.out.println("===========Student ID========"+student_id);
+		
+		String mbox=DataBaseLayer.getEmail(student_id);
+		
+		if(mbox!=""){
+			int size=512000;
+			System.out.println("Gravatars Image Check mail id: "+mbox);
+			Gravatar gravatar = new Gravatar();
+			gravatar.setSize(50);
+			gravatar.setRating(GravatarRating.GENERAL_AUDIENCES);
+			gravatar.setDefaultImage(GravatarDefaultImage.IDENTICON);
+			//String url = gravatar.getUrl("iHaveAn@email.com");
+			//String url = gravatar.getUrl(mbox);
+			//byte[] jpg = gravatar.download("info@ralfebert.de");
+			byte[] jpg = gravatar.download(mbox);
+			InputStream inStream = new ByteArrayInputStream(jpg);
+			DataBaseLayer.updateStudentPhoto(student_id,inStream,size);
+			//System.out.println(url);
+		}
+		
+		return " ";
+	}
+	
+	public String GravatarsImageUploadChangeProfile(){
+
+		WebContext wctx1 = WebContextFactory.get();
+		javax.servlet.http.HttpSession mysession = wctx1.getSession();
+		String student_id = (String)mysession.getAttribute("student_id");					
+		System.out.println("===========Student ID========"+student_id);
+		
+		String mbox=DataBaseLayer.getEmail(student_id);
+		
+		if(mbox!=""){
+			int size=512000;
+			System.out.println("Gravatars Image Check mail id: "+mbox);
+			Gravatar gravatar = new Gravatar();
+			gravatar.setSize(50);
+			gravatar.setRating(GravatarRating.GENERAL_AUDIENCES);
+			gravatar.setDefaultImage(GravatarDefaultImage.IDENTICON);
+			//String url = gravatar.getUrl("iHaveAn@email.com");
+			//String url = gravatar.getUrl(mbox);
+			//byte[] jpg = gravatar.download("info@ralfebert.de");
+			byte[] jpg = gravatar.download(mbox);
+			InputStream inStream = new ByteArrayInputStream(jpg);
+			DataBaseLayer.updateStudentPhoto(student_id,inStream,size);
+			//System.out.println(url);
+		}
+		
+		return " ";
+	}
+	
+	
+	public void UpdateEvent(String start,String end,String event)
+	{
+	        
+	        	
+		WebContext wctx1 = WebContextFactory.get();
+		javax.servlet.http.HttpSession mysession = wctx1.getSession();
+		String user_id = (String) mysession.getAttribute("user_id");
+			
+			
+			
+							
+		DataBaseLayer.updateEventDetails(user_id,start,end,event);
+                      		
+		//}
+        	
+// 		else{      
+// 						//cat_id,Entri_Name_text,Entri_Desc_text,New_Entri_Name_text,New_Entri_Desc_text   
+// 			DataBaseLayer.addEntryCatalog(cat_id,Entri_Name_text,parent_name,Entri_Desc_text);
+		//                 
+// 		}
+	}
+	
+	
 	
 }

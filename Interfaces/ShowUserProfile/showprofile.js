@@ -30,3 +30,14 @@ function imageupload_onclick(){
 		}
 }
 
+function close_onclick(){
+	window.close();
+	
+	
+}
+function gravatarsimage_onclick(){
+	ladminTree.GravatarsImageUpload(function(data) {
+		
+	});
+
+}

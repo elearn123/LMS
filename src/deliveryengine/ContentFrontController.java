@@ -67,13 +67,16 @@ public class ContentFrontController extends HttpServlet {
 		
 		 final ResourceBundle rb = ResourceBundle.getBundle("portal", Locale.getDefault());
 		 final String key1 = "UseLRS";
-		 final String USE_LRS = rb.getString(key1);
+		 String USE_LRS = rb.getString(key1);
+		 String user_id = (String) session.getAttribute("user_id");
+		 if(user_id.equals("superuser"))
+		 	{USE_LRS="FALSE";}
 		 if (USE_LRS.equalsIgnoreCase("TRUE"))
 			{
 				String mbox = (String) session.getAttribute("mbox");
 				if (mbox != null)
 				{
-					String user_id = (String) session.getAttribute("user_id");
+					
 					LRSClient lrsClient = new LRSClient();
 					lrsClient.SaveStatement(user_id, mbox,dfile_name,dunit_id);
 				}

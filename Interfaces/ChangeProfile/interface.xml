@@ -9,6 +9,8 @@
 		<part id="mainpage" class="label"></part>
 		
 <!--		<part id="ProfileMainDiv" class="label"></part>   -->
+		<part id="detail0" class="label"></part>
+		<part id="title" class="label"></part>
 		
 		<part id="detail1" class="label"></part>
 		
@@ -65,16 +67,17 @@
 		<part id="userimageselectlabel" class="label"></part>
 		<part id="userimage" class="inputfile" ></part>
 		<part id="ImageUploadButton" class="button"></part>
+		<part id="GravatarImageButton" class="button"></part>
 		
 		<part id="savecloseButtonContainer" class="label"></part>
 		<part id="subbutton" class="button" ></part>
 		<part id="closeButton" class="button"></part>
 		
-		<part id="Passajaxcomp" class="ajaxcomponent"></part>
+		<part id="CPajaxcomp" class="ajaxcomponent"></part>
 
 		<part id="fdate" class="formdate"></part>
 		<part id="dummyBody" class="image"></part>
-		
+		<part id="passajaxcomp" class="ajaxcomponent"></part>
 	</structure>
 
 	
@@ -85,6 +88,9 @@
 		
 		<part id="mainpage" ></part>
 <!--		<part id="ProfileMainDiv"  parent_id="mainpage"></part>  -->
+		<part id="detail0" parent_id="mainpage"></part>
+			<part id="title" parent_id="detail0"></part>
+		
 		
 		<part id="detail1" parent_id="mainpage"></part>
 		
@@ -133,6 +139,7 @@
 			<part id="userimageselectlabel" parent_id="detail4"></part>	
 			<part id="userimage"  parent_id="detail4"></part>	
 			<part id="ImageUploadButton" parent_id="detail4"></part>	
+			<part id="GravatarImageButton" parent_id="detail4"></part>
 	
 		
 		
@@ -152,6 +159,7 @@
 	
 	
 	<content id="ChangeProfileCont">
+		<part id="title" value="Change Profile" valuetype="inline"></part>
 		<part id="UserId" value="User Id" valuetype="inline"></part>
 		<part id="FName" value="First Name" valuetype="inline"></part>
 		<part id="MName" value="Middle Name" valuetype="inline"></part>
@@ -184,7 +192,8 @@
 		    
             <part id="userimageselectlabel" valuetype="inline" value="Change Photo :"></part>
 		    
-	        <part id="ImageUploadButton" valuetype="inline" value="Change"></part>  
+	        <part id="ImageUploadButton" valuetype="inline" value="Upload"></part> 
+			<part id="GravatarImageButton" valuetype="inline" value="Gravatar Image"></part>  			
 		    
 		    <part id="subbutton" value="SAVE" valuetype="inline"></part>
 			<part id="closeButton" value="CLOSE" valuetype="inline"></part>
@@ -201,7 +210,8 @@
 			<part id="root" value="FlexColumnContainer" valuetype="inline"></part>
 		    <part id="mainpage" value="FlexColumnContainer" valuetype="reference"></part> 
 <!--		    <part id="ProfileMainDiv" value="FlexColumnContainer" valuetype="reference"></part>	-->
-		  
+			<part id="detail0" value="FlexRowContainer" valuetype="reference"></part> 
+			<part id="title" value="[CDATA[background-color: #006699;color: #FFCC33;font-family:Verdana,sans-serif;font-size:16px;font-weight:bold]]" valuetype="inline"></part>	
 			<part id="detail1" value="FlexRowContainer" valuetype="reference"></part> 
 			
 			<!--
@@ -238,6 +248,10 @@
 		    <part id="ImageUploadButton">
 			    <event name="onclick" type="simple" function="imageupload_onclick" valuetype="jsevent" resourceid="ChangeProfilejs"></event>
 		    </part>
+			
+			 <part id="GravatarImageButton">
+			    <event name="onclick" type="simple" function="gravatarsimage_onclick" valuetype="jsevent" resourceid="ChangeProfilejs"></event>
+		    </part>
 		    
 		    <part id="Passajaxcomp">
 			    <event name="ajax" type="simple" function="dummy" javaclass="ladminTree"></event>
@@ -255,6 +269,11 @@
 			<part id="dummyBody">
 				<event name="onerror" type="simple" function="alert" valuetype="jsevent" resourceid="portalforumjs"></event>
 			</part>
+			
+			<part id="CPajaxcomp">
+			<event name="ajax" function="dummy" javaclass="ladminTree"></event>
+		</part>
+	
 
 	</behaviour>
 

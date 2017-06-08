@@ -29,7 +29,7 @@ function onload_click(){
 	ladminTree.getPortalUserPhoto(function(data){
 		setValue('ChangeProfile_userimagelabel',data);
 	});	
-	alert("On load click");	
+	
 
 }
 
@@ -92,6 +92,17 @@ function closeChangeProfile()
 	popupContainer = document.getElementById("popupContainer");
 	popupContainer.classList.remove("afterPopup");
 }
+
+function gravatarsimage_onclick(){
+	ladminTree.GravatarsImageUploadChangeProfile(function(data) {
+		ladminTree.getPortalUserPhoto(function(data){
+				setValue('ChangeProfile_userimagelabel',data);
+				alert("Successfully Uploaded Photo");
+			});
+	});
+
+}
+
 
 
 onload_click();

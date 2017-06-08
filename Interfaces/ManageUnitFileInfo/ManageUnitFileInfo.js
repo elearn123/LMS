@@ -72,6 +72,7 @@ function delete_onclick(){
 		alert("Please Select an Unit Name");
 	}
 	
+	$('#ManageUnitInformationGrid').trigger( 'reloadGrid' );
 }
 
 

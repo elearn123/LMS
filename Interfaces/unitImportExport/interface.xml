@@ -11,9 +11,13 @@
 	<part id="unitChoose" class="inputfile"/>
 	<part id="unitErrStatus" class="label"/>
 	<part id="unitFileUpload" class="button"/>
+	<part id="unitFileUploadToDB" class="button"/>
 	<part id="unitFileDownload" class="button"/>
 	<part id="unitPreview" class="button"/>
 	<part id="createIndex" class="button"/>
+	<part id="unitpopupContainer" class="label"></part>
+	<part id="unitpopup" class="label"></part>
+	<part id="unitdummyBody" class="image"></part>
 	<part id="unitImportExportAjax" class="ajaxcomponent"/>
 </structure>
 
@@ -25,9 +29,13 @@
 	<part id="unitChoose" left="10px" top="170px" position="absolute" parent_id="unitImportExportMain"/>
 	<part id="unitErrStatus" height="30px" width="300px" left="10px" top="270px" position="absolute" parent_id="unitImportExportMain"/>
 	<part id="unitFileUpload" left="10px" top="230px" position="absolute" parent_id="unitImportExportMain"/>
-	<part id="unitFileDownload" left="100px" top="230px" position="absolute" parent_id="unitImportExportMain"/>
-	<part id="unitPreview" left="190px" top="230px" position="absolute" parent_id="unitImportExportMain"/>
-	<part id="createIndex" left="280px" top="230px" position="absolute" parent_id="unitImportExportMain"/>
+	<part id="unitFileUploadToDB" left="170px" top="230px" position="absolute" parent_id="unitImportExportMain"/>
+	<part id="unitFileDownload" left="280px" top="230px" position="absolute" parent_id="unitImportExportMain"/>
+	<part id="unitPreview" left="350px" top="230px" position="absolute" parent_id="unitImportExportMain"/>
+	<part id="createIndex" left="430px" top="230px" position="absolute" parent_id="unitImportExportMain"/>
+	<part id="unitpopupContainer" parent_id="unitImportExportMain"></part>
+	<part id="unitpopup" parent_id="unitpopupContainer"></part>
+	<part id="unitdummyBody" parent_id="unitImportExportMain"></part>
 	<part id="unitImportExportAjax" parent_id="unitImportExportMain"/>
 </layout>
 
@@ -36,7 +44,8 @@
 	      value="select unit_id,unit_name from unit_details"/>
 	<part id="unitSelectLabel" value="Select Unit" valuetype="inline"/>
 	<part id="unitChooseLabel" value="Enter the name of the Zip file containing your Unit content that you wish to import or Export" valuetype="inline"/> 
-	<part id="unitFileUpload" valuetype="inline" value="Import"/>
+	<part id="unitFileUpload" valuetype="inline" value="Import To File System"/>
+	<part id="unitFileUploadToDB" valuetype="inline" value="Import To DB"/>
 	<part id="unitFileDownload" valuetype="inline" value="Export"/>
 	<part id="unitPreview" valuetype="inline" value="Preview"/>
 	<part id="createIndex" valuetype="inline" value="Create Index"/>
@@ -44,11 +53,17 @@
 
 <style id="unitImportExportPrimeStyle">
 	<part id="unitImportExportMain" value="[CDATA[font:12px Arial; font-weight: bold]]" valuetype="inline"/>
+	<part id="unitpopupContainer" value="overlay" valuetype="reference" resourceid="unitcss"></part>
+	<part id="unitpopup" value="popup" valuetype="reference" resourceid="unitcss"></part>
+	<part id="unitdummyBody" value="[CDATA[visibility: hidden;]]" valuetype="inline"></part>
 </style>
 
 <behaviour id="unitImportExportPrimeBehaviour">
 	<part id="unitFileUpload">
 		<event name="onclick" type="simple" function="unit_upload_onclick" valuetype="inline" resourceid="unitexpimgjs" />
+	</part>
+	<part id="unitFileUploadToDB">
+		<event name="onclick" type="simple" function="unit_upload_onclick_forDB" valuetype="inline" resourceid="unitexpimgjs" />
 	</part>
 	<part id="unitFileDownload">
 		<event name="onclick" type="simple" function="unit_download_onclick" valuetype="inline" resourceid="unitexpimgjs" />
@@ -62,9 +77,14 @@
 	<part id="unitImportExportAjax">
 		<event name="ajax" function="dummy" javaclass="launchcourse" />
 	</part>	
+	<part id="unitdummyBody">
+ 		<event name="onerror" type="simple" function="alert" valuetype="jsevent" resourceid="unitexpimgjs"></event>
+	</part>
 </behaviour>
 
 <resource>
 	<resourceitem id="unitexpimgjs" href="unitupload.js" valuetype="js"></resourceitem>
+	<resourceitem id="unitcss" href="unit_import.css" valuetype="css"></resourceitem>
+	<resourceitem id="dummyimg" href="dummy.jpg" valuetype="image"></resourceitem>
 </resource>
 </interface>
