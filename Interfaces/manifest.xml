@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest id="MSMELMS" title="MSMELMS" xmlns="http://learnityframework.org/">
+    <interface id="AdEvent" title="Add Calender Event"
+        type="InterfaceFragment" zip="AdEvent.zip"/>
     <interface id="AsmtResultNotificationMgmt"
         title="LMS Assessment Result Notification Management"
         type="Interface" zip="AsmtResultNotificationMgmt.zip"/>
@@ -15,6 +17,8 @@
         title="LMS Assessment Registration By User" type="Interface" zip="AssessmentRegByUser.zip"/>
     <interface id="AssessmentResult" title="LMS Assessment Results"
         type="Interface" zip="AssessmentResult.zip"/>
+    <interface id="Calender" title="Calender View"
+        type="InterfaceFragment" zip="Calender.zip"/>
     <interface id="ChangePassword" title="Change LMS Admin Password"
         type="InterfaceFragment" zip="ChangePassword.zip"/>
     <interface id="ChangeProfile" title="LMS Change Admin Profile"
@@ -54,18 +58,16 @@
     <interface id="LoginPage" title="LoginPage" type="Interface" zip="LoginPage.zip"/>
     <interface id="ManageUnitAdmin" title="LMS Unit Administration"
         type="Interface" zip="ManageUnitAdmin.zip"/>
+    <interface id="ManageUnitFileInfo"
+        title="Manage LMS Unit File Import Export" type="Interface" zip="ManageUnitFileInfo.zip"/>
     <interface id="ManageUnitHomePage" title="Manage LMS Unit Home Page"
         type="Interface" zip="ManageUnitHomePage.zip"/>
     <interface id="ManageUnitInformation"
         title="Manage LMS Unit Information" type="Interface" zip="ManageUnitInformation.zip"/>
     <interface id="NoteBook" title="LMS Student NoteBook"
         type="InterfaceFragment" zip="NoteBook.zip"/>
-    <interface id="NotebookAttach" title="LMS Notebook Attachment"
-        type="Interface" zip="NotebookAttach.zip"/>
     <interface id="NotebookMgmt" title="LMS Notebook Management"
         type="Interface" zip="NotebookMgmt.zip"/>
-    <interface id="NoteBookold" title="LMS Student NoteBook"
-        type="Interface" zip="NoteBookold.zip"/>
     <interface id="NoticeBoardAdmin"
         title="LMS Notice Board Admininistration" type="Interface" zip="NoticeBoardAdmin.zip"/>
     <interface id="NoticeBoardView" title="Notice Viewer on LMS Portal"
@@ -110,5 +112,7 @@
         type="Interface" zip="userReport.zip"/>
     <interface id="UserRoleAssociation"
         title="LMS User Role Association" type="Interface" zip="UserRoleAssociation.zip"/>
+    <interface id="HelpPortal"
+        title="Portal Help" type="InterfaceFragment" zip="HelpPortal.zip"/>    
 </manifest>
-<!--XML is generated on Fri Nov 25 16:31:56 IST 2016-->
+<!--XML is generated on Thu Jun 15 15:59:40 IST 2017-->

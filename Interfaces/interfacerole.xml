@@ -130,6 +130,11 @@
         <interface id="ManageUnitAdmin">
             <layout id="ManageUnitAdminLayout"/>
         </interface>
+        <interface id="ManageUnitFileInfo">
+            <layout id="ManageUnitFileInfoLayout"/>
+            <content id="ManageUnitFileInfoContent"/>
+            <behaviour id="ManageUnitFileInfoBehaviour"/>
+        </interface>
         <interface id="ManageUnitHomePage">
             <layout id="defaultLayout"/>
             <content id="defaultContent"/>
@@ -230,10 +235,22 @@
         </interface>
     </role>
     <role id="STUDENT">
+        <interface id="AdEvent">
+            <layout id="adeventlayout1"/>
+            <content id="adeventcontent1"/>
+            <style id="adeventstyle1"/>
+            <behaviour id="adeventevents1"/>
+        </interface>
         <interface id="AssessmentDelivery">
             <layout id="AssessmentPortallayout"/>
             <style id="AssessmentPortalstyle"/>
             <behaviour id="AssessmentPortalbehaviour"/>
+        </interface>
+        <interface id="Calender">
+            <layout id="calendarlayout1"/>
+            <content id="calendarcontent1"/>
+            <style id="calendarstyle1"/>
+            <behaviour id="calenderevents1"/>
         </interface>
         <interface id="ChangePassword">
             <layout id="ChangePasswordLay"/>
@@ -287,18 +304,6 @@
             <style id="notebookstyle1"/>
             <behaviour id="notebookevents1"/>
         </interface>
-        <interface id="NotebookAttach">
-            <layout id="nbattachlt1"/>
-            <content id="nbattachcontent1"/>
-            <style id="nbattachstyle1"/>
-            <behaviour id="nbattachevents1"/>
-        </interface>
-        <interface id="NoteBookold">
-            <layout id="notebooklayout1"/>
-            <content id="notebookcontent1"/>
-            <style id="notebookstyle1"/>
-            <behaviour id="notebookevents1"/>
-        </interface>
         <interface id="NoticeBoardView">
             <layout id="gennotice"/>
             <content id="gennoticecont"/>
@@ -324,7 +329,10 @@
             <behaviour id="portalnoticegridbehaviour"/>
         </interface>
         <interface id="PortalUnit">
-            <layout id="portalunitstudentlayout"/>
+            <layout id="portalunitgridlayout"/>
+            <content id="portalunitgridcontent"/>
+            <style id="portalunitgridstyle"/>
+            <behaviour id="portalunitgridbehaviour"/>
         </interface>
         <interface id="Thread">
             <layout id="threadPrime"/>
@@ -332,6 +340,13 @@
             <style id="threadPrimeStyle"/>
             <behaviour id="threadPrimeBehaviour"/>
         </interface>
+        <interface id="HelpPortal">
+            <layout id="helplayout1"/>
+            <content id="helpcontent1"/>
+            <style id="helpstyle1"/>
+            <behaviour id="notebookevents1"/>
+        </interface>
+
     </role>
 </roles>
-<!--XML is generated on Fri Nov 25 16:31:56 IST 2016-->
+<!--XML is generated on Thu Jun 15 15:59:39 IST 2017-->
