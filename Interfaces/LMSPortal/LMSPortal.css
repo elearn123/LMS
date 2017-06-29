@@ -39,8 +39,100 @@
   background: #fff;
   border-radius: 5px;
   min-width: 60vw;
+  background-color: #9df2c7;
 
   max-height: 80vh;
   transition: all 5s ease-in-out;
 }
 
+
+/* @group Mixins */
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+}
+
+.lay1 {
+  width: 400px;
+  margin: 0 auto;
+}
+.lay2 {
+  margin: 30px auto;
+  width: 128px;
+  height: 111px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  position: relative;
+}
+.lay2:before {
+  content: '';
+  display: block;
+  width: 128px;
+  height: 69px;
+  border-radius: 10px 10px 0 0;
+  background-image: -webkit-linear-gradient(white 0%, #edeeef 100%);
+  background-image: -moz-linear-gradient(white 0%, #edeeef 100%);
+  background-image: -o-linear-gradient(white 0%, #edeeef 100%);
+  background-image: linear-gradient(white 0%, #edeeef 100%);
+}
+.lay3 {
+  width: 128px;
+  height: 27px;
+  position: absolute;
+  top: -1px;
+  background-color: #fa565a;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 3px solid #e5e5e5;
+  font: 400 15px/27px Arial, Helvetica, Geneva, sans-serif;
+  letter-spacing: 0.5px;
+  color: #fff;
+  text-align: center;
+}
+.lay4 {
+  width: 128px;
+  height: 80px;
+  position: absolute;
+  top: 28px;
+  font: 400 55px/65px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+  letter-spacing: -2px;
+  color: #4c566b;
+  text-align: center;
+  z-index: 10;
+}
+.lay4:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 35px;
+  width: 3px;
+  height: 10px;
+  background-image: -webkit-linear-gradient(#b5bdc5 0%, #e5e5e5 100%);
+  background-image: -moz-linear-gradient(#b5bdc5 0%, #e5e5e5 100%);
+  background-image: -o-linear-gradient(#b5bdc5 0%, #e5e5e5 100%);
+  background-image: linear-gradient(#b5bdc5 0%, #e5e5e5 100%);
+}
+.lay4:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  width: 3px;
+  height: 10px;
+  background-image: -webkit-linear-gradient(#b5bdc5 0%, #e5e5e5 100%);
+  background-image: -moz-linear-gradient(#b5bdc5 0%, #e5e5e5 100%);
+  background-image: -o-linear-gradient(#b5bdc5 0%, #e5e5e5 100%);
+  background-image: linear-gradient(#b5bdc5 0%, #e5e5e5 100%);
+}
+.lay5{
+
+top: 15px;
+font: 400 25px/45px Arial, Helvetica, Geneva, sans-serif;
+  letter-spacing: -2px;
+  color: #4c566b;
+  text-align: center;
+}
+
+/* @end */

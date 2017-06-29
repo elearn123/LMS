@@ -15,7 +15,8 @@
 		<part id="searchgo" class="imagelink"></part>
 		<part id="middlebar" class="label"></part>
 		<part id="LeftColumnContainer" class="label"></part>
-		<part id="calenderdiv" class="iframe"></part>
+		<part id="calenderdiv" class="label"></part>
+		<part id="clockdiv" class="label"></part>
 		<part id="senderImage" class="image"></part>
 		<part id="message" class="label"></part>
 		<part id="usertable" class="label"></part>
@@ -26,7 +27,7 @@
 		<part id="email" class="textlink"></part>
 		<part id="help" class="textlink"></part>
 		<part id="notebook" class="textlink"></part>
-		<part id="notebookold" class="textlink"></part>
+		
 		<part id="logout" class="label"></part>
 		<part id="logoutimage" class="image"></part>
 		<part id="topimage" class="label"></part>
@@ -43,6 +44,18 @@
 		
 		<part id="popupContainer" class="label"></part>
 		<part id="popup" class="label"></part>
+		
+		<part id="lay1" class="label"></part>
+		<part id="lay2" class="label"></part>
+		<part id="lay3" class="label"></part>
+		<part id="lay4" class="label"></part>
+		<part id="lay5" class="label"></part>
+		
+		
+		
+		
+		
+		
 	
 	</structure>
 
@@ -57,6 +70,16 @@
 		<part id="middlebar" parent_id="MainScreen"></part>
 		<part id="LeftColumnContainer" parent_id="middlebar"></part>
 		<part id="calenderdiv" parent_id="LeftColumnContainer"></part>
+		
+		<part id="lay1" parent_id="calenderdiv"></part>
+		<part id="lay2" parent_id="lay1"></part>
+		<part id="lay3" parent_id="lay2"></part>
+		<part id="lay4" parent_id="lay2"></part>
+		<part id="lay5" parent_id="lay2"></part>
+		
+		<part id="clockdiv" parent_id="LeftColumnContainer"></part>		
+		
+		
 		<part id="senderImage" parent_id="LeftColumnContainer"></part>
 		<part id="logout" parent_id="LeftColumnContainer"></part>
 		<part id="logoutimage" parent_id="logout"></part>
@@ -67,7 +90,7 @@
 		<part id="email" parent_id="maintab"></part>
 		<part id="help" parent_id="maintab"></part>
 		<part id="notebook" parent_id="maintab"></part>
-		<part id="notebookold" parent_id="maintab"></part>
+		
 		<part id="changeprofile" parent_id="maintab"></part>
 		<part id="changepassword" parent_id="maintab"></part>
 		<part id="topimage" parent_id="CentralColumnContainer"></part>
@@ -76,10 +99,12 @@
 		<part id="assessmentlink" parent_id="topimage"></part>
 		<part id="noticelink" parent_id="topimage"></part>
 		<part id="mainsub" parent_id="CentralColumnContainer"></part>
+		
+	
 		<part id="bottombar" parent_id="MainScreen"></part>
 		<part id="bottombar1" parent_id="bottombar"></part>
 		<part id="bottombar2" parent_id="bottombar"></part>
-		<part id="bottombar3" parent_id="bottombar"></part>
+		<part id="bottombar3" parent_id="bottombar"></part>		
 		<part id="accloginajax" parent_id="MainScreen"></part>
 		
 		<part id="popupContainer" parent_id="MainScreen"></part>
@@ -89,7 +114,7 @@
 
 	<content id="Portalcontent">
 		<part id="organistaionlogo" value="logo" valuetype="reference"></part>
-		<part id="portalnamecompany" value=" MSME Tool Room Kolkata Learner Portal" valuetype="inline"></part>
+		<part id="portalnamecompany" value=" Jadavpur University" valuetype="inline"></part>
 		<part id="searchgo" value="searchgoimg" valuetype="reference"></part>
 		<part id="unitlink" value="UNIT" valuetype="inline"></part>
 		<part id="forumlink" value="FORUM" valuetype="inline"></part>
@@ -100,8 +125,16 @@
 		<part id="email" value="Email" valuetype="inline"></part>
 		<part id="help" value="Help" valuetype="inline"></part>
 		<part id="notebook" value="NoteBook" valuetype="inline"></part>
-		<part id="notebookold" value="NoteBookOld" valuetype="inline"></part>
+		
 		<part id="logoutimage" value="logoutimg" valuetype="reference"></part>
+		
+		
+		 <part id="clockdiv" value="clockhtml" valuetype="reference"></part> 
+		<part id="lay3" value="a" valuetype="reference"></part>
+		<part id="lay4" value="b" valuetype="reference"></part>
+		<part id="lay5" value="c" valuetype="reference"></part>
+		
+		
 	</content>
 
 
@@ -110,13 +143,13 @@
 		<part id="MainScreen" value="[CDATA[height: 100%;background-color:#F0FDA6;min-height:min-content]]" valuetype="inline"></part>
 		<part id="topbar" value="FlexRowContainer" valuetype="reference"></part>
 		<part id="topbar" value="[CDATA[width:85%]]" valuetype="inline"></part>
-		<part id="organistaionlogo" value="[CDATA[padding-bottom:3px;height:70px;width:150px]]" valuetype="inline"></part>
+		<part id="organistaionlogo" value="[CDATA[padding-bottom:3px;height:170px;width:170px]]" valuetype="inline"></part>
 		<part id="portalnamecompany" value="[CDATA[background-color:#F8E492;color:#6E5E27;font-family:verdana;font-size:15px;font-weight:bold;text-align:center]]" valuetype="inline"></part>
 		<part id="middlebar" value="FlexRowContainer" valuetype="reference"></part>
 		<part id="middlebar" value="[CDATA[width:95%]]" valuetype="inline"></part>
 		<part id="LeftColumnContainer" value="FlexColumnContainer" valuetype="reference"></part>
 		<part id="LeftColumnContainer" value="[CDATA[width:24%]]" valuetype="inline"></part>
-		<part id="calenderdiv" value="[CDATA[height:160px;width:180px]]" valuetype="inline"></part>
+		<part id="calenderdiv" value="FlexColumnContainer" valuetype="inline"></part>
 		<part id="senderimage" value="circle" valuetype="reference"></part>
 		<part id="senderimage" value="[CDATA[height:80px;width:80px;margin:1em 0 1em 0;]]" valuetype="inline"></part>
 		<part id="logout" value="[CDATA[cursor:pointer;text-align:center;color:#6E5E27;font-weight:bold;font-family:verdana;font-size:11px;background-color:#F0FDA6]]" 
@@ -141,9 +174,6 @@
 		<part id="notebook" value="[CDATA[cursor:pointer;text-decoration: underline;text-align:center;color:#6E5E27;font-weight:bold;font-family:verdana;font-size:11px;background-color:#F0FDA6]]" 
 		                    valuetype="inline"></part>
 		
-		<part id="notebookold" value="[CDATA[cursor:pointer;text-decoration: underline;text-align:center;color:#6E5E27;font-weight:bold;font-family:verdana;font-size:11px;background-color:#F0FDA6]]" 
-		                    valuetype="inline"></part>
-		
 		<part id="topimage" value="FlexRowContainer" valuetype="reference"></part>
 		<part id="topimage" value="[CDATA[padding:0em;background-color:#F0FDA6;]]" valuetype="inline"></part>
 
@@ -164,9 +194,15 @@
 		                       valuetype="inline"></part>
 		<part id="bottombar3" value="[CDATA[color: #000000;font-family:verdana;font-size:12px;font-weight:bold;text-align:center;]]" 
 		                      valuetype="inline"></part>
-							  
+						  
 		<part id="popupContainer" value="overlay" valuetype="reference" resourceid="portalcss"></part>
 		<part id="popup" value="popup" valuetype="reference" resourceid="portalcss"></part>
+		
+		<part id="lay1" value="lay1" valuetype="reference"></part>
+		<part id="lay2" value="lay2" valuetype="reference"></part>
+		<part id="lay3" value="lay3" valuetype="reference"></part>		
+		<part id="lay4" value="lay4" valuetype="reference"></part>	
+		<part id="lay5" value="lay5" valuetype="reference"></part>		
 		
 	</style>
 
@@ -203,33 +239,41 @@
 			<event name="invokeurl" type="simple" function="mailto:elearing@msme.com" valuetype="inline"></event>
 		</part>
 		<part id="help">
-			<event name="onclick" type="simple" function="flink6" valuetype="inline" resourceid="accmainjs"></event>
+			<event name="onclick" type="simple" function="load_help" valuetype="inline" resourceid="accmainjs"></event>
 		</part>
 		<part id="notebook">
 			<event name="onclick" type="simple" function="loadnotebook" valuetype="jsevent" resourceid="accmainjs"></event>
 		</part>
-		<part id="notebookold">
-			<event name="onclick" type="simple" function="loadoldnotebook" valuetype="jsevent" resourceid="accmainjs"></event>
+		
+		
+		<part id="lay2">
+			<event name="onclick" type="simple" function="loadolcalenderpopup" valuetype="jsevent" resourceid="accmainjs"></event>
 		</part>
+		
 		
 		<part id="logout">
 			<event name="onclick" type="simple" function="logout" valuetype="jsevent" resourceid="accmainjs"></event>
 		</part>
-		<part id="calenderdiv">
-			<event name="invokeurl" type="simple" function="../coreadmin/servlets/calendarnew.html" target="calenderdiv" valuetype="inline"></event>
+		<part id="clockdiv">
+			<event name="onclick" type="simple" function="test"  valuetype="jsevent" resourceid="clockjs"></event>
 		</part>
+		
 		<part id="accloginajax">
 			<event name="ajax" type="simple" function="dummy" javaclass="Portal"></event>
 		</part>
+		
 	</behaviour>
 
 	<resource>
-		<resourceitem id="logo" href="msmelogo.jpg" valuetype="image"></resourceitem>
+		<resourceitem id="logo" href="julogo.gif" valuetype="image"></resourceitem>
 		<resourceitem id="accmainjs" href="mainpage.js" valuetype="js"></resourceitem>
+		<resourceitem id="clockjs" href="clock.js" valuetype="js"></resourceitem>
 		<resourceitem id="searchgoimg" href="go.gif" valuetype="image"></resourceitem>
 		<resourceitem id="logoutimg" href="logout.jpg" valuetype="image"></resourceitem>
 		<resourceitem id="portalcss" href="LMSPortal.css" valuetype="css"></resourceitem>
-			
+		
+		<resourceitem id="clockhtml" href="clock.html" valuetype="html"></resourceitem>
+		
 	</resource>
 
 </interface>

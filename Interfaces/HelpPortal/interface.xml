@@ -1,0 +1,66 @@
+<interface  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://learnityframework.org/"
+	xsi:schemaLocation="http://learnityframework.org/ http://localhost:8080/learnitymsme/xsd/Interface.xsd"
+	id="HelpPortal" title="Portal Help" type="InterfaceFragment">
+
+	<configuration TemplateID="GridTreeNew"></configuration>
+
+	<structure>
+		<part id="helpmain" class="label"></part>
+		<part id="title" class="label"></part>
+		<part id="nbajaxcomp" class="ajaxcomponent"></part>
+		<part id="lay1" class="label"></part>
+		<part id="lay2" class="image"></part>
+		<part id="dummyBody" class="button"></part>
+		<part id="popupContainer" class="label"></part>
+		<part id="popup" class="label"></part>
+	
+	</structure>
+
+	<layout id="helplayout1">
+			<part id="helpmain" ></part>
+			<part id="title" parent_id="helpmain"></part> 
+			<part id="lay1" parent_id="helpmain"></part>			
+			<part id="lay2" parent_id="lay1"></part>		  				
+			<part id="dummyBody" parent_id="nbmain"></part>
+			<part id="popupContainer" parent_id="nbmain"></part>
+			<part id="popup" parent_id="popupContainer"></part>
+		</layout>
+
+	<content id="helpcontent1">
+		<part id="title" value="Portal Help" valuetype="inline"></part>
+		<part id="dummyBody" value="dummyimg" valuetype="reference"></part>
+		<part id="lay1" value="close" valuetype="reference"></part>
+		<part id="lay2" value="abc" valuetype="reference"></part>
+		
+	</content>
+
+	<style id="helpstyle1">
+		<part id="helpmain" value="FlexColumnContainer" valuetype="inline"></part>
+		<part id="title" value="[CDATA[background-color: #006699;color: #FFCC33;font-family:Verdana,sans-serif;font-size:16px;font-weight:bold]]" valuetype="inline"></part>			
+		<part id="lay1" value="[CDATA[background-color: #006699;color: #FFCC33;font-family:Verdana,sans-serif;font-size:16px;font-weight:bold]]" valuetype="inline"></part>	
+		<part id="lay2" value="[CDATA[padding-bottom:3px;height:390px;width:995px]]" valuetype="inline"></part>
+		<part id="dummyBody" value="[CDATA[visibility: hidden;]]" valuetype="inline"></part>
+		<part id="popupContainer" value="helpoverlay" valuetype="reference" resourceid="helpcss"></part>
+		<part id="popup" value="helppopup" valuetype="reference" resourceid="helpcss"></part>	
+	</style>
+
+	<behaviour id="helpevents1">
+		<part id="lay1">
+			<event name="onclick" type="simple" function="CloseEvents" valuetype="jsevent" resourceid="helpjs"></event>
+		</part>
+		
+		
+		<part id="dummyBody">
+			<event name="onerror" type="simple" function="alert" valuetype="jsevent" resourceid="dummyimg"></event>
+		</part>
+	</behaviour>
+
+	<resource>
+		<resourceitem id="helpjs" href="helpjs.js" valuetype="js"></resourceitem>
+		<resourceitem id="dummyimg" href="dummy.jpg" valuetype="image"></resourceitem>
+		<resourceitem id="notecss" href="helpcss.css" valuetype="css"></resourceitem>
+		<resourceitem id="abc" href="help.gif" valuetype="image"></resourceitem>
+	</resource>
+
+</interface>

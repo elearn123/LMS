@@ -25,7 +25,26 @@ $(document).ready(function(){
 
 		search_onfocus();
 	});
+	
+	
+		
+		//calenderview();
+	
+	currdate_onload();
+	
+	
+	
 });
+
+	function calenderview(){
+				var	day = new Date().getDay();
+					week = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+				
+				document.write(week[day]);
+					document.write(new Date().getDate());
+			
+		setValue("calenderdiv",newDate().getDate);
+	}
 
      function search_onfocus(){
 	     $("#thesearchstring").css("background-color", "#ffffff");
@@ -51,8 +70,8 @@ $(document).ready(function(){
 
 		function onload_click() {
 			unit_onclick();
-			linkwebsite()
-			dwr.engine.beginBatch();
+			/* linkwebsite()
+			dwr.engine.beginBatch(); */
 			Portal.setUserInfo(function(data) {
 				setValue('usertable',data);
 			});
@@ -64,9 +83,9 @@ $(document).ready(function(){
 				
 				setValue('senderImage',data);
 			});
-			dwr.engine.endBatch();
+			/* dwr.engine.endBatch(); */
 			loginuser();
-			timeshow();
+			/* timeshow(); */
 			$('#footer-caption a').css('text-decoration','none').css('color','white');
 		};
  
@@ -173,23 +192,39 @@ $(document).ready(function(){
 
 //Edited by me
 		function loadnotebook(){
-				
+				console.log("load notebook called");
 				PortalEngine.getInterfaceFragment("LMSPortal","NoteBook",setFragNotebook);
 			}
 
 		function setFragNotebook(vstring)
 			{
-				
+				console.log(vstring);
 				setFragment("popup",vstring);
+				console.log("load setFragNotebook called");
 				unitpopupContainer = document.getElementById("popupContainer");
+				
+				unitpopupContainer.classList.add("afterPopup");
+			}
+	
+			
+			
+			
+			
+		function loadolcalenderpopup(){	
+		
+				PortalEngine.getInterfaceFragment("LMSPortal","Calender",setFragCalender);
+
+		}
+			function setFragCalender(vstring)
+			{
+				console.log(vstring);
+				setFragment("popup",vstring);
+				console.log("load setFragCalender called");
+				unitpopupContainer = document.getElementById("popupContainer");
+				
 				unitpopupContainer.classList.add("afterPopup");
 			}
 
-		function loadoldnotebook()
-		{
-			window.open('./interfaceenginev2.PortalServlet?IID=NoteBookold',"notebookold","width=800,height=600,status=yes,scrollbars=yes,resizable=yes,toolbar=no,menubar=no");
-		}	
-			
 //stop here
 
 /*		function loadnotebook()
@@ -269,7 +304,7 @@ $(document).ready(function(){
 			window.open('./interfaceenginev2.PortalServlet?IID=LearnityNoticeBoard',"LearnityNoticeBoard","width=600,height=540,status=yes,scrollbars=no,resizable=yes,toolbar=no,menubar=no");
 		}
  
-//edited by me
+//edited by Anupam Samanta
 		function loadPasswordChange(){
 				
 				PortalEngine.getInterfaceFragment("LMSPortal","ChangePassword",setFragPass);
@@ -292,11 +327,17 @@ $(document).ready(function(){
 		{
 				
 			setFragment("popup",vstring);
-			unitpopupContainer = document.getElementById("popupContainer");
-			unitpopupContainer.classList.add("afterPopup");
+			popupContainer = document.getElementById("popupContainer");
+			popupContainer.classList.add("afterPopup");
 		}
 				
 
+				
+		function Quit()
+		{
+			popupContainer = document.getElementById("popupContainer");
+			popupContainer.classList.remove("afterPopup");
+		}			
 //here i stop
 		/*function loadPasswordChange()
 		{
@@ -318,8 +359,15 @@ $(document).ready(function(){
 		function load_help()
 		{
 			
-			window.open('../html/LearnITyHelp_for_Login_Courses.html',"help","width=800,height=600,status=yes,scrollbars=yes,resizable=yes,toolbar=no,menubar=no");
+		PortalEngine.getInterfaceFragment("LMSPortal","HelpPortal",setFragHelp);
 			
+		}
+		function setFragHelp(vstring)
+		{
+				
+			setFragment("popup",vstring);
+			popupContainer = document.getElementById("popupContainer");
+			popupContainer.classList.add("afterPopup");
 		}
 
 		function unit_onclick()
@@ -395,3 +443,22 @@ $(document).ready(function(){
 			 document.getElementById(c).classList.remove("clickedClass");
 			 document.getElementById(d).classList.remove("clickedClass");
 		}
+		
+		
+		
+		function currdate_onload() {
+	
+
+				var	day = new Date().getDay();
+				month= new Array('January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November','December');
+				week = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+				var m=new Date().getMonth();
+				
+				
+				setValue('lay3',month[m]);
+				setValue('lay4',new Date().getDate());
+				setValue('lay5',week[day]);
+	
+	
+}
+
