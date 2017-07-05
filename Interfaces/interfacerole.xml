@@ -344,7 +344,7 @@
             <layout id="helplayout1"/>
             <content id="helpcontent1"/>
             <style id="helpstyle1"/>
-            <behaviour id="notebookevents1"/>
+            <behaviour id="helpevents1"/>
         </interface>
 
     </role>
